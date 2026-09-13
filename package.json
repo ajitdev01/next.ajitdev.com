@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@vercel/functions": "^3.9.7",
     "framer-motion": "^13.2.0",
     "lucide-react": "^1.45.0",
