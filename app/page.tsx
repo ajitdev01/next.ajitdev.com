@@ -37,6 +37,11 @@ const LINKS = [
     href: "https://rexvel.com/",
     tag: "RexVel Web Solution",
   },
+  {
+    label: "Todo App",
+    href: "/todo",
+    tag: "App",
+  },
 ];
 
 function getTimeLeft() {
