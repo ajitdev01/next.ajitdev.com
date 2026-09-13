@@ -258,7 +258,7 @@ export default function Home() {
         </div>
 
         <p className="mt-8 text-center text-[11px] text-white/20 sm:text-xs">
-          © {new Date().getFullYear()} AjitDev · Stay tuned
+          © {new Date().getFullYear()} Ajit Dev · Stay tuned
         </p>
       </motion.div>
     </main>
