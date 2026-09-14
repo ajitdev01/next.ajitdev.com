@@ -19,17 +19,11 @@ import {
   List as ListIcon,
   AlignLeft,
   Sparkles,
-  Calendar,
-  Clock,
   Tag,
-  Palette,
   X,
   SlidersHorizontal,
-  ChevronDown,
-  Eye,
   FileText,
-  CheckCircle2,
-  Share2,
+  MoreHorizontal,
 } from "lucide-react";
 import { showToast, confirmDelete } from "@/lib/swal";
 import Footer from "../components/footer";
@@ -97,15 +91,6 @@ export default function NotesPage() {
   const [viewFilter, setViewFilter] = useState<"all" | "liked" | "pinned">("all");
   const [sortBy, setSortBy] = useState<"newest" | "oldest" | "updated" | "title" | "liked">("newest");
 
-  // Inline Quick Add state
-  const [isQuickAddOpen, setIsQuickAddOpen] = useState(false);
-  const [quickTitle, setQuickTitle] = useState("");
-  const [quickContent, setQuickContent] = useState("");
-  const [quickCategory, setQuickCategory] = useState("Personal");
-  const [quickColor, setQuickColor] = useState("white");
-  const [quickIsPinned, setQuickIsPinned] = useState(false);
-  const [quickIsLiked, setQuickIsLiked] = useState(false);
-
   // Full Editor Modal state (Create / Edit)
   const [editorModalOpen, setEditorModalOpen] = useState(false);
   const [editingNote, setEditingNote] = useState<NoteItem | null>(null);
@@ -123,6 +108,23 @@ export default function NotesPage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+  const moreMenuRef = useRef<HTMLDivElement>(null);
+
+  // Close mobile more menu on click outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (moreMenuRef.current && !moreMenuRef.current.contains(event.target as Node)) {
+        setIsMoreMenuOpen(false);
+      }
+    }
+    if (isMoreMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMoreMenuOpen]);
 
   // 1. Initial Load from LocalStorage
   useEffect(() => {
@@ -239,40 +241,6 @@ export default function NotesPage() {
     }
 
     closeEditorModal();
-  };
-
-  // Quick Add handler
-  const handleQuickAdd = () => {
-    if (!quickTitle.trim() && !quickContent.trim()) {
-      setIsQuickAddOpen(false);
-      return;
-    }
-
-    const newNote: NoteItem = {
-      id: `note_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
-      title: quickTitle.trim() || "Untitled Note",
-      content: quickContent.trim(),
-      category: quickCategory,
-      color: quickColor,
-      isPinned: quickIsPinned,
-      isLiked: quickIsLiked,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-
-    const updated = [newNote, ...notes];
-    setNotes(updated);
-    persistNotes(updated);
-    showToast("Note added", "success");
-
-    // Reset quick form
-    setQuickTitle("");
-    setQuickContent("");
-    setQuickCategory("Personal");
-    setQuickColor("white");
-    setQuickIsPinned(false);
-    setQuickIsLiked(false);
-    setIsQuickAddOpen(false);
   };
 
   // Open Modal for New Note
@@ -577,11 +545,11 @@ export default function NotesPage() {
                 <FileText className="h-4 w-4" />
               </div>
               <div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5 sm:gap-2">
                   <h1 className="text-base font-semibold tracking-tight text-slate-900 sm:text-lg">
                     Notes
                   </h1>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600">
+                  <span className="hidden sm:inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     localStorage
                   </span>
@@ -612,14 +580,14 @@ export default function NotesPage() {
             </div>
           </div>
 
-          {/* Right Header Controls: Layout switcher & New Note */}
-          <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Right Header Controls: Layout switcher, More Menu, & New Note */}
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             {/* Layout Mode Switcher */}
-            <div className="flex items-center rounded-xl border border-slate-200 bg-slate-100/80 p-0.5 text-slate-600 shadow-sm">
+            <div className="flex items-center rounded-xl border border-slate-200 bg-slate-100/80 p-0.5 text-slate-600 shadow-xs">
               <button
                 onClick={() => handleSetLayout("grid")}
                 title="Grid Layout"
-                className={`flex h-7 w-7 items-center justify-center rounded-lg transition ${
+                className={`flex h-7 w-7 items-center justify-center rounded-lg transition touch-manipulation ${
                   layoutMode === "grid"
                     ? "bg-white text-slate-900 shadow-xs font-semibold"
                     : "text-slate-500 hover:text-slate-800"
@@ -630,7 +598,7 @@ export default function NotesPage() {
               <button
                 onClick={() => handleSetLayout("list")}
                 title="List Layout"
-                className={`flex h-7 w-7 items-center justify-center rounded-lg transition ${
+                className={`flex h-7 w-7 items-center justify-center rounded-lg transition touch-manipulation ${
                   layoutMode === "list"
                     ? "bg-white text-slate-900 shadow-xs font-semibold"
                     : "text-slate-500 hover:text-slate-800"
@@ -641,7 +609,7 @@ export default function NotesPage() {
               <button
                 onClick={() => handleSetLayout("compact")}
                 title="Compact Layout"
-                className={`flex h-7 w-7 items-center justify-center rounded-lg transition ${
+                className={`flex h-7 w-7 items-center justify-center rounded-lg transition touch-manipulation ${
                   layoutMode === "compact"
                     ? "bg-white text-slate-900 shadow-xs font-semibold"
                     : "text-slate-500 hover:text-slate-800"
@@ -660,12 +628,12 @@ export default function NotesPage() {
               className="hidden"
             />
 
-            {/* Backup & Import dropdown / buttons */}
+            {/* Desktop Backup & Import buttons */}
             <div className="hidden sm:flex items-center gap-1.5">
               <button
                 onClick={handleExportJSON}
                 title="Export Notes (Backup JSON)"
-                className="flex h-9 items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 shadow-xs transition hover:bg-slate-50 hover:border-slate-300"
+                className="flex h-9 items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 shadow-xs transition hover:bg-slate-50 hover:border-slate-300 active:scale-95"
               >
                 <Download className="h-3.5 w-3.5 text-slate-500" />
                 <span>Export</span>
@@ -673,20 +641,79 @@ export default function NotesPage() {
               <button
                 onClick={() => fileInputRef.current?.click()}
                 title="Import Notes (JSON)"
-                className="flex h-9 items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 shadow-xs transition hover:bg-slate-50 hover:border-slate-300"
+                className="flex h-9 items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 text-xs font-medium text-slate-700 shadow-xs transition hover:bg-slate-50 hover:border-slate-300 active:scale-95"
               >
                 <Upload className="h-3.5 w-3.5 text-slate-500" />
                 <span>Import</span>
               </button>
             </div>
 
+            {/* Mobile More Options Dropdown (Export, Import, Clear) */}
+            <div ref={moreMenuRef} className="relative sm:hidden">
+              <button
+                type="button"
+                onClick={() => setIsMoreMenuOpen((prev) => !prev)}
+                className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-xs hover:bg-slate-50 active:scale-95 touch-manipulation"
+                title="More Options"
+              >
+                <MoreHorizontal className="h-4 w-4" />
+              </button>
+
+              <AnimatePresence>
+                {isMoreMenuOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: -4 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: -4 }}
+                    className="absolute right-0 top-full mt-1.5 z-50 w-52 rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xl ring-1 ring-slate-900/5"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMoreMenuOpen(false);
+                        handleExportJSON();
+                      }}
+                      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-100 transition text-left"
+                    >
+                      <Download className="h-4 w-4 text-slate-500" />
+                      <span>Export Backup (JSON)</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMoreMenuOpen(false);
+                        fileInputRef.current?.click();
+                      }}
+                      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-slate-700 hover:bg-slate-100 transition text-left"
+                    >
+                      <Upload className="h-4 w-4 text-slate-500" />
+                      <span>Import Notes (JSON)</span>
+                    </button>
+                    <div className="my-1 border-t border-slate-100" />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsMoreMenuOpen(false);
+                        handleClearAll();
+                      }}
+                      className="flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-xs font-medium text-rose-600 hover:bg-rose-50 transition text-left"
+                    >
+                      <Trash2 className="h-4 w-4 text-rose-500" />
+                      <span>Clear All Notes</span>
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
             {/* New Note Button */}
             <button
               onClick={openNewNoteModal}
-              className="flex h-9 items-center gap-1.5 rounded-xl bg-slate-900 px-3.5 text-xs font-medium text-white shadow-sm transition hover:bg-slate-800 hover:shadow active:scale-95"
+              className="flex h-9 items-center gap-1.5 rounded-xl bg-slate-900 px-3 sm:px-3.5 text-xs font-medium text-white shadow-sm transition hover:bg-slate-800 hover:shadow active:scale-95 shrink-0 touch-manipulation"
             >
               <Plus className="h-4 w-4" />
-              <span className="font-semibold">New Note</span>
+              <span className="font-semibold hidden sm:inline">New Note</span>
+              <span className="font-semibold inline sm:hidden">New</span>
             </button>
           </div>
         </div>
@@ -697,15 +724,15 @@ export default function NotesPage() {
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
             <input
               type="text"
-              placeholder="Search notes..."
+              placeholder="Search notes by title, content, or tag..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full rounded-xl border border-slate-200/90 bg-slate-50/80 py-2 pl-9 pr-8 text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-400/20"
+              className="w-full rounded-xl border border-slate-200/90 bg-slate-50/80 py-2.5 pl-9 pr-8 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-400/20"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
@@ -715,266 +742,156 @@ export default function NotesPage() {
       </header>
 
       {/* Main Content Area */}
-      <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        {/* 2. Top Stats Bar */}
-        <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
-          <div className="flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-white p-3.5 shadow-xs">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-800">
-              <FileText className="h-5 w-5" />
+      <main className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-5 sm:py-6">
+        {/* 2. Top Stats Bar (Mobile Optimized) */}
+        <div className="mb-6 grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
+          <div className="flex items-center gap-2.5 sm:gap-3 rounded-2xl border border-slate-200/80 bg-white p-3 sm:p-3.5 shadow-xs">
+            <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-slate-800">
+              <FileText className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
-            <div>
-              <div className="text-xl font-bold text-slate-900">{totalNotesCount}</div>
-              <div className="text-xs text-slate-500">Total Notes</div>
+            <div className="min-w-0">
+              <div className="text-lg sm:text-xl font-bold text-slate-900 truncate">{totalNotesCount}</div>
+              <div className="text-[11px] sm:text-xs text-slate-500 truncate">Total Notes</div>
             </div>
           </div>
 
           <div
             onClick={() => setViewFilter(viewFilter === "liked" ? "all" : "liked")}
-            className={`flex cursor-pointer items-center gap-3 rounded-2xl border p-3.5 shadow-xs transition hover:border-rose-300 ${
-              viewFilter === "liked" ? "border-rose-400 bg-rose-50/40" : "border-slate-200/80 bg-white"
+            className={`flex cursor-pointer items-center gap-2.5 sm:gap-3 rounded-2xl border p-3 sm:p-3.5 shadow-xs transition active:scale-95 touch-manipulation hover:border-rose-300 ${
+              viewFilter === "liked" ? "border-rose-400 bg-rose-50/50 ring-2 ring-rose-500/20" : "border-slate-200/80 bg-white"
             }`}
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-50 text-rose-500">
-              <Heart className="h-5 w-5 fill-rose-500 text-rose-500" />
+            <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl bg-rose-50 text-rose-500">
+              <Heart className="h-4 w-4 sm:h-5 sm:w-5 fill-rose-500 text-rose-500" />
             </div>
-            <div>
-              <div className="text-xl font-bold text-slate-900">{likedNotesCount}</div>
-              <div className="text-xs text-slate-500">Favorites (Liked)</div>
+            <div className="min-w-0">
+              <div className="text-lg sm:text-xl font-bold text-slate-900 truncate">{likedNotesCount}</div>
+              <div className="text-[11px] sm:text-xs text-slate-500 truncate">Favorites</div>
             </div>
           </div>
 
           <div
             onClick={() => setViewFilter(viewFilter === "pinned" ? "all" : "pinned")}
-            className={`flex cursor-pointer items-center gap-3 rounded-2xl border p-3.5 shadow-xs transition hover:border-amber-300 ${
-              viewFilter === "pinned" ? "border-amber-400 bg-amber-50/40" : "border-slate-200/80 bg-white"
+            className={`flex cursor-pointer items-center gap-2.5 sm:gap-3 rounded-2xl border p-3 sm:p-3.5 shadow-xs transition active:scale-95 touch-manipulation hover:border-amber-300 ${
+              viewFilter === "pinned" ? "border-amber-400 bg-amber-50/50 ring-2 ring-amber-500/20" : "border-slate-200/80 bg-white"
             }`}
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
-              <Pin className="h-5 w-5 fill-amber-500 text-amber-600" />
+            <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+              <Pin className="h-4 w-4 sm:h-5 sm:w-5 fill-amber-500 text-amber-600" />
             </div>
-            <div>
-              <div className="text-xl font-bold text-slate-900">{pinnedNotesCount}</div>
-              <div className="text-xs text-slate-500">Pinned</div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-white p-3.5 shadow-xs">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
-              <Sparkles className="h-5 w-5" />
-            </div>
-            <div>
-              <div className="text-xl font-bold text-slate-900">{totalWords}</div>
-              <div className="text-xs text-slate-500">Words Written</div>
+            <div className="min-w-0">
+              <div className="text-lg sm:text-xl font-bold text-slate-900 truncate">{pinnedNotesCount}</div>
+              <div className="text-[11px] sm:text-xs text-slate-500 truncate">Pinned</div>
             </div>
           </div>
-        </div>
 
-        {/* 3. Inline Quick Add Note Bar (Apple Notes / Google Keep style) */}
-        <div className="mb-7 mx-auto max-w-2xl relative z-20">
-          <div className="rounded-2xl border border-slate-200/90 bg-white shadow-xs transition-all duration-200 focus-within:shadow-md focus-within:border-slate-300">
-            {!isQuickAddOpen ? (
-              <div
-                onClick={() => setIsQuickAddOpen(true)}
-                className="flex cursor-text items-center justify-between px-4 py-3.5 text-slate-400 hover:text-slate-500"
-              >
-                <span className="text-sm font-normal">Take a quick note...</span>
-                <div className="flex items-center gap-2">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
-                    <Plus className="h-4 w-4" />
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="p-4">
-                <input
-                  type="text"
-                  placeholder="Title"
-                  value={quickTitle}
-                  onChange={(e) => setQuickTitle(e.target.value)}
-                  className="mb-2 w-full text-base font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none"
-                  autoFocus
-                />
-                <textarea
-                  placeholder="Take a note... (Press Shift+Enter for new line)"
-                  rows={3}
-                  value={quickContent}
-                  onChange={(e) => setQuickContent(e.target.value)}
-                  className="w-full resize-none text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none"
-                />
-
-                {/* Quick Add Toolbar */}
-                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3">
-                  <div className="flex flex-wrap items-center gap-2">
-                    {/* Radix Category Select (Big & Prominent) */}
-                    <CustomSelect
-                      value={quickCategory}
-                      onChange={(val) => setQuickCategory(val)}
-                      options={CATEGORY_OPTIONS}
-                      icon={<Tag className="h-4 w-4" />}
-                      size="default"
-                    />
-
-                    {/* Color Presets */}
-                    <div className="flex h-10 items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-2.5 shadow-2xs">
-                      {COLOR_PRESETS.map((preset) => (
-                        <button
-                          key={preset.id}
-                          type="button"
-                          onClick={() => setQuickColor(preset.id)}
-                          className={`h-5 w-5 rounded-full transition-all ${preset.dot} ${
-                            quickColor === preset.id
-                              ? "ring-2 ring-slate-900 ring-offset-1 scale-110"
-                              : "opacity-75 hover:opacity-100"
-                          }`}
-                          title={preset.name}
-                        />
-                      ))}
-                    </div>
-
-                    {/* Quick Pin & Like buttons */}
-                    <button
-                      type="button"
-                      onClick={() => setQuickIsPinned(!quickIsPinned)}
-                      className={`flex h-10 w-10 items-center justify-center rounded-xl border transition ${
-                        quickIsPinned ? "border-amber-300 bg-amber-50 text-amber-700 font-bold" : "border-slate-200 bg-white text-slate-400 hover:text-slate-700"
-                      }`}
-                      title={quickIsPinned ? "Unpin" : "Pin to top"}
-                    >
-                      <Pin className={`h-4 w-4 ${quickIsPinned ? "fill-amber-500" : ""}`} />
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setQuickIsLiked(!quickIsLiked)}
-                      className={`flex h-10 w-10 items-center justify-center rounded-xl border transition ${
-                        quickIsLiked ? "border-rose-300 bg-rose-50 text-rose-600" : "border-slate-200 bg-white text-slate-400 hover:text-rose-500"
-                      }`}
-                      title={quickIsLiked ? "Liked" : "Like note"}
-                    >
-                      <Heart className={`h-4 w-4 ${quickIsLiked ? "fill-rose-500 text-rose-500" : ""}`} />
-                    </button>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsQuickAddOpen(false);
-                        setQuickTitle("");
-                        setQuickContent("");
-                      }}
-                      className="rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 transition shadow-2xs"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleQuickAdd}
-                      className="rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-slate-800 transition active:scale-95"
-                    >
-                      Add Note
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+          <div className="flex items-center gap-2.5 sm:gap-3 rounded-2xl border border-slate-200/80 bg-white p-3 sm:p-3.5 shadow-xs">
+            <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+              <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-lg sm:text-xl font-bold text-slate-900 truncate">{totalWords}</div>
+              <div className="text-[11px] sm:text-xs text-slate-500 truncate">Total Words</div>
+            </div>
           </div>
         </div>
 
-        {/* 4. Filter & Categories Row */}
-        <div className="mb-6 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-          {/* Main Filter Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5">
-            <button
-              onClick={() => setViewFilter("all")}
-              className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-medium transition ${
-                viewFilter === "all"
-                  ? "bg-slate-900 text-white shadow-xs"
-                  : "bg-white text-slate-600 border border-slate-200/80 hover:bg-slate-50"
-              }`}
-            >
-              <span>All Notes</span>
-              <span
-                className={`rounded-full px-1.5 py-0.2 text-[10px] ${
-                  viewFilter === "all" ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600"
+        {/* 3. Filter & Categories Row */}
+        <div className="mb-6 space-y-2.5">
+          {/* Main Filter Tabs + Sort Dropdown */}
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5 scrollbar-none">
+              <button
+                onClick={() => setViewFilter("all")}
+                className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium transition shrink-0 touch-manipulation ${
+                  viewFilter === "all"
+                    ? "bg-slate-900 text-white shadow-xs"
+                    : "bg-white text-slate-600 border border-slate-200/80 hover:bg-slate-50"
                 }`}
               >
-                {totalNotesCount}
-              </span>
-            </button>
-
-            <button
-              onClick={() => setViewFilter("liked")}
-              className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-medium transition ${
-                viewFilter === "liked"
-                  ? "bg-rose-500 text-white shadow-xs"
-                  : "bg-white text-slate-600 border border-slate-200/80 hover:bg-rose-50/50 hover:text-rose-600"
-              }`}
-            >
-              <Heart
-                className={`h-3.5 w-3.5 ${viewFilter === "liked" ? "fill-white text-white" : "text-rose-500 fill-rose-500"}`}
-              />
-              <span>Favorites (Liked)</span>
-              <span
-                className={`rounded-full px-1.5 py-0.2 text-[10px] ${
-                  viewFilter === "liked" ? "bg-white/20 text-white" : "bg-rose-100 text-rose-700"
-                }`}
-              >
-                {likedNotesCount}
-              </span>
-            </button>
-
-            <button
-              onClick={() => setViewFilter("pinned")}
-              className={`flex items-center gap-1.5 rounded-xl px-3.5 py-1.5 text-xs font-medium transition ${
-                viewFilter === "pinned"
-                  ? "bg-amber-600 text-white shadow-xs"
-                  : "bg-white text-slate-600 border border-slate-200/80 hover:bg-amber-50/50 hover:text-amber-700"
-              }`}
-            >
-              <Pin
-                className={`h-3.5 w-3.5 ${
-                  viewFilter === "pinned" ? "fill-white text-white" : "text-amber-600 fill-amber-500"
-                }`}
-              />
-              <span>Pinned</span>
-              <span
-                className={`rounded-full px-1.5 py-0.2 text-[10px] ${
-                  viewFilter === "pinned" ? "bg-white/20 text-white" : "bg-amber-100 text-amber-700"
-                }`}
-              >
-                {pinnedNotesCount}
-              </span>
-            </button>
-          </div>
-
-          {/* Category Pills & Sort Options */}
-          <div className="flex flex-wrap items-center gap-2">
-            {/* Category pills */}
-            <div className="flex items-center gap-1 overflow-x-auto py-1">
-              {CATEGORIES.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`rounded-lg px-2.5 py-1 text-xs font-medium transition whitespace-nowrap ${
-                    selectedCategory === category
-                      ? "bg-slate-200 text-slate-900 font-semibold"
-                      : "text-slate-500 hover:bg-slate-100 hover:text-slate-700"
+                <span>All Notes</span>
+                <span
+                  className={`rounded-full px-1.5 py-0.2 text-[10px] ${
+                    viewFilter === "all" ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600"
                   }`}
                 >
-                  {category}
-                </button>
-              ))}
+                  {totalNotesCount}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setViewFilter("liked")}
+                className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium transition shrink-0 touch-manipulation ${
+                  viewFilter === "liked"
+                    ? "bg-rose-500 text-white shadow-xs"
+                    : "bg-white text-slate-600 border border-slate-200/80 hover:bg-rose-50/50 hover:text-rose-600"
+                }`}
+              >
+                <Heart
+                  className={`h-3.5 w-3.5 ${viewFilter === "liked" ? "fill-white text-white" : "text-rose-500 fill-rose-500"}`}
+                />
+                <span>Favorites</span>
+                <span
+                  className={`rounded-full px-1.5 py-0.2 text-[10px] ${
+                    viewFilter === "liked" ? "bg-white/20 text-white" : "bg-rose-100 text-rose-700"
+                  }`}
+                >
+                  {likedNotesCount}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setViewFilter("pinned")}
+                className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-medium transition shrink-0 touch-manipulation ${
+                  viewFilter === "pinned"
+                    ? "bg-amber-600 text-white shadow-xs"
+                    : "bg-white text-slate-600 border border-slate-200/80 hover:bg-amber-50/50 hover:text-amber-700"
+                }`}
+              >
+                <Pin
+                  className={`h-3.5 w-3.5 ${
+                    viewFilter === "pinned" ? "fill-white text-white" : "text-amber-600 fill-amber-500"
+                  }`}
+                />
+                <span>Pinned</span>
+                <span
+                  className={`rounded-full px-1.5 py-0.2 text-[10px] ${
+                    viewFilter === "pinned" ? "bg-white/20 text-white" : "bg-amber-100 text-amber-700"
+                  }`}
+                >
+                  {pinnedNotesCount}
+                </span>
+              </button>
             </div>
 
             {/* Radix UI Styled Sort Dropdown */}
-            <CustomSelect
-              value={sortBy}
-              onChange={(val) => setSortBy(val as any)}
-              options={SORT_OPTIONS}
-              icon={<SlidersHorizontal className="h-3.5 w-3.5 text-slate-400" />}
-              align="right"
-            />
+            <div className="shrink-0">
+              <CustomSelect
+                value={sortBy}
+                onChange={(val) => setSortBy(val as any)}
+                options={SORT_OPTIONS}
+                icon={<SlidersHorizontal className="h-3.5 w-3.5 text-slate-400" />}
+                align="right"
+                size="sm"
+              />
+            </div>
+          </div>
+
+          {/* Category pills rail with full-width horizontal scrolling */}
+          <div className="flex items-center gap-1.5 overflow-x-auto py-1 scrollbar-none">
+            {CATEGORIES.map((category) => (
+              <button
+                key={category}
+                onClick={() => setSelectedCategory(category)}
+                className={`rounded-lg px-2.5 sm:px-3 py-1 text-xs font-medium transition whitespace-nowrap shrink-0 touch-manipulation ${
+                  selectedCategory === category
+                    ? "bg-slate-900 text-white font-semibold shadow-xs"
+                    : "bg-white text-slate-600 border border-slate-200/80 hover:bg-slate-100 hover:text-slate-900"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -1069,7 +986,7 @@ export default function NotesPage() {
       {/* 6. CREATE / EDIT NOTE MODAL */}
       <AnimatePresence>
         {editorModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
@@ -1079,20 +996,20 @@ export default function NotesPage() {
               className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs"
             />
 
-            {/* Modal Dialog */}
+            {/* Modal Dialog (Mobile Optimized: Fixed Header & Footer, Scrollable Body) */}
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 10 }}
               transition={{ duration: 0.2 }}
-              className={`relative z-50 w-full max-w-2xl rounded-3xl border ${
+              className={`relative z-50 w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden rounded-3xl border ${
                 getColorStyles(formColor).border
               } ${
                 getColorStyles(formColor).bg
-              } p-6 shadow-2xl transition-colors`}
+              } shadow-2xl transition-colors`}
             >
               {/* Top Modal Bar */}
-              <div className="flex items-center justify-between border-b border-slate-200/60 pb-3 mb-4">
+              <div className="flex shrink-0 items-center justify-between border-b border-slate-200/60 p-4 sm:p-5 pb-3">
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                     {editingNote ? "Edit Note" : "New Note"}
@@ -1108,7 +1025,7 @@ export default function NotesPage() {
                   <button
                     type="button"
                     onClick={() => setFormIsPinned(!formIsPinned)}
-                    className={`flex h-8 w-8 items-center justify-center rounded-xl transition ${
+                    className={`flex h-8 w-8 sm:h-8 sm:w-8 items-center justify-center rounded-xl transition touch-manipulation active:scale-95 ${
                       formIsPinned ? "bg-amber-100 text-amber-700" : "text-slate-400 hover:text-slate-700 hover:bg-slate-100"
                     }`}
                     title={formIsPinned ? "Pinned" : "Pin to top"}
@@ -1120,7 +1037,7 @@ export default function NotesPage() {
                   <button
                     type="button"
                     onClick={() => setFormIsLiked(!formIsLiked)}
-                    className={`flex h-8 w-8 items-center justify-center rounded-xl transition ${
+                    className={`flex h-8 w-8 sm:h-8 sm:w-8 items-center justify-center rounded-xl transition touch-manipulation active:scale-95 ${
                       formIsLiked ? "bg-rose-100 text-rose-600" : "text-slate-400 hover:text-rose-600 hover:bg-rose-50"
                     }`}
                     title={formIsLiked ? "Liked" : "Like"}
@@ -1131,105 +1048,107 @@ export default function NotesPage() {
                   {/* Close modal */}
                   <button
                     onClick={closeEditorModal}
-                    className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition ml-1"
+                    className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition ml-1 touch-manipulation active:scale-95"
                   >
                     <X className="h-4 w-4" />
                   </button>
                 </div>
               </div>
 
-              {/* Form with Radix-style Input Fields */}
-              <form onSubmit={handleSaveNote} className="space-y-4">
-                {/* Title Input Field */}
-                <div>
-                  <label className="block mb-1 text-xs font-semibold text-slate-700">
-                    Note Title
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="e.g. Weekly Roadmap, Design Thoughts..."
-                    value={formTitle}
-                    onChange={(e) => setFormTitle(e.target.value)}
-                    className="h-10 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold text-slate-900 placeholder:text-slate-400 shadow-2xs transition-all focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
-                    autoFocus
-                  />
-                </div>
-
-                {/* Content Textarea Field */}
-                <div>
-                  <div className="flex items-center justify-between mb-1">
-                    <label className="text-xs font-semibold text-slate-700">
-                      Content / Body
-                    </label>
-                    <span className="text-[11px] text-slate-400">
-                      {formContent.trim().split(/\s+/).filter(Boolean).length} words
-                    </span>
-                  </div>
-                  <textarea
-                    placeholder="Write your thoughts, checklists, or notes here..."
-                    rows={8}
-                    value={formContent}
-                    onChange={(e) => setFormContent(e.target.value)}
-                    className="w-full resize-none rounded-xl border border-slate-200 bg-white p-3 text-xs leading-relaxed text-slate-800 placeholder:text-slate-400 shadow-2xs transition-all focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 font-sans"
-                  />
-                </div>
-
-                {/* Category & Color Tint Selectors (Big & Clean) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+              {/* Form with Fixed Footer & Scrollable Inputs */}
+              <form onSubmit={handleSaveNote} className="flex flex-1 flex-col overflow-hidden">
+                <div className="flex-1 overflow-y-auto p-4 sm:p-6 pt-3 sm:pt-4 space-y-4">
+                  {/* Title Input Field */}
                   <div>
-                    <label className="block mb-1.5 text-xs font-semibold text-slate-700">
-                      Category
+                    <label className="block mb-1 text-xs font-semibold text-slate-700">
+                      Note Title
                     </label>
-                    <CustomSelect
-                      value={formCategory}
-                      onChange={(val) => setFormCategory(val)}
-                      options={CATEGORY_OPTIONS}
-                      icon={<Tag className="h-4 w-4 text-slate-400" />}
-                      size="lg"
-                      className="w-full"
-                      buttonClassName="w-full"
+                    <input
+                      type="text"
+                      placeholder="e.g. Weekly Roadmap, Design Thoughts..."
+                      value={formTitle}
+                      onChange={(e) => setFormTitle(e.target.value)}
+                      className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3.5 text-sm font-semibold text-slate-900 placeholder:text-slate-400 shadow-2xs transition-all focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
+                      autoFocus
                     />
                   </div>
 
+                  {/* Content Textarea Field */}
                   <div>
-                    <label className="block mb-1.5 text-xs font-semibold text-slate-700">
-                      Card Theme Accent
-                    </label>
-                    <div className="flex h-11 items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3 shadow-2xs">
-                      <div className="flex items-center gap-1.5">
-                        {COLOR_PRESETS.map((preset) => (
-                          <button
-                            key={preset.id}
-                            type="button"
-                            onClick={() => setFormColor(preset.id)}
-                            className={`h-6 w-6 rounded-full transition-all ${preset.dot} ${
-                              formColor === preset.id
-                                ? "ring-2 ring-slate-900 ring-offset-2 scale-110"
-                                : "opacity-70 hover:opacity-100"
-                            }`}
-                            title={preset.name}
-                          />
-                        ))}
-                      </div>
-                      <span className="text-xs font-medium text-slate-500">
-                        {getColorStyles(formColor).name}
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-semibold text-slate-700">
+                        Content / Body
+                      </label>
+                      <span className="text-[11px] text-slate-400">
+                        {formContent.trim().split(/\s+/).filter(Boolean).length} words
                       </span>
+                    </div>
+                    <textarea
+                      placeholder="Write your thoughts, checklists, or notes here..."
+                      rows={5}
+                      value={formContent}
+                      onChange={(e) => setFormContent(e.target.value)}
+                      className="w-full resize-none rounded-xl border border-slate-200 bg-white p-3 text-xs sm:text-sm leading-relaxed text-slate-800 placeholder:text-slate-400 shadow-2xs transition-all focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10 font-sans"
+                    />
+                  </div>
+
+                  {/* Category & Color Tint Selectors (Big & Clean) */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+                    <div>
+                      <label className="block mb-1.5 text-xs font-semibold text-slate-700">
+                        Category
+                      </label>
+                      <CustomSelect
+                        value={formCategory}
+                        onChange={(val) => setFormCategory(val)}
+                        options={CATEGORY_OPTIONS}
+                        icon={<Tag className="h-4 w-4 text-slate-400" />}
+                        size="lg"
+                        className="w-full"
+                        buttonClassName="w-full"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block mb-1.5 text-xs font-semibold text-slate-700">
+                        Card Theme Accent
+                      </label>
+                      <div className="flex h-11 items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3 shadow-2xs">
+                        <div className="flex items-center gap-1.5 sm:gap-2">
+                          {COLOR_PRESETS.map((preset) => (
+                            <button
+                              key={preset.id}
+                              type="button"
+                              onClick={() => setFormColor(preset.id)}
+                              className={`h-7 w-7 rounded-full transition-all touch-manipulation ${preset.dot} ${
+                                formColor === preset.id
+                                  ? "ring-2 ring-slate-900 ring-offset-2 scale-110"
+                                  : "opacity-70 hover:opacity-100"
+                              }`}
+                              title={preset.name}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-xs font-medium text-slate-500 hidden sm:inline">
+                          {getColorStyles(formColor).name}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Bottom Actions Row */}
-                <div className="flex items-center justify-end gap-2.5 border-t border-slate-200/70 pt-4 mt-2">
+                {/* Sticky Bottom Actions Bar */}
+                <div className="flex shrink-0 items-center justify-end gap-2.5 border-t border-slate-200/70 p-3.5 sm:p-4 bg-white/70 backdrop-blur-xs">
                   <button
                     type="button"
                     onClick={closeEditorModal}
-                    className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-slate-50 transition shadow-2xs"
+                    className="flex-1 sm:flex-initial rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-xs font-medium text-slate-700 hover:bg-slate-50 transition shadow-2xs touch-manipulation"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="rounded-xl bg-slate-900 px-6 py-2.5 text-xs font-semibold text-white shadow-sm hover:bg-slate-800 transition active:scale-95"
+                    className="flex-1 sm:flex-initial rounded-xl bg-slate-900 px-6 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-sm hover:bg-slate-800 transition active:scale-95 touch-manipulation"
                   >
                     {editingNote ? "Update Note" : "Save Note"}
                   </button>
@@ -1243,7 +1162,7 @@ export default function NotesPage() {
       {/* 7. FULL SCREEN / READER VIEW MODAL */}
       <AnimatePresence>
         {readingNote && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -1257,12 +1176,12 @@ export default function NotesPage() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
               transition={{ duration: 0.2 }}
-              className={`relative z-10 max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded-3xl border ${
+              className={`relative z-10 max-h-[90vh] w-full max-w-2xl flex flex-col overflow-hidden rounded-3xl border ${
                 getColorStyles(readingNote.color).border
-              } ${getColorStyles(readingNote.color).bg} p-6 shadow-2xl`}
+              } ${getColorStyles(readingNote.color).bg} shadow-2xl`}
             >
               {/* Header */}
-              <div className="flex items-center justify-between border-b border-slate-200/60 pb-3 mb-4">
+              <div className="flex shrink-0 items-center justify-between border-b border-slate-200/60 p-4 sm:p-5 pb-3">
                 <div className="flex items-center gap-2">
                   <span className="rounded-lg bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-700">
                     {readingNote.category}
@@ -1280,7 +1199,7 @@ export default function NotesPage() {
                 <div className="flex items-center gap-1.5">
                   <button
                     onClick={(e) => handleToggleLike(readingNote.id, e)}
-                    className={`flex h-8 w-8 items-center justify-center rounded-xl transition ${
+                    className={`flex h-8 w-8 items-center justify-center rounded-xl transition touch-manipulation active:scale-95 ${
                       readingNote.isLiked
                         ? "bg-rose-100 text-rose-600"
                         : "text-slate-400 hover:text-rose-600 hover:bg-rose-50"
@@ -1296,7 +1215,7 @@ export default function NotesPage() {
                       setReadingNote(null);
                       openEditNoteModal(n);
                     }}
-                    className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition"
+                    className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition touch-manipulation active:scale-95"
                     title="Edit Note"
                   >
                     <Edit3 className="h-4 w-4" />
@@ -1304,7 +1223,7 @@ export default function NotesPage() {
 
                   <button
                     onClick={(e) => handleCopyContent(readingNote, e)}
-                    className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition"
+                    className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-500 hover:bg-slate-100 hover:text-slate-800 transition touch-manipulation active:scale-95"
                     title="Copy Content"
                   >
                     {copiedId === readingNote.id ? (
@@ -1316,29 +1235,31 @@ export default function NotesPage() {
 
                   <button
                     onClick={() => setReadingNote(null)}
-                    className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition"
+                    className="flex h-8 w-8 items-center justify-center rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition touch-manipulation active:scale-95"
                   >
                     <X className="h-4 w-4" />
                   </button>
                 </div>
               </div>
 
-              {/* Title & Body Content */}
-              <h2 className="text-2xl font-bold tracking-tight text-slate-900 mb-4">
-                {readingNote.title}
-              </h2>
+              {/* Scrollable Title & Body Content */}
+              <div className="flex-1 overflow-y-auto p-4 sm:p-6">
+                <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 mb-3 sm:mb-4 break-words">
+                  {readingNote.title}
+                </h2>
 
-              <div className="whitespace-pre-wrap text-sm leading-relaxed text-slate-800">
-                {readingNote.content || <span className="italic text-slate-400">No content in this note.</span>}
+                <div className="whitespace-pre-wrap text-xs sm:text-sm leading-relaxed text-slate-800 break-words">
+                  {readingNote.content || <span className="italic text-slate-400">No content in this note.</span>}
+                </div>
               </div>
 
               {/* Meta footer */}
-              <div className="mt-8 flex items-center justify-between border-t border-slate-200/60 pt-4 text-xs text-slate-400">
+              <div className="shrink-0 flex items-center justify-between border-t border-slate-200/60 p-4 pt-3 text-xs text-slate-400 bg-white/40">
                 <div>
                   Updated: {new Date(readingNote.updatedAt).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
                 </div>
                 <div>
-                  {(readingNote.content || "").trim().split(/\s+/).filter(Boolean).length} words · {(readingNote.content || "").length} characters
+                  {(readingNote.content || "").trim().split(/\s+/).filter(Boolean).length} words
                 </div>
               </div>
             </motion.div>
@@ -1387,7 +1308,7 @@ function NoteCollection({
   // 1. GRID LAYOUT
   if (layoutMode === "grid") {
     return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3 sm:gap-4">
         <AnimatePresence mode="popLayout">
           {notes.map((note) => {
             const color = getColorStyles(note.color);
@@ -1400,36 +1321,36 @@ function NoteCollection({
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
                 onClick={() => onReadNote(note)}
-                className={`group relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border ${color.border} ${color.bg} p-5 shadow-xs transition duration-200 hover:-translate-y-1 hover:shadow-md`}
+                className={`group relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border ${color.border} ${color.bg} p-4 sm:p-5 shadow-xs transition duration-200 hover:-translate-y-1 hover:shadow-md touch-manipulation`}
               >
                 {/* Card Top: Category & Action icons (Pin, Like) */}
                 <div>
-                  <div className="flex items-center justify-between gap-2 mb-2.5">
+                  <div className="flex items-center justify-between gap-2 mb-2">
                     <span className="inline-flex items-center gap-1 rounded-md bg-white/80 px-2 py-0.5 text-[11px] font-semibold text-slate-700 shadow-2xs border border-slate-200/50">
                       <span className={`h-1.5 w-1.5 rounded-full ${color.dot}`} />
                       {note.category}
                     </span>
 
                     <div className="flex items-center gap-1">
-                      {/* Pin button */}
+                      {/* Pin button: visible on mobile so touchscreen users can pin */}
                       <button
                         type="button"
                         onClick={(e) => onTogglePin(note.id, e)}
-                        className={`flex h-7 w-7 items-center justify-center rounded-lg transition ${
+                        className={`flex h-7.5 w-7.5 items-center justify-center rounded-lg transition touch-manipulation active:scale-90 ${
                           note.isPinned
                             ? "bg-amber-100 text-amber-700 font-bold"
-                            : "opacity-0 group-hover:opacity-100 text-slate-400 hover:text-slate-700 hover:bg-white/80"
+                            : "opacity-75 sm:opacity-0 sm:group-hover:opacity-100 text-slate-400 hover:text-slate-700 hover:bg-white/80"
                         }`}
                         title={note.isPinned ? "Unpin" : "Pin note"}
                       >
                         <Pin className={`h-3.5 w-3.5 ${note.isPinned ? "fill-amber-500" : ""}`} />
                       </button>
 
-                      {/* Like button (Always visible or highlighted) */}
+                      {/* Like button */}
                       <button
                         type="button"
                         onClick={(e) => onToggleLike(note.id, e)}
-                        className={`flex h-7 w-7 items-center justify-center rounded-lg transition ${
+                        className={`flex h-7.5 w-7.5 items-center justify-center rounded-lg transition touch-manipulation active:scale-90 ${
                           note.isLiked
                             ? "bg-rose-50 text-rose-500 scale-105"
                             : "text-slate-400 hover:text-rose-500 hover:bg-white/80"
@@ -1446,31 +1367,31 @@ function NoteCollection({
                   </div>
 
                   {/* Note Title */}
-                  <h3 className="line-clamp-2 text-base font-bold tracking-tight text-slate-900 group-hover:text-black">
+                  <h3 className="line-clamp-2 text-sm sm:text-base font-bold tracking-tight text-slate-900 group-hover:text-black">
                     {note.title}
                   </h3>
 
                   {/* Note Content Excerpt */}
-                  <p className="mt-2 line-clamp-4 text-xs leading-relaxed text-slate-600 whitespace-pre-line">
+                  <p className="mt-1.5 sm:mt-2 line-clamp-3 sm:line-clamp-4 text-xs leading-relaxed text-slate-600 whitespace-pre-line">
                     {note.content || <span className="italic text-slate-400">Empty note...</span>}
                   </p>
                 </div>
 
-                {/* Card Footer: Date & Quick Actions on hover */}
-                <div className="mt-4 flex items-center justify-between border-t border-slate-200/60 pt-3 text-[11px] text-slate-400">
+                {/* Card Footer: Date & Quick Actions on mobile & desktop */}
+                <div className="mt-3.5 sm:mt-4 flex items-center justify-between border-t border-slate-200/60 pt-2.5 sm:pt-3 text-[11px] text-slate-400">
                   <span>{formatDate(note.createdAt)}</span>
 
-                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                     <button
                       type="button"
                       onClick={(e) => onCopyContent(note, e)}
-                      className="flex h-6 w-6 items-center justify-center rounded-md text-slate-500 hover:bg-white hover:text-slate-800"
+                      className="flex h-8 w-8 sm:h-6 sm:w-6 items-center justify-center rounded-md text-slate-500 hover:bg-white hover:text-slate-800 active:bg-white active:scale-90 transition touch-manipulation"
                       title="Copy content"
                     >
                       {copiedId === note.id ? (
-                        <Check className="h-3 w-3 text-emerald-600" />
+                        <Check className="h-3.5 w-3.5 sm:h-3 sm:w-3 text-emerald-600" />
                       ) : (
-                        <Copy className="h-3 w-3" />
+                        <Copy className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
                       )}
                     </button>
 
@@ -1480,19 +1401,19 @@ function NoteCollection({
                         e.stopPropagation();
                         onEditNote(note);
                       }}
-                      className="flex h-6 w-6 items-center justify-center rounded-md text-slate-500 hover:bg-white hover:text-slate-800"
+                      className="flex h-8 w-8 sm:h-6 sm:w-6 items-center justify-center rounded-md text-slate-500 hover:bg-white hover:text-slate-800 active:bg-white active:scale-90 transition touch-manipulation"
                       title="Edit note"
                     >
-                      <Edit3 className="h-3 w-3" />
+                      <Edit3 className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
                     </button>
 
                     <button
                       type="button"
                       onClick={(e) => onDeleteNote(note.id, e)}
-                      className="flex h-6 w-6 items-center justify-center rounded-md text-slate-400 hover:bg-red-50 hover:text-red-600"
+                      className="flex h-8 w-8 sm:h-6 sm:w-6 items-center justify-center rounded-md text-slate-400 hover:bg-red-50 hover:text-red-600 active:bg-red-50 active:scale-90 transition touch-manipulation"
                       title="Delete note"
                     >
-                      <Trash2 className="h-3 w-3" />
+                      <Trash2 className="h-3.5 w-3.5 sm:h-3 sm:w-3" />
                     </button>
                   </div>
                 </div>
@@ -1507,7 +1428,7 @@ function NoteCollection({
   // 2. LIST LAYOUT (Wide rows with preview & tags)
   if (layoutMode === "list") {
     return (
-      <div className="space-y-3">
+      <div className="space-y-2.5 sm:space-y-3">
         <AnimatePresence mode="popLayout">
           {notes.map((note) => {
             const color = getColorStyles(note.color);
@@ -1520,7 +1441,7 @@ function NoteCollection({
                 exit={{ opacity: 0, y: -5 }}
                 transition={{ duration: 0.15 }}
                 onClick={() => onReadNote(note)}
-                className={`group flex cursor-pointer flex-col gap-2 rounded-2xl border ${color.border} ${color.bg} p-4 shadow-xs transition hover:shadow-md sm:flex-row sm:items-center sm:justify-between`}
+                className={`group flex cursor-pointer flex-col gap-2 rounded-2xl border ${color.border} ${color.bg} p-3.5 sm:p-4 shadow-xs transition hover:shadow-md sm:flex-row sm:items-center sm:justify-between touch-manipulation`}
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
@@ -1534,7 +1455,7 @@ function NoteCollection({
                       {note.category}
                     </span>
                   </div>
-                  <p className="line-clamp-1 text-xs text-slate-500">
+                  <p className="line-clamp-2 sm:line-clamp-1 text-xs text-slate-500">
                     {note.content || "Empty note"}
                   </p>
                 </div>
@@ -1544,12 +1465,26 @@ function NoteCollection({
                     {formatDate(note.createdAt)}
                   </span>
 
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                    {/* Pin button */}
+                    <button
+                      type="button"
+                      onClick={(e) => onTogglePin(note.id, e)}
+                      className={`flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-lg transition touch-manipulation active:scale-90 ${
+                        note.isPinned
+                          ? "bg-amber-100 text-amber-700"
+                          : "text-slate-400 hover:text-slate-700 hover:bg-white"
+                      }`}
+                      title={note.isPinned ? "Unpin" : "Pin note"}
+                    >
+                      <Pin className={`h-3.5 w-3.5 ${note.isPinned ? "fill-amber-500" : ""}`} />
+                    </button>
+
                     {/* Like button */}
                     <button
                       type="button"
                       onClick={(e) => onToggleLike(note.id, e)}
-                      className={`flex h-7 w-7 items-center justify-center rounded-lg transition ${
+                      className={`flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-lg transition touch-manipulation active:scale-90 ${
                         note.isLiked
                           ? "bg-rose-50 text-rose-500"
                           : "text-slate-400 hover:text-rose-500 hover:bg-white"
@@ -1563,11 +1498,24 @@ function NoteCollection({
 
                     <button
                       type="button"
+                      onClick={(e) => onCopyContent(note, e)}
+                      className="flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-lg text-slate-500 hover:bg-white hover:text-slate-800 active:scale-90 transition touch-manipulation"
+                      title="Copy content"
+                    >
+                      {copiedId === note.id ? (
+                        <Check className="h-3.5 w-3.5 text-emerald-600" />
+                      ) : (
+                        <Copy className="h-3.5 w-3.5" />
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         onEditNote(note);
                       }}
-                      className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:bg-white hover:text-slate-800"
+                      className="flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-lg text-slate-500 hover:bg-white hover:text-slate-800 active:scale-90 transition touch-manipulation"
                       title="Edit note"
                     >
                       <Edit3 className="h-3.5 w-3.5" />
@@ -1576,7 +1524,7 @@ function NoteCollection({
                     <button
                       type="button"
                       onClick={(e) => onDeleteNote(note.id, e)}
-                      className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 hover:bg-red-50 hover:text-red-600"
+                      className="flex h-8 w-8 sm:h-7 sm:w-7 items-center justify-center rounded-lg text-slate-400 hover:bg-red-50 hover:text-red-600 active:scale-90 transition touch-manipulation"
                       title="Delete note"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
@@ -1604,13 +1552,13 @@ function NoteCollection({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => onReadNote(note)}
-              className="group flex cursor-pointer items-center justify-between px-4 py-2.5 transition hover:bg-slate-50"
+              className="group flex cursor-pointer items-center justify-between px-3.5 sm:px-4 py-3 sm:py-2.5 transition hover:bg-slate-50 touch-manipulation"
             >
-              <div className="flex items-center gap-3 min-w-0">
+              <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
                 <button
                   type="button"
                   onClick={(e) => onToggleLike(note.id, e)}
-                  className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md transition ${
+                  className={`flex h-7 w-7 sm:h-6 sm:w-6 shrink-0 items-center justify-center rounded-md transition touch-manipulation active:scale-90 ${
                     note.isLiked ? "text-rose-500" : "text-slate-300 hover:text-rose-500"
                   }`}
                 >
@@ -1620,10 +1568,10 @@ function NoteCollection({
                 </button>
 
                 {note.isPinned && (
-                  <Pin className="h-3 w-3 fill-amber-500 text-amber-600 shrink-0" />
+                  <Pin className="h-3.5 w-3.5 fill-amber-500 text-amber-600 shrink-0" />
                 )}
 
-                <span className="truncate text-xs font-semibold text-slate-800 group-hover:text-slate-900">
+                <span className="truncate text-xs sm:text-sm font-semibold text-slate-800 group-hover:text-slate-900">
                   {note.title}
                 </span>
 
@@ -1632,7 +1580,7 @@ function NoteCollection({
                 </span>
               </div>
 
-              <div className="flex items-center gap-3 shrink-0 ml-3">
+              <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-2 sm:ml-3">
                 <span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-600">
                   {note.category}
                 </span>
@@ -1641,23 +1589,37 @@ function NoteCollection({
                   {formatDate(note.createdAt)}
                 </span>
 
-                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                  <button
+                    type="button"
+                    onClick={(e) => onCopyContent(note, e)}
+                    className="p-1.5 sm:p-1 text-slate-400 hover:text-slate-700 active:scale-90 transition touch-manipulation"
+                    title="Copy note"
+                  >
+                    {copiedId === note.id ? (
+                      <Check className="h-3.5 w-3.5 text-emerald-600" />
+                    ) : (
+                      <Copy className="h-3.5 w-3.5" />
+                    )}
+                  </button>
                   <button
                     type="button"
                     onClick={(e) => {
                       e.stopPropagation();
                       onEditNote(note);
                     }}
-                    className="p-1 text-slate-400 hover:text-slate-700"
+                    className="p-1.5 sm:p-1 text-slate-400 hover:text-slate-700 active:scale-90 transition touch-manipulation"
+                    title="Edit note"
                   >
-                    <Edit3 className="h-3 w-3" />
+                    <Edit3 className="h-3.5 w-3.5" />
                   </button>
                   <button
                     type="button"
                     onClick={(e) => onDeleteNote(note.id, e)}
-                    className="p-1 text-slate-400 hover:text-red-600"
+                    className="p-1.5 sm:p-1 text-slate-400 hover:text-red-600 active:scale-90 transition touch-manipulation"
+                    title="Delete note"
                   >
-                    <Trash2 className="h-3 w-3" />
+                    <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 </div>
               </div>

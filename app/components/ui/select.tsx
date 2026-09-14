@@ -138,11 +138,11 @@ export function CustomSelect({
               y: openDirection === "up" ? -4 : 4,
             }}
             transition={{ duration: 0.14, ease: "easeOut" }}
-            className={`absolute z-[999] min-w-[200px] w-full max-w-xs overflow-hidden rounded-xl border border-slate-200 bg-white p-1.5 shadow-2xl ring-1 ring-slate-900/5 ${
+            className={`absolute z-[999] min-w-[180px] sm:min-w-[200px] w-full max-w-[calc(100vw-2rem)] sm:max-w-xs overflow-hidden rounded-xl border border-slate-200 bg-white p-1.5 shadow-2xl ring-1 ring-slate-900/5 ${
               openDirection === "up" ? "bottom-full mb-2" : "top-full mt-1.5"
             } ${align === "right" ? "right-0" : "left-0"}`}
           >
-            <div className="max-h-60 overflow-y-auto space-y-1">
+            <div className="max-h-60 overflow-y-auto space-y-0.5 sm:space-y-1">
               {options.map((option) => {
                 const isSelected = option.value === value;
                 return (
@@ -153,10 +153,10 @@ export function CustomSelect({
                       onChange(option.value);
                       setIsOpen(false);
                     }}
-                    className={`flex w-full items-center justify-between gap-2.5 rounded-lg px-3 py-2 text-left text-xs sm:text-sm font-medium transition-colors ${
+                    className={`flex w-full items-center justify-between gap-2.5 rounded-lg px-3 py-2.5 sm:py-2 text-left text-xs sm:text-sm font-medium transition-colors touch-manipulation ${
                       isSelected
                         ? "bg-slate-900 text-white font-semibold shadow-xs"
-                        : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                        : "text-slate-700 hover:bg-slate-100 active:bg-slate-100 hover:text-slate-900"
                     }`}
                   >
                     <div className="flex items-center gap-2.5 truncate">
@@ -164,7 +164,7 @@ export function CustomSelect({
                       <span className="truncate">{option.label}</span>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 shrink-0">
                       {option.badge && (
                         <span
                           className={`rounded px-1.5 py-0.5 text-[10px] ${

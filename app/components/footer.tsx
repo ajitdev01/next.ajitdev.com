@@ -103,10 +103,10 @@ export default function Footer({ currentApp, className = "" }: FooterProps) {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-medium transition-all ${
+                    className={`group flex items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-medium transition-all touch-manipulation active:scale-[0.99] ${
                       item.active
                         ? "bg-slate-900 text-white shadow-xs font-semibold"
-                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 active:bg-slate-100"
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
@@ -143,7 +143,7 @@ export default function Footer({ currentApp, className = "" }: FooterProps) {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center justify-between text-slate-600 hover:text-slate-900 transition"
+                  className="group flex items-center justify-between py-1 text-slate-600 hover:text-slate-900 transition touch-manipulation"
                 >
                   <span className="font-medium group-hover:underline underline-offset-4">
                     {link.label}
@@ -156,7 +156,7 @@ export default function Footer({ currentApp, className = "" }: FooterProps) {
         </div>
 
         {/* Bottom Bar: Copyright & Back to Top */}
-        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-slate-200/80 pt-6 sm:flex-row text-xs text-slate-400">
+        <div className="mt-8 flex flex-col items-center justify-between gap-4 border-t border-slate-200/80 pt-6 sm:flex-row text-xs text-slate-400 text-center sm:text-left">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5">
             <span>© {new Date().getFullYear()}</span>
             <span className="font-semibold text-slate-700">Ajit Dev</span>
@@ -171,7 +171,7 @@ export default function Footer({ currentApp, className = "" }: FooterProps) {
           <div className="flex items-center gap-3">
             <button
               onClick={scrollToTop}
-              className="group flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900"
+              className="group flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-600 shadow-2xs transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 active:scale-95 touch-manipulation"
             >
               <span>Back to Top</span>
               <ArrowUp className="h-3.5 w-3.5 transition group-hover:-translate-y-0.5 text-slate-400 group-hover:text-slate-700" />
