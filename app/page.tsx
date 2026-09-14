@@ -42,6 +42,11 @@ const LINKS = [
     href: "/todo",
     tag: "App",
   },
+  {
+    label: "Notes App",
+    href: "/note",
+    tag: "App",
+  },
 ];
 
 function getTimeLeft() {

@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { showToast, confirmDelete, promptEditTodo, showError } from "@/lib/swal";
 import { DatePicker } from "../components/ui/date-picker";
+import Footer from "../components/footer";
 
 interface TodoItem {
   _id: string;
@@ -678,6 +679,9 @@ export default function TodoPage() {
           )}
         </div>
       </main>
+
+      {/* Shared Unified Footer */}
+      <Footer currentApp="todo" />
     </div>
   );
 }

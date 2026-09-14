@@ -30,6 +30,12 @@ const QUICK_LINKS = [
     tag: "App",
   },
   {
+    title: "Notes App",
+    desc: "Personal thoughts, notes & ideas saved in LocalStorage",
+    href: "/note",
+    tag: "App",
+  },
+  {
     title: "ajitdev.com",
     desc: "Portfolio, software projects, and articles",
     href: "https://www.ajitdev.com/",
