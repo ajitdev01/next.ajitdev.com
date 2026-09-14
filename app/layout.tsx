@@ -5,12 +5,85 @@ import "./globals.css";
 
 import ClarityAnalytics from "./components/clarity";
 import { Analytics } from "@vercel/analytics/next";
+import Header from "./components/header";
+import ScrollToTop from "./components/scroll-to-top";
+
+import { siteConfig, personConfig } from "@/lib/seo/config";
+import { buildConnectedGraph, buildWebSiteSchema, buildPersonSchema } from "@/lib/seo/schema";
+import JsonLd from "@/components/seo/json-ld";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "next.ajitdev.com",
-  description: "Next.js projects by Ajit",
+  metadataBase: new URL(siteConfig.siteUrl),
+  title: {
+    default: siteConfig.defaultTitle,
+    template: siteConfig.titleTemplate,
+  },
+  description: siteConfig.description,
+  keywords: [...siteConfig.keywords],
+  authors: [{ name: personConfig.name, url: personConfig.url }],
+  creator: personConfig.name,
+  publisher: siteConfig.publisher,
+  alternates: {
+    canonical: "./",
+    types: {
+      "application/rss+xml": "/feed.xml",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    shortcut: ["/favicon.ico"],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+    other: [
+      {
+        rel: "apple-touch-icon-precomposed",
+        url: "/apple-touch-icon.png",
+      },
+    ],
+  },
+  openGraph: {
+    type: "website",
+    locale: siteConfig.locale,
+    url: siteConfig.siteUrl,
+    siteName: siteConfig.name,
+    title: siteConfig.defaultTitle,
+    description: siteConfig.description,
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "AJITDEV — Technical Hub & Developer Ecosystem by Ajit Dev",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.defaultTitle,
+    description: siteConfig.description,
+    creator: "@ajitdev01",
+    images: ["/twitter-image.png"],
+  },
 };
 
 export default function RootLayout({
@@ -18,9 +91,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const globalSchema = buildConnectedGraph([
+    buildWebSiteSchema(),
+    buildPersonSchema(),
+  ]);
+
   return (
     <html lang="en">
       <head>
+        <JsonLd id="global-schema-graph" schema={globalSchema} />
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="AJITDEV RSS Feed"
+          href="/feed.xml"
+        />
         {/* Google Tag Manager */}
         <Script
           id="gtm-script"
@@ -53,7 +138,13 @@ export default function RootLayout({
         {/* Microsoft Clarity */}
         <ClarityAnalytics />
 
+        {/* Global 10-Year UX Sticky Header */}
+        <Header />
+
         {children}
+
+        {/* Global Floating Scroll-To-Top Button */}
+        <ScrollToTop />
 
         {/* Vercel Web Analytics */}
         <Analytics />

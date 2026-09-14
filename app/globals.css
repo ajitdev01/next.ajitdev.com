@@ -1,1 +1,46 @@
 @import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Refined custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+  border: 2px solid #f8fafc;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* GPU-accelerated Aurora Gradient Animation */
+@keyframes auroraShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-aurora {
+  background-size: 250% 250%;
+  animation: auroraShift 8s ease-in-out infinite;
+  will-change: background-position;
+}

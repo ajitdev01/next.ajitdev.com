@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="logoIconBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="logoIconBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+    <linearGradient id="textWhite" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="subtextBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#4f46e5" />
+    </linearGradient>
+  </defs>
+
+  <!-- Left Icon Emblem -->
+  <g transform="translate(10, 10)">
+    <circle cx="90" cy="90" r="80" fill="url(#logoIconBg)" stroke="url(#logoIconBorder)" stroke-width="6" />
+    <circle cx="90" cy="90" r="70" fill="none" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1.5" />
+    <!-- Stylized NEXT Text Inside Icon -->
+    <text x="90" y="102" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="34" fill="#ffffff" text-anchor="middle" letter-spacing="4">NEXT</text>
+  </g>
+
+  <!-- Right Text Brand -->
+  <g transform="translate(200, 72)">
+    <text x="0" y="40" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="52" fill="url(#textWhite)" letter-spacing="2">AJITDEV</text>
+    <text x="2" y="72" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="600" font-size="16" fill="url(#subtextBlue)" letter-spacing="4">TECHNICAL HUB &amp; DEVELOPER ECOSYSTEM</text>
+  </g>
+</svg>

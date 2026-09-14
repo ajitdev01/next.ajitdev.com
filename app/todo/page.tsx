@@ -23,6 +23,7 @@ import {
 import { showToast, confirmDelete, promptEditTodo, showError } from "@/lib/swal";
 import { DatePicker } from "../components/ui/date-picker";
 import Footer from "../components/footer";
+import Breadcrumbs from "@/components/seo/breadcrumbs";
 
 interface TodoItem {
   _id: string;
@@ -288,6 +289,34 @@ export default function TodoPage() {
       </header>
 
       <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+        {/* Semantic Breadcrumb Navigation & Cross-Linking */}
+        <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <Breadcrumbs
+            items={[
+              { name: "Home", url: "/" },
+              { name: "Todo App", url: "/todo" },
+            ]}
+          />
+          <div className="flex items-center gap-3 text-xs text-slate-500">
+            <span>Related:</span>
+            <Link
+              href="/note"
+              className="font-medium text-slate-700 hover:text-slate-900 underline underline-offset-4 transition-colors"
+            >
+              Notes App
+            </Link>
+            <span>·</span>
+            <a
+              href="https://api.ajitdev.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-slate-700 hover:text-slate-900 underline underline-offset-4 transition-colors"
+            >
+              AJITDEV APIs
+            </a>
+          </div>
+        </div>
+
         {/* Metric Cards */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
           <div className="rounded-xl border border-slate-200/90 bg-white p-4 shadow-xs">
@@ -679,9 +708,6 @@ export default function TodoPage() {
           )}
         </div>
       </main>
-
-      {/* Shared Unified Footer */}
-      <Footer currentApp="todo" />
     </div>
   );
 }

@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#020617" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="50%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="70%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#cbd5e1" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgGrad)" stroke="url(#borderGrad)" stroke-width="16" />
+
+  <!-- Inner Ambient Ring -->
+  <circle cx="256" cy="256" r="210" fill="none" stroke="rgba(255, 255, 255, 0.12)" stroke-width="2" />
+
+  <!-- Stylized NEXT Symbol -->
+  <g transform="translate(110, 160) scale(1.15)">
+    <!-- Custom N/NEXT vector path -->
+    <path d="M 30 160 L 30 20 L 75 20 L 165 140 L 165 20 L 210 20 L 210 160 L 165 160 L 75 40 L 75 160 Z" fill="url(#textGrad)" filter="url(#glow)" />
+    <!-- Gradient Slash dot -->
+    <circle cx="228" cy="150" r="14" fill="#38bdf8" />
+  </g>
+</svg>

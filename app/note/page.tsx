@@ -28,6 +28,7 @@ import {
 import { showToast, confirmDelete } from "@/lib/swal";
 import Footer from "../components/footer";
 import { CustomSelect, SelectOption } from "../components/ui/select";
+import Breadcrumbs from "@/components/seo/breadcrumbs";
 
 // Types
 export interface NoteItem {
@@ -743,6 +744,34 @@ export default function NotesPage() {
 
       {/* Main Content Area */}
       <main className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-5 sm:py-6">
+        {/* Semantic Breadcrumb Navigation & Cross-Linking */}
+        <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <Breadcrumbs
+            items={[
+              { name: "Home", url: "/" },
+              { name: "Notes App", url: "/note" },
+            ]}
+          />
+          <div className="flex items-center gap-3 text-xs text-slate-500">
+            <span>Related:</span>
+            <Link
+              href="/todo"
+              className="font-medium text-slate-700 hover:text-slate-900 underline underline-offset-4 transition-colors"
+            >
+              Todo App
+            </Link>
+            <span>·</span>
+            <a
+              href="https://api.ajitdev.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-slate-700 hover:text-slate-900 underline underline-offset-4 transition-colors"
+            >
+              AJITDEV APIs
+            </a>
+          </div>
+        </div>
+
         {/* 2. Top Stats Bar (Mobile Optimized) */}
         <div className="mb-6 grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4">
           <div className="flex items-center gap-2.5 sm:gap-3 rounded-2xl border border-slate-200/80 bg-white p-3 sm:p-3.5 shadow-xs">
@@ -1266,9 +1295,6 @@ export default function NotesPage() {
           </div>
         )}
       </AnimatePresence>
-
-      {/* Shared Unified Footer */}
-      <Footer currentApp="note" />
     </div>
   );
 }

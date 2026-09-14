@@ -4,25 +4,31 @@ import {
   buildConnectedGraph,
   buildWebPageSchema,
   buildBreadcrumbSchema,
-  buildSoftwareApplicationSchema,
 } from "@/lib/seo/schema";
 import JsonLd from "@/components/seo/json-ld";
+import Footer from "@/app/components/footer";
 
-const pageUrl = `${siteConfig.siteUrl}/todo`;
-const title = "Todo App — Local-First Task Manager | AjitDev Suite";
+const pageUrl = `${siteConfig.siteUrl}/api`;
+const title = "AJITDEV API Hub | Free APIs for Developers, REST & JSON Docs";
 const description =
-  "Organize tasks, priorities, and daily workflows with offline local-first storage, category filters, and zero cloud tracking. Engineered by Ajit Dev.";
+  "Explore free developer APIs, public REST endpoints, JSON APIs, and interactive documentation across the AJITDEV API Hub engineered by Ajit Dev.";
 
 export const metadata: Metadata = {
   title,
   description,
   keywords: [
-    "todo app",
-    "task manager",
-    "local-first todo",
-    "offline productivity app",
-    "ajit dev",
-    "AJITDEV suite",
+    "AJITDEV API Hub",
+    "AJITDEV APIs",
+    "Free APIs",
+    "Free APIs for Developers",
+    "Free Developer APIs",
+    "Free REST APIs",
+    "Free JSON APIs",
+    "Public APIs",
+    "Developer APIs",
+    "REST API Documentation",
+    "API Documentation",
+    "API Reference",
   ],
   alternates: {
     canonical: pageUrl,
@@ -50,19 +56,17 @@ export const metadata: Metadata = {
   },
 };
 
-import Footer from "@/app/components/footer";
-
-export default function TodoLayout({
+export default function ApiHubLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const breadcrumbs = [
     { name: "Home", url: siteConfig.siteUrl },
-    { name: "Todo App", url: pageUrl },
+    { name: "API Hub", url: pageUrl },
   ];
 
-  const todoSchema = buildConnectedGraph([
+  const apiSchema = buildConnectedGraph([
     buildWebPageSchema({
       name: title,
       description,
@@ -70,23 +74,11 @@ export default function TodoLayout({
       breadcrumbs,
     }),
     buildBreadcrumbSchema(breadcrumbs, pageUrl),
-    buildSoftwareApplicationSchema({
-      name: "Todo App — AjitDev Productivity Suite",
-      description,
-      url: pageUrl,
-      applicationCategory: "ProductivityApplication",
-      features: [
-        "Local-First Offline Storage",
-        "Task Prioritization and Status Filtering",
-        "Date and Due Date Scheduling",
-        "Zero Cloud Lock-in and Complete Privacy",
-      ],
-    }),
   ]);
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased flex flex-col justify-between">
-      <JsonLd id="todo-schema-graph" schema={todoSchema} />
+      <JsonLd id="api-schema-graph" schema={apiSchema} />
       <div className="flex-1">{children}</div>
       <Footer theme="light" />
     </div>
