@@ -69,57 +69,8 @@ export default function Home() {
         {/* Senior 10-Year UX Interactive Engineering Pillars */}
         <EngineeringPillars />
 
-        {/* Genuine Developer Identity Signature & Location Context */}
-        <ScrollReveal direction="up" delay={0.1} className="w-full max-w-5xl mt-16">
-          <div className="relative z-10 w-full rounded-2xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-xs">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <div className="space-y-1.5">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-slate-900">
-                    {personConfig.name}
-                  </span>
-                  <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-700">
-                    {personConfig.jobTitle}
-                  </span>
-                </div>
-                <p className="text-xs text-slate-500 max-w-xl">
-                  Full Stack & DevOps Engineer from{" "}
-                  <span className="font-semibold text-slate-800">
-                    {personConfig.location.addressLocality}, {personConfig.location.addressRegion}, India
-                  </span>
-                  . Creator of the AJITDEV developer ecosystem, public APIs, and open productivity tools.
-                </p>
-              </div>
 
-              <div className="flex flex-wrap items-center gap-3 text-xs">
-                <a
-                  href="https://x.com/ajitdev01"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-100 hover:text-slate-900"
-                >
-                  X / Twitter
-                </a>
-                <a
-                  href="https://www.instagram.com/ajitdev01/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-100 hover:text-slate-900"
-                >
-                  Instagram
-                </a>
-                <a
-                  href="https://www.ajitdev.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-lg bg-slate-900 px-3 py-1.5 font-medium text-white transition hover:bg-slate-800 shadow-xs"
-                >
-                  Portfolio
-                </a>
-              </div>
-            </div>
-          </div>
-        </ScrollReveal>
+
 
         {/* Minimal clean footer component with ScrollReveal */}
         <ScrollReveal direction="up" delay={0.15} className="w-full max-w-5xl mt-20">
