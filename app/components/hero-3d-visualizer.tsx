@@ -755,542 +755,535 @@ export default function Hero3DVisualizer() {
                   >
                     {/* Interactive Console Navigation Tabs */}
                     <div className="flex items-center border-b border-slate-200/80 bg-white/60 px-4 py-2 overflow-x-auto">
-            <div className="flex items-center gap-1.5">
-              <button
-                type="button"
-                onClick={() => setActiveConsoleTab("api")}
-                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                  activeConsoleTab === "api"
-                    ? "bg-slate-900 text-white shadow-xs"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                }`}
-              >
-                <Terminal className="h-3.5 w-3.5" />
-                <span>REST API Console</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveConsoleTab("cicd")}
-                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                  activeConsoleTab === "cicd"
-                    ? "bg-slate-900 text-white shadow-xs"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                }`}
-              >
-                <Server className="h-3.5 w-3.5" />
-                <span>CI/CD Pipeline</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveConsoleTab("arch")}
-                className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                  activeConsoleTab === "arch"
-                    ? "bg-slate-900 text-white shadow-xs"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-                }`}
-              >
-                <Layers className="h-3.5 w-3.5" />
-                <span>System Topology</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Console Body Tab Views */}
-          <div className="p-4 sm:p-6">
-            {/* VIEW 1: REST API CONSOLE */}
-            {activeConsoleTab === "api" && (
-              <div className="space-y-4 font-mono text-xs">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 rounded-xl border border-slate-200/80 bg-slate-50/70 p-3">
-                  <div className="flex items-center gap-2 truncate">
-                    <span className="rounded bg-purple-100 px-2 py-0.5 text-[10px] font-bold text-purple-700">
-                      GET
-                    </span>
-                    <span className="font-semibold text-slate-800 truncate">
-                      https://api.ajitdev.com/v1/health
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    <button
-                      type="button"
-                      onClick={runApiTest}
-                      disabled={apiSimRunning}
-                      className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow-xs transition hover:bg-blue-700 active:scale-95 disabled:opacity-50"
-                    >
-                      {apiSimRunning ? (
-                        <>
-                          <Activity className="h-3.5 w-3.5 animate-spin" />
-                          <span>Fetching...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Play className="h-3.5 w-3.5 fill-current" />
-                          <span>Send Request</span>
-                        </>
-                      )}
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => handleCopyCode("curl -X GET https://api.ajitdev.com/v1/health")}
-                      className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] text-slate-700 hover:bg-slate-100"
-                      title="Copy cURL"
-                    >
-                      {copiedCode ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Pure White Theme JSON Response Terminal / Stream */}
-                <div className="rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-5 text-slate-800 shadow-sm overflow-hidden">
-                  <div className="flex flex-wrap items-center justify-between gap-2 pb-3.5 border-b border-slate-100 text-[11px]">
-                    <div className="flex items-center gap-2">
-                      <span className="flex h-2 w-2 relative">
-                        <span
-                          className={`absolute inline-flex h-full w-full rounded-full ${
-                            isStreaming || apiSimRunning
-                              ? "animate-ping bg-blue-400 opacity-80"
-                              : "bg-emerald-400"
-                          }`}
-                        />
-                        <span
-                          className={`relative inline-flex rounded-full h-2 w-2 ${
-                            isStreaming || apiSimRunning
-                              ? "bg-blue-500"
-                              : "bg-emerald-500"
-                          }`}
-                        />
-                      </span>
-                      <span className="font-semibold text-slate-700">
-                        {apiSimRunning ? (
-                          <span className="text-amber-600">Resolving DNS & TLS Handshake...</span>
-                        ) : isStreaming ? (
-                          <span className="text-blue-600">Streaming JSON Chunks ({streamedIndex}/{API_RESPONSE_FIELDS.length})</span>
-                        ) : (
-                          <span className="text-slate-800 font-semibold">Live JSON Response Stream</span>
-                        )}
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      <span className="rounded-full bg-emerald-50 border border-emerald-200/80 px-2.5 py-0.5 text-[10px] font-bold text-emerald-700">
-                        Status 200 OK
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => handleCopyCode(RAW_API_RESPONSE_JSON)}
-                        className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition shadow-2xs"
-                        title="Copy JSON Payload"
-                      >
-                        {copiedCode ? (
-                          <>
-                            <Check className="h-3 w-3 text-emerald-600" />
-                            <span className="text-emerald-600">Copied!</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="h-3 w-3" />
-                            <span>Copy JSON</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Authentic JSON Content Window (Pure White & Slate-50) */}
-                  <div className="mt-3.5 overflow-x-auto select-text font-mono text-xs sm:text-[13px] leading-relaxed bg-slate-50/70 rounded-xl p-3 sm:p-4 border border-slate-200/70">
-                    {/* Line 01: Opening Brace */}
-                    <div className="flex items-center py-0.5 px-2 text-slate-600 font-mono">
-                      <span className="select-none text-[11px] text-slate-400 w-6 shrink-0 text-right pr-2">01</span>
-                      <span className="text-slate-400 select-none pl-1 pr-2">{" "}</span>
-                      <span className="text-slate-900 font-bold">&#123;</span>
-                      <span className="ml-3 text-[11px] text-slate-400 font-normal select-none hidden sm:inline">// 200 OK · application/json · HTTP/3 QUIC</span>
-                    </div>
-
-                    {/* Streamed Fields: generated one by one with authentic JSON syntax */}
-                    <div className="space-y-0.5 my-0.5">
-                      {API_RESPONSE_FIELDS.slice(0, streamedIndex).map((field, idx) => (
-                        <motion.div
-                          key={field.key}
-                          initial={{ opacity: 0, x: -8 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{
-                            duration: 0.2,
-                            ease: [0.22, 1, 0.36, 1],
-                          }}
-                          className="group flex flex-wrap sm:flex-nowrap items-center justify-between gap-3 rounded-md py-0.5 px-2 hover:bg-slate-100/80 transition-colors"
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => setActiveConsoleTab("api")}
+                          className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${activeConsoleTab === "api"
+                            ? "bg-slate-900 text-white shadow-xs"
+                            : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                            }`}
                         >
-                          <div className="flex items-center min-w-0 font-mono">
-                            <span className="select-none text-[11px] text-slate-400 w-6 shrink-0 text-right pr-2">
-                              {String(idx + 2).padStart(2, "0")}
-                            </span>
-                            <span className="text-slate-400 select-none pl-1 pr-2">{"  "}</span>
-                            <span className="text-sky-700 font-semibold shrink-0">
-                              &quot;{field.key}&quot;
-                            </span>
-                            <span className="text-slate-400 select-none">: </span>
-                            <span className="text-emerald-700 font-medium break-all">
-                              {field.value}
-                            </span>
-                            {idx < API_RESPONSE_FIELDS.length - 1 && (
-                              <span className="text-slate-400 select-none">,</span>
-                            )}
+                          <Terminal className="h-3.5 w-3.5" />
+                          <span>REST API Console</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setActiveConsoleTab("cicd")}
+                          className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${activeConsoleTab === "cicd"
+                            ? "bg-slate-900 text-white shadow-xs"
+                            : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                            }`}
+                        >
+                          <Server className="h-3.5 w-3.5" />
+                          <span>CI/CD Pipeline</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setActiveConsoleTab("arch")}
+                          className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${activeConsoleTab === "arch"
+                            ? "bg-slate-900 text-white shadow-xs"
+                            : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                            }`}
+                        >
+                          <Layers className="h-3.5 w-3.5" />
+                          <span>System Topology</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Console Body Tab Views */}
+                    <div className="p-4 sm:p-6">
+                      {/* VIEW 1: REST API CONSOLE */}
+                      {activeConsoleTab === "api" && (
+                        <div className="space-y-4 font-mono text-xs">
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 rounded-xl border border-slate-200/80 bg-slate-50/70 p-3">
+                            <div className="flex items-center gap-2 truncate">
+                              <span className="rounded bg-purple-100 px-2 py-0.5 text-[10px] font-bold text-purple-700">
+                                GET
+                              </span>
+                              <span className="font-semibold text-slate-800 truncate">
+                                https://api.ajitdev.com/v1/health
+                              </span>
+                            </div>
+
+                            <div className="flex items-center gap-2 shrink-0">
+                              <button
+                                type="button"
+                                onClick={runApiTest}
+                                disabled={apiSimRunning}
+                                className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow-xs transition hover:bg-blue-700 active:scale-95 disabled:opacity-50"
+                              >
+                                {apiSimRunning ? (
+                                  <>
+                                    <Activity className="h-3.5 w-3.5 animate-spin" />
+                                    <span>Fetching...</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Play className="h-3.5 w-3.5 fill-current" />
+                                    <span>Send Request</span>
+                                  </>
+                                )}
+                              </button>
+
+                              <button
+                                type="button"
+                                onClick={() => handleCopyCode("curl -X GET https://api.ajitdev.com/v1/health")}
+                                className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-[11px] text-slate-700 hover:bg-slate-100"
+                                title="Copy cURL"
+                              >
+                                {copiedCode ? <Check className="h-3.5 w-3.5 text-emerald-600" /> : <Copy className="h-3.5 w-3.5" />}
+                              </button>
+                            </div>
                           </div>
 
-                          <span
-                            className={`inline-flex items-center rounded-md border px-2 py-0.5 text-[9px] font-semibold tracking-wider shrink-0 uppercase transition-opacity ${field.badgeColor}`}
-                          >
-                            {field.badge}
-                          </span>
-                        </motion.div>
-                      ))}
-                    </div>
+                          {/* Pure White Theme JSON Response Terminal / Stream */}
+                          <div className="rounded-2xl border border-slate-200/90 bg-white p-3 sm:p-5 text-slate-800 shadow-sm overflow-hidden">
+                            <div className="flex flex-nowrap items-center justify-between gap-2 pb-3 border-b border-slate-100 text-[11px]">
+                              <div className="flex items-center gap-1.5 min-w-0">
+                                <span className="flex h-2 w-2 relative shrink-0">
+                                  <span
+                                    className={`absolute inline-flex h-full w-full rounded-full ${isStreaming || apiSimRunning
+                                      ? "animate-ping bg-blue-400 opacity-80"
+                                      : "bg-emerald-400"
+                                      }`}
+                                  />
+                                  <span
+                                    className={`relative inline-flex rounded-full h-2 w-2 ${isStreaming || apiSimRunning
+                                      ? "bg-blue-500"
+                                      : "bg-emerald-500"
+                                      }`}
+                                  />
+                                </span>
+                                <span className="font-semibold text-slate-700 truncate">
+                                  {apiSimRunning ? (
+                                    <span className="text-amber-600">DNS &amp; TLS...</span>
+                                  ) : isStreaming ? (
+                                    <span className="text-blue-600">
+                                      <span className="hidden sm:inline">Streaming JSON Chunks </span>
+                                      <span className="sm:hidden">Streaming </span>
+                                      ({streamedIndex}/{API_RESPONSE_FIELDS.length})
+                                    </span>
+                                  ) : (
+                                    <span className="text-slate-800 font-semibold">Live JSON Response Stream</span>
+                                  )}
+                                </span>
+                              </div>
 
-                    {/* Active streaming chunk cursor */}
-                    {isStreaming && streamedIndex < API_RESPONSE_FIELDS.length && (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="flex items-center py-0.5 px-2 text-xs text-blue-600 bg-blue-50/70 rounded font-mono"
-                      >
-                        <span className="select-none text-[11px] text-slate-400 w-6 shrink-0 text-right pr-2">
-                          {String(streamedIndex + 2).padStart(2, "0")}
-                        </span>
-                        <span className="text-slate-400 select-none pl-1 pr-2">{"  "}</span>
-                        <span className="flex items-center gap-2">
-                          <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-ping" />
-                          <span className="font-semibold animate-pulse">
-                            ▋ streaming chunk #{streamedIndex + 1}...
-                          </span>
-                        </span>
-                      </motion.div>
-                    )}
+                              <div className="flex items-center gap-1.5 shrink-0">
+                                <span className="rounded-full bg-emerald-50 border border-emerald-200/80 px-2 py-0.5 text-[10px] font-bold text-emerald-700 whitespace-nowrap">
+                                  <span className="hidden sm:inline">Status </span>200 OK
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => handleCopyCode(RAW_API_RESPONSE_JSON)}
+                                  className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2 py-1 text-[11px] font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition shadow-2xs"
+                                  title="Copy JSON Payload"
+                                >
+                                  {copiedCode ? (
+                                    <>
+                                      <Check className="h-3 w-3 text-emerald-600" />
+                                      <span className="hidden sm:inline text-emerald-600">Copied!</span>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Copy className="h-3 w-3" />
+                                      <span className="hidden sm:inline">Copy JSON</span>
+                                    </>
+                                  )}
+                                </button>
+                              </div>
+                            </div>
 
-                    {/* Closing Brace */}
-                    {streamedIndex >= API_RESPONSE_FIELDS.length && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 2 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="flex items-center justify-between py-0.5 px-2 text-slate-600 font-mono"
-                      >
-                        <div className="flex items-center">
-                          <span className="select-none text-[11px] text-slate-400 w-6 shrink-0 text-right pr-2">
-                            {String(API_RESPONSE_FIELDS.length + 2).padStart(2, "0")}
-                          </span>
-                          <span className="text-slate-400 select-none pl-1 pr-2">{" "}</span>
-                          <span className="text-slate-900 font-bold">&#125;</span>
+                            {/* Authentic JSON Content Window (Pure White & Slate-50) */}
+                            <div className="mt-3 overflow-x-hidden select-text font-mono text-[11px] sm:text-[13px] leading-relaxed bg-slate-50/70 rounded-xl p-2.5 sm:p-4 border border-slate-200/70">
+                              {/* Line 01: Opening Brace */}
+                              <div className="flex items-center py-0.5 px-1 sm:px-2 text-slate-600 font-mono">
+                                <span className="select-none text-[10px] sm:text-[11px] text-slate-400 w-5 sm:w-6 shrink-0 text-right pr-1 sm:pr-2">01</span>
+                                <span className="text-slate-400 select-none pl-1 pr-2">{" "}</span>
+                                <span className="text-slate-900 font-bold">&#123;</span>
+                                <span className="ml-3 text-[10px] text-slate-400 font-normal select-none hidden sm:inline">// 200 OK · application/json · HTTP/3 QUIC</span>
+                              </div>
+
+                              {/* Streamed Fields: generated one by one with authentic JSON syntax */}
+                              <div className="space-y-0.5 my-0.5">
+                                {API_RESPONSE_FIELDS.slice(0, streamedIndex).map((field, idx) => (
+                                  <motion.div
+                                    key={field.key}
+                                    initial={{ opacity: 0, x: -8 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{
+                                      duration: 0.2,
+                                      ease: [0.22, 1, 0.36, 1],
+                                    }}
+                                    className="group flex flex-nowrap items-center justify-between gap-2 rounded-md py-0.5 px-1 sm:px-2 hover:bg-slate-100/80 transition-colors"
+                                  >
+                                    <div className="flex items-center min-w-0 font-mono overflow-hidden">
+                                      <span className="select-none text-[10px] sm:text-[11px] text-slate-400 w-5 sm:w-6 shrink-0 text-right pr-1 sm:pr-2">
+                                        {String(idx + 2).padStart(2, "0")}
+                                      </span>
+                                      <span className="text-slate-400 select-none pl-1 pr-1 sm:pr-2">{"  "}</span>
+                                      <span className="text-sky-700 font-semibold shrink-0">
+                                        &quot;{field.key}&quot;
+                                      </span>
+                                      <span className="text-slate-400 select-none">:&nbsp;</span>
+                                      <span className="text-emerald-700 font-medium truncate">
+                                        {field.value}
+                                      </span>
+                                      {idx < API_RESPONSE_FIELDS.length - 1 && (
+                                        <span className="text-slate-400 select-none shrink-0">,</span>
+                                      )}
+                                    </div>
+
+                                    <span
+                                      className={`hidden sm:inline-flex items-center rounded-md border px-2 py-0.5 text-[9px] font-semibold tracking-wider shrink-0 uppercase transition-opacity ${field.badgeColor}`}
+                                    >
+                                      {field.badge}
+                                    </span>
+                                  </motion.div>
+                                ))}
+                              </div>
+
+                              {/* Active streaming chunk cursor */}
+                              {isStreaming && streamedIndex < API_RESPONSE_FIELDS.length && (
+                                <motion.div
+                                  initial={{ opacity: 0 }}
+                                  animate={{ opacity: 1 }}
+                                  className="flex items-center py-0.5 px-1 sm:px-2 text-xs text-blue-600 bg-blue-50/70 rounded font-mono"
+                                >
+                                  <span className="select-none text-[10px] sm:text-[11px] text-slate-400 w-5 sm:w-6 shrink-0 text-right pr-1 sm:pr-2">
+                                    {String(streamedIndex + 2).padStart(2, "0")}
+                                  </span>
+                                  <span className="text-slate-400 select-none pl-1 pr-1 sm:pr-2">{"  "}</span>
+                                  <span className="flex items-center gap-1.5">
+                                    <span className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-ping shrink-0" />
+                                    <span className="font-semibold animate-pulse truncate">
+                                      ▋ chunk #{streamedIndex + 1}...
+                                    </span>
+                                  </span>
+                                </motion.div>
+                              )}
+
+                              {/* Closing Brace */}
+                              {streamedIndex >= API_RESPONSE_FIELDS.length && (
+                                <motion.div
+                                  initial={{ opacity: 0, y: 2 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  className="flex items-center justify-between py-0.5 px-1 sm:px-2 text-slate-600 font-mono"
+                                >
+                                  <div className="flex items-center">
+                                    <span className="select-none text-[10px] sm:text-[11px] text-slate-400 w-5 sm:w-6 shrink-0 text-right pr-1 sm:pr-2">
+                                      {String(API_RESPONSE_FIELDS.length + 2).padStart(2, "0")}
+                                    </span>
+                                    <span className="text-slate-400 select-none pl-1 pr-2">{" "}</span>
+                                    <span className="text-slate-900 font-bold">&#125;</span>
+                                  </div>
+                                  <span className="text-[10px] sm:text-[11px] text-emerald-700 font-medium flex items-center gap-1">
+                                    <Check className="h-3 sm:h-3.5 w-3 sm:w-3.5 text-emerald-600" />
+                                    <span className="hidden sm:inline">Full stream generated (8/8 chunks)</span>
+                                    <span className="sm:hidden">8/8 done ✓</span>
+                                  </span>
+                                </motion.div>
+                              )}
+                            </div>
+
+                            {/* Telemetry Footer */}
+                            <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-nowrap items-center justify-between gap-2 text-[10px] sm:text-[11px] text-slate-500 font-mono">
+                              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                                <span className="whitespace-nowrap"><strong className="text-slate-700 font-semibold">HTTP/3</strong> · QUIC</span>
+                                <span className="text-slate-300">·</span>
+                                <span className="whitespace-nowrap"><strong className="text-slate-700 font-semibold">14ms</strong></span>
+                                <span className="hidden sm:inline text-slate-300">·</span>
+                                <span className="hidden sm:inline whitespace-nowrap"><strong className="text-slate-700 font-semibold">BOM-EDGE</strong></span>
+                              </div>
+
+                              <button
+                                type="button"
+                                onClick={runApiTest}
+                                disabled={isStreaming || apiSimRunning}
+                                className="inline-flex items-center gap-1 sm:gap-1.5 text-blue-600 hover:text-blue-700 transition font-semibold disabled:opacity-50 text-[10px] sm:text-xs shrink-0"
+                              >
+                                <RotateCcw className={`h-3 sm:h-3.5 w-3 sm:w-3.5 ${isStreaming || apiSimRunning ? "animate-spin" : ""}`} />
+                                <span>Replay</span>
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                        <span className="text-[11px] text-emerald-700 font-medium flex items-center gap-1">
-                          <Check className="h-3.5 w-3.5 text-emerald-600" /> Full stream generated (8/8 chunks)
-                        </span>
-                      </motion.div>
-                    )}
-                  </div>
+                      )}
 
-                  {/* Telemetry Footer */}
-                  <div className="mt-3.5 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-500 font-mono">
-                    <div className="flex items-center gap-3">
-                      <span><strong className="text-slate-700 font-semibold">Protocol:</strong> HTTP/3 · QUIC</span>
-                      <span><strong className="text-slate-700 font-semibold">Latency:</strong> 14ms</span>
-                      <span className="hidden sm:inline"><strong className="text-slate-700 font-semibold">Edge Cluster:</strong> edge-asia-south1</span>
+                      {/* VIEW 2: CI/CD PIPELINE */}
+                      {activeConsoleTab === "cicd" && (
+                        <div className="space-y-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h3 className="text-xs font-bold text-slate-900">
+                                GitHub Actions CI/CD · Automated Deployment Matrix
+                              </h3>
+                              <p className="text-[11px] text-slate-500">
+                                Multi-stage linting, typechecking, containerization, and edge distribution
+                              </p>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={runPipeline}
+                              disabled={cicdRunning}
+                              className="inline-flex items-center gap-1 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-slate-800 disabled:opacity-50"
+                            >
+                              <RotateCcw className={`h-3.5 w-3.5 ${cicdRunning ? "animate-spin" : ""}`} />
+                              <span>Rerun Workflow</span>
+                            </button>
+                          </div>
+
+                          <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-4 font-mono text-xs">
+                            {/* Step 1 */}
+                            <div
+                              className={`rounded-xl border p-3 transition ${cicdStep >= 1
+                                ? "border-emerald-200 bg-emerald-50/50 text-emerald-950"
+                                : "border-slate-200 bg-slate-50 opacity-40"
+                                }`}
+                            >
+                              <div className="flex items-center justify-between text-[10px] text-slate-500">
+                                <span>Step 1</span>
+                                {cicdStep >= 1 && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />}
+                              </div>
+                              <div className="mt-1 font-bold text-slate-900">Git Push (main)</div>
+                              <div className="text-[10px] text-slate-500">Commit sync (0.3s)</div>
+                            </div>
+
+                            {/* Step 2 */}
+                            <div
+                              className={`rounded-xl border p-3 transition ${cicdStep >= 2
+                                ? "border-emerald-200 bg-emerald-50/50 text-emerald-950"
+                                : "border-slate-200 bg-slate-50 opacity-40"
+                                }`}
+                            >
+                              <div className="flex items-center justify-between text-[10px] text-slate-500">
+                                <span>Step 2</span>
+                                {cicdStep >= 2 && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />}
+                              </div>
+                              <div className="mt-1 font-bold text-slate-900">TypeScript & Lint</div>
+                              <div className="text-[10px] text-slate-500">0 Errors (1.2s)</div>
+                            </div>
+
+                            {/* Step 3 */}
+                            <div
+                              className={`rounded-xl border p-3 transition ${cicdStep >= 3
+                                ? "border-emerald-200 bg-emerald-50/50 text-emerald-950"
+                                : "border-slate-200 bg-slate-50 opacity-40"
+                                }`}
+                            >
+                              <div className="flex items-center justify-between text-[10px] text-slate-500">
+                                <span>Step 3</span>
+                                {cicdStep >= 3 && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />}
+                              </div>
+                              <div className="mt-1 font-bold text-slate-900">Docker Image</div>
+                              <div className="text-[10px] text-slate-500">Cached layers (2.8s)</div>
+                            </div>
+
+                            {/* Step 4 */}
+                            <div
+                              className={`rounded-xl border p-3 transition ${cicdStep >= 4
+                                ? "border-emerald-200 bg-emerald-50/50 text-emerald-950"
+                                : "border-slate-200 bg-slate-50 opacity-40"
+                                }`}
+                            >
+                              <div className="flex items-center justify-between text-[10px] text-slate-500">
+                                <span>Step 4</span>
+                                {cicdStep >= 4 && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />}
+                              </div>
+                              <div className="mt-1 font-bold text-slate-900">Edge Rollout</div>
+                              <div className="text-[10px] text-slate-500">Global DNS (0.7s)</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* VIEW 3: SYSTEM TOPOLOGY */}
+                      {activeConsoleTab === "arch" && (
+                        <div className="space-y-4">
+                          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                            <div>
+                              <h3 className="text-xs font-bold text-slate-900">
+                                Distributed Edge Architecture & Data Flow
+                              </h3>
+                              <p className="text-[11px] text-slate-500">
+                                End-to-end request routing from client SPA through Cloudflare Edge, REST API, to MongoDB cluster
+                              </p>
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={runArchSimulation}
+                              disabled={archRunning}
+                              className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-blue-700 transition active:scale-95 disabled:opacity-50 cursor-pointer shrink-0"
+                            >
+                              {archRunning ? (
+                                <>
+                                  <Activity className="h-3.5 w-3.5 animate-spin" />
+                                  <span>Simulating Flow...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Play className="h-3.5 w-3.5 fill-current" />
+                                  <span>Simulate Data Flow</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+
+                          <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 sm:p-5 font-mono text-xs">
+                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center">
+                              {/* Tier 1: Client Tier */}
+                              <div
+                                className={`relative rounded-xl border p-3.5 transition-all duration-300 ${archStep >= 1
+                                  ? "border-blue-300 bg-white shadow-sm ring-2 ring-blue-500/20"
+                                  : "border-slate-200 bg-white/70 opacity-40"
+                                  }`}
+                              >
+                                <div className="flex items-center justify-between text-[10px]">
+                                  <span className="text-blue-600 font-bold uppercase tracking-wider">Tier 1</span>
+                                  {archStep >= 1 && <CheckCircle2 className="h-3.5 w-3.5 text-blue-600" />}
+                                </div>
+                                <div className="mt-2 text-xs font-bold text-slate-900">Client Tier</div>
+                                <div className="text-[11px] font-semibold text-blue-700 mt-0.5">Next.js 16 SPA</div>
+                                <div className="text-[10px] text-slate-500 mt-1">Local-First UI · 1ms</div>
+                              </div>
+
+                              {/* Tier 2: Edge Gateway */}
+                              <div
+                                className={`relative rounded-xl border p-3.5 transition-all duration-300 ${archStep >= 2
+                                  ? "border-purple-300 bg-white shadow-sm ring-2 ring-purple-500/20"
+                                  : "border-slate-200 bg-white/70 opacity-40"
+                                  }`}
+                              >
+                                <div className="flex items-center justify-between text-[10px]">
+                                  <span className="text-purple-600 font-bold uppercase tracking-wider">Tier 2</span>
+                                  {archStep >= 2 && <CheckCircle2 className="h-3.5 w-3.5 text-purple-600" />}
+                                </div>
+                                <div className="mt-2 text-xs font-bold text-slate-900">Edge Gateway</div>
+                                <div className="text-[11px] font-semibold text-purple-700 mt-0.5">Cloudflare & DNS</div>
+                                <div className="text-[10px] text-slate-500 mt-1">TLS 1.3 / CORS · 4ms</div>
+                              </div>
+
+                              {/* Tier 3: API Services */}
+                              <div
+                                className={`relative rounded-xl border p-3.5 transition-all duration-300 ${archStep >= 3
+                                  ? "border-emerald-300 bg-white shadow-sm ring-2 ring-emerald-500/20"
+                                  : "border-slate-200 bg-white/70 opacity-40"
+                                  }`}
+                              >
+                                <div className="flex items-center justify-between text-[10px]">
+                                  <span className="text-emerald-600 font-bold uppercase tracking-wider">Tier 3</span>
+                                  {archStep >= 3 && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />}
+                                </div>
+                                <div className="mt-2 text-xs font-bold text-slate-900">API Services</div>
+                                <div className="text-[11px] font-semibold text-emerald-700 mt-0.5">api.ajitdev.com</div>
+                                <div className="text-[10px] text-slate-500 mt-1">Node / REST API · 8ms</div>
+                              </div>
+
+                              {/* Tier 4: Storage Tier */}
+                              <div
+                                className={`relative rounded-xl border p-3.5 transition-all duration-300 ${archStep >= 4
+                                  ? "border-amber-300 bg-white shadow-sm ring-2 ring-amber-500/20"
+                                  : "border-slate-200 bg-white/70 opacity-40"
+                                  }`}
+                              >
+                                <div className="flex items-center justify-between text-[10px]">
+                                  <span className="text-amber-600 font-bold uppercase tracking-wider">Tier 4</span>
+                                  {archStep >= 4 && <CheckCircle2 className="h-3.5 w-3.5 text-amber-600" />}
+                                </div>
+                                <div className="mt-2 text-xs font-bold text-slate-900">Storage Tier</div>
+                                <div className="text-[11px] font-semibold text-amber-700 mt-0.5">MongoDB Atlas</div>
+                                <div className="text-[10px] text-slate-500 mt-1">Replicated & Safe · 12ms</div>
+                              </div>
+                            </div>
+
+                            {/* Flow Trace Status Bar */}
+                            <div className="mt-4 pt-3 border-t border-slate-200/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-600">
+                              <div className="flex items-center gap-2">
+                                <span className="flex h-2 w-2 relative">
+                                  <span
+                                    className={`absolute inline-flex h-full w-full rounded-full ${archRunning ? "animate-ping bg-blue-400 opacity-80" : "bg-emerald-400"
+                                      }`}
+                                  />
+                                  <span
+                                    className={`relative inline-flex rounded-full h-2 w-2 ${archRunning ? "bg-blue-500" : "bg-emerald-500"
+                                      }`}
+                                  />
+                                </span>
+                                <span>
+                                  {archRunning ? (
+                                    <span className="text-blue-600 font-semibold animate-pulse">
+                                      Routing packet through Tier {archStep}/4:{" "}
+                                      {archStep === 1
+                                        ? "Client SPA Dispatch"
+                                        : archStep === 2
+                                          ? "Cloudflare Edge Handshake"
+                                          : archStep === 3
+                                            ? "Node REST Service Execution"
+                                            : "MongoDB Cluster Sync"}
+                                      ...
+                                    </span>
+                                  ) : archStep === 4 ? (
+                                    <span className="text-emerald-700 font-medium flex items-center gap-1.5">
+                                      <Check className="h-3.5 w-3.5 text-emerald-600" />
+                                      End-to-End Pipeline Verified: 14ms Total Round-Trip Latency
+                                    </span>
+                                  ) : (
+                                    <span>Architecture Ready · Click &quot;Simulate Data Flow&quot;</span>
+                                  )}
+                                </span>
+                              </div>
+
+                              <div className="text-[10px] text-slate-400">
+                                Stateless Edge · 0ms Cold Starts · SSL A+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
-
-                    <button
-                      type="button"
-                      onClick={runApiTest}
-                      disabled={isStreaming || apiSimRunning}
-                      className="inline-flex items-center gap-1.5 text-blue-600 hover:text-blue-700 transition font-semibold disabled:opacity-50 text-xs"
-                    >
-                      <RotateCcw className={`h-3.5 w-3.5 ${isStreaming || apiSimRunning ? "animate-spin" : ""}`} />
-                      <span>Replay Stream</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* VIEW 2: CI/CD PIPELINE */}
-            {activeConsoleTab === "cicd" && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-xs font-bold text-slate-900">
-                      GitHub Actions CI/CD · Automated Deployment Matrix
-                    </h3>
-                    <p className="text-[11px] text-slate-500">
-                      Multi-stage linting, typechecking, containerization, and edge distribution
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={runPipeline}
-                    disabled={cicdRunning}
-                    className="inline-flex items-center gap-1 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white transition hover:bg-slate-800 disabled:opacity-50"
-                  >
-                    <RotateCcw className={`h-3.5 w-3.5 ${cicdRunning ? "animate-spin" : ""}`} />
-                    <span>Rerun Workflow</span>
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-4 font-mono text-xs">
-                  {/* Step 1 */}
-                  <div
-                    className={`rounded-xl border p-3 transition ${
-                      cicdStep >= 1
-                        ? "border-emerald-200 bg-emerald-50/50 text-emerald-950"
-                        : "border-slate-200 bg-slate-50 opacity-40"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between text-[10px] text-slate-500">
-                      <span>Step 1</span>
-                      {cicdStep >= 1 && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />}
-                    </div>
-                    <div className="mt-1 font-bold text-slate-900">Git Push (main)</div>
-                    <div className="text-[10px] text-slate-500">Commit sync (0.3s)</div>
-                  </div>
-
-                  {/* Step 2 */}
-                  <div
-                    className={`rounded-xl border p-3 transition ${
-                      cicdStep >= 2
-                        ? "border-emerald-200 bg-emerald-50/50 text-emerald-950"
-                        : "border-slate-200 bg-slate-50 opacity-40"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between text-[10px] text-slate-500">
-                      <span>Step 2</span>
-                      {cicdStep >= 2 && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />}
-                    </div>
-                    <div className="mt-1 font-bold text-slate-900">TypeScript & Lint</div>
-                    <div className="text-[10px] text-slate-500">0 Errors (1.2s)</div>
-                  </div>
-
-                  {/* Step 3 */}
-                  <div
-                    className={`rounded-xl border p-3 transition ${
-                      cicdStep >= 3
-                        ? "border-emerald-200 bg-emerald-50/50 text-emerald-950"
-                        : "border-slate-200 bg-slate-50 opacity-40"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between text-[10px] text-slate-500">
-                      <span>Step 3</span>
-                      {cicdStep >= 3 && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />}
-                    </div>
-                    <div className="mt-1 font-bold text-slate-900">Docker Image</div>
-                    <div className="text-[10px] text-slate-500">Cached layers (2.8s)</div>
-                  </div>
-
-                  {/* Step 4 */}
-                  <div
-                    className={`rounded-xl border p-3 transition ${
-                      cicdStep >= 4
-                        ? "border-emerald-200 bg-emerald-50/50 text-emerald-950"
-                        : "border-slate-200 bg-slate-50 opacity-40"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between text-[10px] text-slate-500">
-                      <span>Step 4</span>
-                      {cicdStep >= 4 && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />}
-                    </div>
-                    <div className="mt-1 font-bold text-slate-900">Edge Rollout</div>
-                    <div className="text-[10px] text-slate-500">Global DNS (0.7s)</div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* VIEW 3: SYSTEM TOPOLOGY */}
-            {activeConsoleTab === "arch" && (
-              <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                  <div>
-                    <h3 className="text-xs font-bold text-slate-900">
-                      Distributed Edge Architecture & Data Flow
-                    </h3>
-                    <p className="text-[11px] text-slate-500">
-                      End-to-end request routing from client SPA through Cloudflare Edge, REST API, to MongoDB cluster
-                    </p>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={runArchSimulation}
-                    disabled={archRunning}
-                    className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-blue-700 transition active:scale-95 disabled:opacity-50 cursor-pointer shrink-0"
-                  >
-                    {archRunning ? (
-                      <>
-                        <Activity className="h-3.5 w-3.5 animate-spin" />
-                        <span>Simulating Flow...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Play className="h-3.5 w-3.5 fill-current" />
-                        <span>Simulate Data Flow</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                <div className="rounded-xl border border-slate-200 bg-slate-50/80 p-4 sm:p-5 font-mono text-xs">
-                  <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 text-center">
-                    {/* Tier 1: Client Tier */}
-                    <div
-                      className={`relative rounded-xl border p-3.5 transition-all duration-300 ${
-                        archStep >= 1
-                          ? "border-blue-300 bg-white shadow-sm ring-2 ring-blue-500/20"
-                          : "border-slate-200 bg-white/70 opacity-40"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between text-[10px]">
-                        <span className="text-blue-600 font-bold uppercase tracking-wider">Tier 1</span>
-                        {archStep >= 1 && <CheckCircle2 className="h-3.5 w-3.5 text-blue-600" />}
-                      </div>
-                      <div className="mt-2 text-xs font-bold text-slate-900">Client Tier</div>
-                      <div className="text-[11px] font-semibold text-blue-700 mt-0.5">Next.js 16 SPA</div>
-                      <div className="text-[10px] text-slate-500 mt-1">Local-First UI · 1ms</div>
-                    </div>
-
-                    {/* Tier 2: Edge Gateway */}
-                    <div
-                      className={`relative rounded-xl border p-3.5 transition-all duration-300 ${
-                        archStep >= 2
-                          ? "border-purple-300 bg-white shadow-sm ring-2 ring-purple-500/20"
-                          : "border-slate-200 bg-white/70 opacity-40"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between text-[10px]">
-                        <span className="text-purple-600 font-bold uppercase tracking-wider">Tier 2</span>
-                        {archStep >= 2 && <CheckCircle2 className="h-3.5 w-3.5 text-purple-600" />}
-                      </div>
-                      <div className="mt-2 text-xs font-bold text-slate-900">Edge Gateway</div>
-                      <div className="text-[11px] font-semibold text-purple-700 mt-0.5">Cloudflare & DNS</div>
-                      <div className="text-[10px] text-slate-500 mt-1">TLS 1.3 / CORS · 4ms</div>
-                    </div>
-
-                    {/* Tier 3: API Services */}
-                    <div
-                      className={`relative rounded-xl border p-3.5 transition-all duration-300 ${
-                        archStep >= 3
-                          ? "border-emerald-300 bg-white shadow-sm ring-2 ring-emerald-500/20"
-                          : "border-slate-200 bg-white/70 opacity-40"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between text-[10px]">
-                        <span className="text-emerald-600 font-bold uppercase tracking-wider">Tier 3</span>
-                        {archStep >= 3 && <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />}
-                      </div>
-                      <div className="mt-2 text-xs font-bold text-slate-900">API Services</div>
-                      <div className="text-[11px] font-semibold text-emerald-700 mt-0.5">api.ajitdev.com</div>
-                      <div className="text-[10px] text-slate-500 mt-1">Node / REST API · 8ms</div>
-                    </div>
-
-                    {/* Tier 4: Storage Tier */}
-                    <div
-                      className={`relative rounded-xl border p-3.5 transition-all duration-300 ${
-                        archStep >= 4
-                          ? "border-amber-300 bg-white shadow-sm ring-2 ring-amber-500/20"
-                          : "border-slate-200 bg-white/70 opacity-40"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between text-[10px]">
-                        <span className="text-amber-600 font-bold uppercase tracking-wider">Tier 4</span>
-                        {archStep >= 4 && <CheckCircle2 className="h-3.5 w-3.5 text-amber-600" />}
-                      </div>
-                      <div className="mt-2 text-xs font-bold text-slate-900">Storage Tier</div>
-                      <div className="text-[11px] font-semibold text-amber-700 mt-0.5">MongoDB Atlas</div>
-                      <div className="text-[10px] text-slate-500 mt-1">Replicated & Safe · 12ms</div>
-                    </div>
-                  </div>
-
-                  {/* Flow Trace Status Bar */}
-                  <div className="mt-4 pt-3 border-t border-slate-200/80 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-600">
-                    <div className="flex items-center gap-2">
-                      <span className="flex h-2 w-2 relative">
-                        <span
-                          className={`absolute inline-flex h-full w-full rounded-full ${
-                            archRunning ? "animate-ping bg-blue-400 opacity-80" : "bg-emerald-400"
-                          }`}
-                        />
-                        <span
-                          className={`relative inline-flex rounded-full h-2 w-2 ${
-                            archRunning ? "bg-blue-500" : "bg-emerald-500"
-                          }`}
-                        />
-                      </span>
-                      <span>
-                        {archRunning ? (
-                          <span className="text-blue-600 font-semibold animate-pulse">
-                            Routing packet through Tier {archStep}/4:{" "}
-                            {archStep === 1
-                              ? "Client SPA Dispatch"
-                              : archStep === 2
-                              ? "Cloudflare Edge Handshake"
-                              : archStep === 3
-                              ? "Node REST Service Execution"
-                              : "MongoDB Cluster Sync"}
-                            ...
-                          </span>
-                        ) : archStep === 4 ? (
-                          <span className="text-emerald-700 font-medium flex items-center gap-1.5">
-                            <Check className="h-3.5 w-3.5 text-emerald-600" />
-                            End-to-End Pipeline Verified: 14ms Total Round-Trip Latency
-                          </span>
-                        ) : (
-                          <span>Architecture Ready · Click &quot;Simulate Data Flow&quot;</span>
-                        )}
-                      </span>
-                    </div>
-
-                    <div className="text-[10px] text-slate-400">
-                      Stateless Edge · 0ms Cold Starts · SSL A+
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  </div>
-</motion.div>
-) : (
-  <motion.div
-    key="3d-console-closed-state"
-    initial={{ opacity: 0, y: 15, scale: 0.95 }}
-    animate={{ opacity: 1, y: 0, scale: 1 }}
-    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-    transition={{ duration: 0.25 }}
-    className="relative z-10 mt-10 flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-slate-200 bg-white/80 p-6 sm:p-8 text-center shadow-xs max-w-md w-full backdrop-blur-sm"
-  >
-    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-50 text-rose-600 border border-rose-100 shadow-2xs">
-      <Terminal className="h-5 w-5" />
-    </div>
-    <div>
-      <h3 className="text-sm font-bold text-slate-900">3D Interactive Console Closed</h3>
-      <p className="text-xs text-slate-500 mt-1">
-        You closed the 3D developer stage using the red window control.
-      </p>
-    </div>
-    <button
-      type="button"
-      onClick={() => {
-        setIsClosed(false);
-        setIsMinimized(false);
-      }}
-      className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-slate-800 transition active:scale-95 cursor-pointer mt-1"
-    >
-      <RotateCcw className="h-3.5 w-3.5" />
-      <span>Restore 3D Console</span>
-    </button>
-  </motion.div>
-)}
-</AnimatePresence>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="3d-console-closed-state"
+            initial={{ opacity: 0, y: 15, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ duration: 0.25 }}
+            className="relative z-10 mt-10 flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-slate-200 bg-white/80 p-6 sm:p-8 text-center shadow-xs max-w-md w-full backdrop-blur-sm"
+          >
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-rose-50 text-rose-600 border border-rose-100 shadow-2xs">
+              <Terminal className="h-5 w-5" />
+            </div>
+            <div>
+              <h3 className="text-sm font-bold text-slate-900">3D Interactive Console Closed</h3>
+              <p className="text-xs text-slate-500 mt-1">
+                You closed the 3D developer stage using the red window control.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setIsClosed(false);
+                setIsMinimized(false);
+              }}
+              className="inline-flex items-center gap-2 rounded-xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-slate-800 transition active:scale-95 cursor-pointer mt-1"
+            >
+              <RotateCcw className="h-3.5 w-3.5" />
+              <span>Restore 3D Console</span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* ====================================================================== */}
       {/* ECOSYSTEM DOMAINS 3D SHOWCASE CARDS                                   */}

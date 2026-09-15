@@ -906,15 +906,15 @@ export default function NotesPage() {
             </div>
           </div>
 
-          {/* Category pills rail with full-width horizontal scrolling */}
-          <div className="flex items-center gap-1.5 overflow-x-auto py-1 scrollbar-none">
+          {/* Category pills — wraps on mobile, single scroll row on desktop */}
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-1.5 sm:overflow-x-auto sm:py-1 sm:scrollbar-none">
             {CATEGORIES.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`rounded-lg px-2.5 sm:px-3 py-1 text-xs font-medium transition whitespace-nowrap shrink-0 touch-manipulation ${
+                className={`rounded-xl px-3 py-1.5 text-xs font-medium transition whitespace-nowrap shrink-0 touch-manipulation active:scale-95 ${
                   selectedCategory === category
-                    ? "bg-slate-900 text-white font-semibold shadow-xs"
+                    ? "bg-slate-900 text-white font-semibold shadow-sm"
                     : "bg-white text-slate-600 border border-slate-200/80 hover:bg-slate-100 hover:text-slate-900"
                 }`}
               >
@@ -1135,6 +1135,7 @@ export default function NotesPage() {
                         size="lg"
                         className="w-full"
                         buttonClassName="w-full"
+                        direction="up"
                       />
                     </div>
 
