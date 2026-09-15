@@ -9,12 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@radix-ui/react-label": "^2.1.15",
+    "@radix-ui/react-select": "^2.3.7",
+    "@radix-ui/react-tooltip": "^1.2.16",
+    "@types/nodemailer": "^8.0.1",
     "@vercel/analytics": "^2.0.1",
     "@vercel/functions": "^3.9.7",
     "framer-motion": "^13.2.0",
     "lucide-react": "^1.45.0",
     "mongodb": "^7.6.0",
     "next": "16.3.5",
+    "nodemailer": "^10.0.10",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
