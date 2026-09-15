@@ -1,0 +1,48 @@
+# AJITDEV — Full Stack Development, DevOps, Cloud & APIs
+
+> AJITDEV is the central developer platform by Ajit Dev covering full stack engineering, DevOps, DevSecOps, cloud architecture, system design, DSA, and modern developer tools. Based in Katihar, Bihar, India.
+
+This is a Next.js 16 developer hub built and maintained by Ajit Dev (ajitdev01). It hosts live productivity tools, authentication demos, public APIs, and engineering content.
+
+## Key Pages
+
+- [Home](https://next.ajitdev.com/): Central hub overview, interactive ecosystem visualizer, and engineering pillars
+- [About](https://next.ajitdev.com/about): Background, skills, and professional profile of Ajit Dev
+- [Projects](https://next.ajitdev.com/projects): Live software applications and production engineering showcase
+- [Contact](https://next.ajitdev.com/contact): Contact form to reach Ajit Dev directly
+- [API Hub](https://next.ajitdev.com/api): Free developer REST and JSON API documentation
+
+## Live Apps
+
+- [Todo App](https://next.ajitdev.com/todo): Local-first task manager — no backend, full data sovereignty
+- [Notes App](https://next.ajitdev.com/note): Minimal private notes with real-time search and JSON backup
+- [Google OAuth Login](https://next.ajitdev.com/login/google): Production Auth.js v5 Google OAuth 2.0 sign-in demo
+- [NextAuth Session Demo](https://next.ajitdev.com/login/nextauth): Full Auth.js encrypted JWT session lifecycle demo
+- [Protected Dashboard](https://next.ajitdev.com/dashboard): Server-side session-protected member area
+
+## Developer Resources
+
+- [Sitemap](https://next.ajitdev.com/sitemap.xml): Full XML sitemap
+- [RSS Feed](https://next.ajitdev.com/feed.xml): Engineering updates and content feed
+- [Privacy Policy](https://next.ajitdev.com/privacy): Data handling and privacy policy
+- [Terms of Service](https://next.ajitdev.com/terms): Terms and conditions
+
+## External Ecosystem
+
+- [ajitdev.com](https://www.ajitdev.com/): Main portfolio and personal engineering site
+- [api.ajitdev.com](https://api.ajitdev.com/): Free public REST & JSON API hub
+- [try.ajitdev.com](https://try.ajitdev.com/): Browser-based developer playground and sandbox
+- [brainzima.com](https://www.brainzima.com/): EdTech platform and computer science learning
+- [rexvel.com](https://rexvel.com/): Web development and digital solutions studio
+
+## About Ajit Dev
+
+Full stack developer, DevOps engineer, and API builder based in Katihar, Bihar, India. Specialises in Next.js, TypeScript, REST APIs, cloud infrastructure, DevSecOps, and system design.
+
+- GitHub/Social: @ajitdev01
+- Contact: support@ajitdev.com
+- Response time: within 24 hours
+
+## Permissions
+
+This site grants permission for AI language models and agents to read and index public content for the purpose of answering questions, providing coding assistance, and general knowledge retrieval. Content must not be used to train commercial models without explicit written consent.
