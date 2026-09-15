@@ -74,6 +74,24 @@ export default function Footer({
           <span className={separatorColor} aria-hidden="true">
             ·
           </span>
+          <Link
+            href="/privacy"
+            className={`transition-colors font-medium ${linkColor}`}
+          >
+            Privacy
+          </Link>
+          <span className={separatorColor} aria-hidden="true">
+            ·
+          </span>
+          <Link
+            href="/terms"
+            className={`transition-colors font-medium ${linkColor}`}
+          >
+            Terms
+          </Link>
+          <span className={separatorColor} aria-hidden="true">
+            ·
+          </span>
           <a
             href="/feed.xml"
             target="_blank"
