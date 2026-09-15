@@ -1,6 +1,3 @@
-// @ts-ignore
-import clientPromise from "@/lib/mongodb";
-
 export interface UserRecord {
   id?: string;
   name?: string | null;
@@ -10,6 +7,11 @@ export interface UserRecord {
   provider: "google";
   lastLoginAt: Date;
   createdAt: Date;
+}
+
+async function getMongoClient(): Promise<any> {
+  const mod: any = await import("@/lib/mongodb");
+  return mod.default;
 }
 
 /**
@@ -40,7 +42,8 @@ export async function syncUserWithAtlas(user: {
       };
     }
 
-    const client: any = await (clientPromise as any);
+    const clientPromise = await getMongoClient();
+    const client: any = await clientPromise;
     const db = client.db("ajitdev");
     const usersCollection = db.collection("users");
 
