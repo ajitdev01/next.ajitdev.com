@@ -36,6 +36,26 @@ const PROJECTS = [
     tech: ["Next.js 16", "Tailwind CSS", "Framer Motion", "Offline Storage"],
   },
   {
+    title: "Google OAuth Login — Auth.js v5",
+    description:
+      "Production-ready Google OAuth 2.0 sign-in page powered by Auth.js (NextAuth v5). Features a live session modal, error handling, and a protected dashboard redirect after authentication.",
+    href: "/login/google",
+    tag: "Authentication",
+    badge: "Live on next.ajitdev.com",
+    external: false,
+    tech: ["Next.js 16", "Auth.js v5", "Google OAuth 2.0", "Server Actions"],
+  },
+  {
+    title: "NextAuth Login — Auth.js Session Demo",
+    description:
+      "Demonstrates the full Auth.js authentication flow: sign-in with Google, encrypted JWT session management, protected route guard, and server-side session verification.",
+    href: "/login/nextauth",
+    tag: "Authentication",
+    badge: "Live on next.ajitdev.com",
+    external: false,
+    tech: ["NextAuth v5", "JWT Sessions", "Protected Routes", "TypeScript"],
+  },
+  {
     title: "AJITDEV API Hub",
     description:
       "The dedicated developer API ecosystem providing free REST and JSON APIs, live interactive endpoint testing, comprehensive documentation, and developer resources.",
