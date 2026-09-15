@@ -5,10 +5,16 @@ import { syncUserWithAtlas } from "@/lib/userDb";
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Google({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      clientId: process.env.AUTH_GOOGLE_ID || process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.AUTH_GOOGLE_SECRET || process.env.GOOGLE_CLIENT_SECRET || "",
     }),
   ],
+  trustHost: true,
+  secret: process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET || "7f59d48b19a3b907572740a6b72183c518491029384756102938475610293847",
+  pages: {
+    signIn: "/login/google",
+    error: "/login/google",
+  },
   callbacks: {
     async signIn({ user, account }) {
       try {
@@ -32,9 +38,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return session;
     },
   },
-  pages: {
-    signIn: "/login/google",
-  },
-  trustHost: true,
-  secret: process.env.AUTH_SECRET,
 });

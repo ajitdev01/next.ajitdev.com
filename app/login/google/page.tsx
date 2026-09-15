@@ -1,7 +1,7 @@
 import { auth, signIn, signOut } from "@/auth";
 import Link from "next/link";
 import Image from "next/image";
-import { ShieldCheck, Lock, ExternalLink, ArrowLeft, Database, CheckCircle2, Globe, Sparkles, User, Mail, LogOut, Check } from "lucide-react";
+import { ShieldCheck, Lock, ExternalLink, ArrowLeft, Database, CheckCircle2, Globe, Sparkles, User, Mail, LogOut, Check, AlertCircle } from "lucide-react";
 import ClientLoginModal from "./client-modal";
 
 export const metadata = {
@@ -10,8 +10,14 @@ export const metadata = {
     "Securely sign in or create an account on AJITDEV using your Google account via Google OAuth 2.0.",
 };
 
-export default async function GoogleLoginPage() {
+export default async function GoogleLoginPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ error?: string; callbackUrl?: string }>;
+}) {
   const session = await auth();
+  const params = searchParams ? await searchParams : {};
+  const errorMessage = params?.error;
 
   return (
     <div className="relative min-h-screen bg-slate-50 text-slate-900 selection:bg-slate-900 selection:text-white antialiased flex flex-col justify-between overflow-x-clip">
@@ -87,6 +93,21 @@ export default async function GoogleLoginPage() {
               to continue to <span className="font-semibold text-slate-800">next.ajitdev.com</span>
             </p>
           </div>
+
+          {/* User-friendly OAuth error banner */}
+          {errorMessage && (
+            <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50/90 p-3 text-xs text-rose-800">
+              <div className="flex items-center gap-2 font-semibold">
+                <AlertCircle className="h-4 w-4 text-rose-600 shrink-0" />
+                <span>Authentication Notice</span>
+              </div>
+              <p className="mt-1 text-[11px] text-rose-700 leading-relaxed">
+                {errorMessage === "AccessDenied"
+                  ? "Access was cancelled or denied during Google account consent."
+                  : "Google sign-in could not be completed. Please try again."}
+              </p>
+            </div>
+          )}
 
           {/* Interactive Client Modal & Sign-in Actions */}
           <div className="mt-6">
