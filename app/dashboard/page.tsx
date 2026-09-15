@@ -2,7 +2,7 @@ import { auth, signOut } from "@/auth";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { User, Mail, ShieldCheck, ArrowLeft, LogOut, CheckCircle2 } from "lucide-react";
+import { User, Mail, ShieldCheck, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { SignOutSubmitButton } from "../login/nextauth/login-button";
 
 export const metadata = {
@@ -13,9 +13,9 @@ export const metadata = {
 export default async function DashboardPage() {
   const session = await auth();
 
-  // Server-side route protection: unauthenticated users are immediately redirected
+  // Server-side route protection: unauthenticated users are immediately redirected to /login/google
   if (!session?.user) {
-    redirect("/login/nextauth");
+    redirect("/login/google");
   }
 
   const { user } = session;
@@ -118,7 +118,7 @@ export default async function DashboardPage() {
             <form
               action={async () => {
                 "use server";
-                await signOut({ redirectTo: "/login/nextauth" });
+                await signOut({ redirectTo: "/login/google" });
               }}
             >
               <SignOutSubmitButton />
@@ -129,7 +129,7 @@ export default async function DashboardPage() {
 
       {/* Footer */}
       <footer className="relative z-10 py-6 text-center text-xs text-slate-500">
-        <span>AJITDEV · Protected Route Demo</span>
+        <span>AJITDEV · Protected Route</span>
       </footer>
     </div>
   );

@@ -11,8 +11,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
   secret: process.env.AUTH_SECRET,
   pages: {
-    signIn: "/login/nextauth",
-    error: "/login/nextauth",
+    signIn: "/login/google",
+    error: "/login/google",
   },
   callbacks: {
     session({ session, token }) {
