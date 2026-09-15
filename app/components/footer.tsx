@@ -82,7 +82,7 @@ export default function Footer({
             href="/"
             className={`text-sm font-semibold tracking-tight transition-colors ${brandCls}`}
           >
-            AJITDEV
+            AJI TDEV
           </Link>
 
           {/* Social icons */}
