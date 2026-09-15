@@ -24,23 +24,54 @@ html {
   background: #94a3b8;
 }
 
-/* GPU-accelerated Aurora Gradient Animation */
-@keyframes auroraShift {
-  0% {
-    background-position: 0% 50%;
+/* Compositor-friendly GPU-accelerated Aurora Gradient Animations */
+@keyframes auroraFade {
+  0%, 100% {
+    opacity: 0;
   }
-
   50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
+    opacity: 1;
   }
 }
 
-.animate-aurora {
-  background-size: 250% 250%;
-  animation: auroraShift 8s ease-in-out infinite;
-  will-change: background-position;
+@keyframes auroraBloom {
+  0% {
+    transform: translate3d(-3%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3%, -2%, 0) scale(1.04);
+  }
+  100% {
+    transform: translate3d(-3%, 0, 0) scale(1);
+  }
+}
+
+.animate-aurora-fade {
+  animation: auroraFade 8s ease-in-out infinite;
+  will-change: opacity;
+}
+
+.animate-aurora-bloom {
+  animation: auroraBloom 10s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Reduced Motion: honor user preference without breaking UI structure */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-aurora-fade {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  .animate-aurora-bloom {
+    animation: none !important;
+    transform: none !important;
+  }
 }

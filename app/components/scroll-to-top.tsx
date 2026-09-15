@@ -39,7 +39,7 @@ export default function ScrollToTop() {
           whileHover={{ scale: 1.08, y: -2 }}
           whileTap={{ scale: 0.92 }}
           style={{ willChange: "transform, opacity" }}
-          className="fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-slate-200/90 bg-white text-slate-700 shadow-md shadow-slate-900/10 transition-colors hover:border-slate-300 hover:bg-slate-900 hover:text-white"
+          className="fixed bottom-6 right-6 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-slate-200/90 bg-white text-slate-700 shadow-md shadow-slate-900/10 transition-colors hover:border-slate-300 hover:bg-slate-900 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
           aria-label="Scroll back to top"
           title="Back to top"
         >

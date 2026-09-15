@@ -15,13 +15,13 @@ export default function Footer({
 
   const containerBorder = isDark
     ? "border-white/10 text-white/40"
-    : "border-slate-200/80 text-slate-500";
+    : "border-slate-200/80 text-slate-600";
 
   const linkColor = isDark
-    ? "text-white/50 hover:text-white"
-    : "text-slate-500 hover:text-slate-900";
+    ? "text-white/60 hover:text-white"
+    : "text-slate-600 hover:text-slate-950";
 
-  const separatorColor = isDark ? "text-white/20" : "text-slate-300";
+  const separatorColor = isDark ? "text-white/20" : "text-slate-400";
 
   return (
     <footer

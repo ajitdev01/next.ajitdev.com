@@ -168,7 +168,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`inline-flex h-9 w-9 items-center justify-center rounded-xl border transition-all duration-200 active:scale-90 ${
+            className={`inline-flex h-11 w-11 items-center justify-center rounded-xl border transition-all duration-200 active:scale-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 ${
               mobileMenuOpen
                 ? "border-slate-900 bg-slate-900 text-white shadow-xs"
                 : "border-slate-200 bg-white text-slate-800 hover:bg-slate-50"

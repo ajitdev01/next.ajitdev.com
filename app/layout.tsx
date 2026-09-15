@@ -12,7 +12,11 @@ import { siteConfig, personConfig } from "@/lib/seo/config";
 import { buildConnectedGraph, buildWebSiteSchema, buildPersonSchema } from "@/lib/seo/schema";
 import JsonLd from "@/components/seo/json-ld";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
@@ -109,7 +113,7 @@ export default function RootLayout({
         {/* Google Tag Manager */}
         <Script
           id="gtm-script"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
             __html: `
               (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

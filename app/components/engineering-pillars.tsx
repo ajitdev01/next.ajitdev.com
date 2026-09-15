@@ -425,9 +425,9 @@ export default function EngineeringPillars() {
                   </div>
 
                   {/* Title & Description */}
-                  <h2 className="mt-5 text-lg font-bold text-slate-900 tracking-tight group-hover:text-slate-950">
+                  <h3 className="mt-5 text-lg font-bold text-slate-900 tracking-tight group-hover:text-slate-950">
                     {pillar.title}
-                  </h2>
+                  </h3>
 
                   <p className="mt-2 text-xs leading-relaxed text-slate-600">
                     {pillar.description}

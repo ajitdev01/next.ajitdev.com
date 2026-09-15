@@ -446,27 +446,38 @@ export default function Hero3DVisualizer() {
   const [cicdStep, setCicdStep] = useState(4);
   const [cicdRunning, setCicdRunning] = useState(false);
 
-  // Trigger simulated live API fetch with One-by-One 3D streaming animation
-  const runApiTest = () => {
+  // Trigger simulated/live API fetch with One-by-One 3D streaming animation (resilient & non-blocking)
+  const runApiTest = async () => {
     if (streamTimerRef.current) clearInterval(streamTimerRef.current);
     setApiSimRunning(true);
     setIsStreaming(true);
     setStreamedIndex(0);
 
-    // Simulated DNS + TLS connection handshake (~160ms)
-    setTimeout(() => {
-      setApiSimRunning(false);
-      let currentIdx = 0;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 2000);
 
-      streamTimerRef.current = setInterval(() => {
-        currentIdx++;
-        setStreamedIndex(currentIdx);
-        if (currentIdx >= API_RESPONSE_FIELDS.length) {
-          if (streamTimerRef.current) clearInterval(streamTimerRef.current);
-          setIsStreaming(false);
-        }
-      }, 100); // 100ms between each field for smooth 3D sequential generation
-    }, 160);
+    try {
+      await fetch("https://api.ajitdev.com/v1/health", {
+        signal: controller.signal,
+        mode: "cors",
+      }).catch(() => null);
+    } catch {
+      // Graceful SLA fallback
+    } finally {
+      clearTimeout(timeoutId);
+    }
+
+    setApiSimRunning(false);
+    let currentIdx = 0;
+
+    streamTimerRef.current = setInterval(() => {
+      currentIdx++;
+      setStreamedIndex(currentIdx);
+      if (currentIdx >= API_RESPONSE_FIELDS.length) {
+        if (streamTimerRef.current) clearInterval(streamTimerRef.current);
+        setIsStreaming(false);
+      }
+    }, 100); // 100ms between each field for smooth 3D sequential generation
   };
 
   // Trigger simulated CI/CD pipeline
@@ -553,24 +564,33 @@ export default function Hero3DVisualizer() {
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
-      className="relative flex w-full max-w-6xl flex-col items-center justify-center pt-8 pb-16 [perspective:1400px]"
+      className="relative flex w-full max-w-6xl min-h-[580px] sm:min-h-[640px] flex-col items-center justify-center pt-8 pb-16 [perspective:1400px] overflow-x-clip"
     >
-
-
-      {/* Iridescent Glow Lights in 3D Space (GPU lightweight radial gradients) */}
-      <div className="pointer-events-none absolute -top-20 left-1/2 h-[450px] w-[450px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.12)_0%,transparent_70%)]" />
-      <div className="pointer-events-none absolute top-1/3 -right-20 h-[350px] w-[350px] rounded-full bg-[radial-gradient(circle,rgba(168,85,247,0.08)_0%,transparent_70%)]" />
-      <div className="pointer-events-none absolute bottom-10 -left-20 h-[350px] w-[350px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.08)_0%,transparent_70%)]" />
+      {/* Iridescent Glow Lights in 3D Space (GPU lightweight radial gradients isolated from layout) */}
+      <div
+        style={{ contain: "paint" }}
+        className="pointer-events-none absolute -top-20 left-1/2 h-[450px] w-[450px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(59,130,246,0.12)_0%,transparent_70%)]"
+      />
+      <div
+        style={{ contain: "paint" }}
+        className="pointer-events-none absolute top-1/3 -right-20 h-[350px] w-[350px] rounded-full bg-[radial-gradient(circle,rgba(168,85,247,0.08)_0%,transparent_70%)]"
+      />
+      <div
+        style={{ contain: "paint" }}
+        className="pointer-events-none absolute bottom-10 -left-20 h-[350px] w-[350px] rounded-full bg-[radial-gradient(circle,rgba(16,185,129,0.08)_0%,transparent_70%)]"
+      />
 
       {/* Main 3D Depth Typography Headline (GPU-Accelerated Aurora Color Animation) */}
       <motion.div
-        initial={{ opacity: 0, y: 15 }}
+        initial={false}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
         className="relative z-20 text-center px-4 will-change-transform"
       >
-        {/* Ambient Chromatic Glow Bloom behind headline */}
-        <div className="pointer-events-none absolute -inset-x-8 -inset-y-4 -z-10 mx-auto max-w-xl rounded-full bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-pink-500/15 blur-2xl opacity-80" />
+        {/* Ambient Chromatic Glow Bloom behind headline (GPU translate3d compositor animation) */}
+        <div
+          style={{ contain: "paint" }}
+          className="pointer-events-none absolute -inset-x-8 -inset-y-4 -z-10 mx-auto max-w-xl rounded-full bg-gradient-to-r from-blue-500/15 via-purple-500/15 to-pink-500/15 blur-2xl opacity-80 animate-aurora-bloom will-change-transform"
+        />
 
         <motion.h1
           animate={{ y: [-2, 2, -2] }}
@@ -580,8 +600,18 @@ export default function Hero3DVisualizer() {
           <span className="bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-clip-text text-transparent">
             Architecting the{" "}
           </span>
-          <span className="inline-block bg-gradient-to-r from-blue-600 via-indigo-500 via-purple-600 via-pink-500 to-cyan-500 bg-clip-text text-transparent font-black animate-aurora drop-shadow-[0_2px_16px_rgba(99,102,241,0.22)]">
-            Future of Web & Cloud.
+          <span className="relative inline-block drop-shadow-[0_2px_16px_rgba(99,102,241,0.22)] align-bottom">
+            {/* Primary GPU-rendered gradient layer */}
+            <span className="inline-block bg-gradient-to-r from-blue-600 via-indigo-500 via-purple-600 via-pink-500 to-cyan-500 bg-clip-text text-transparent font-black">
+              Future of Web &amp; Cloud.
+            </span>
+            {/* Compositor-accelerated opacity crossfade layer (100% GPU, zero paint) */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 inline-block bg-gradient-to-r from-cyan-500 via-pink-500 via-purple-600 via-indigo-500 to-blue-600 bg-clip-text text-transparent font-black animate-aurora-fade select-none"
+            >
+              Future of Web &amp; Cloud.
+            </span>
           </span>
         </motion.h1>
       </motion.div>
@@ -598,7 +628,7 @@ export default function Hero3DVisualizer() {
               rotateY: isMaximized ? 0 : rotateY,
               transformStyle: "preserve-3d",
             }}
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={false}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ duration: 0.3 }}
@@ -688,10 +718,12 @@ export default function Hero3DVisualizer() {
                     onClick={() => setIsClosed(true)}
                     title="Close 3D Console (Remove from page)"
                     aria-label="Close 3D Console"
-                    className="group/btn flex h-3 w-3 items-center justify-center rounded-full bg-rose-500 hover:bg-rose-600 transition shadow-2xs focus:outline-none cursor-pointer"
+                    className="group/btn -m-2.5 flex h-11 w-11 items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-500 cursor-pointer"
                   >
-                    <span className="opacity-0 group-hover/dots:opacity-100 text-[8px] font-bold text-rose-950 transition-opacity leading-none select-none">
-                      ✕
+                    <span className="flex h-3 w-3 items-center justify-center rounded-full bg-rose-500 group-hover/btn:bg-rose-600 transition shadow-2xs">
+                      <span className="opacity-0 group-hover/dots:opacity-100 group-hover/btn:opacity-100 text-[8px] font-bold text-rose-950 transition-opacity leading-none select-none">
+                        ✕
+                      </span>
                     </span>
                   </button>
 
@@ -701,10 +733,12 @@ export default function Hero3DVisualizer() {
                     onClick={() => setIsMinimized((prev) => !prev)}
                     title={isMinimized ? "Expand Console" : "Minimize Console"}
                     aria-label={isMinimized ? "Expand Console" : "Minimize Console"}
-                    className="group/btn flex h-3 w-3 items-center justify-center rounded-full bg-amber-400 hover:bg-amber-500 transition shadow-2xs focus:outline-none cursor-pointer"
+                    className="group/btn -m-2.5 flex h-11 w-11 items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 cursor-pointer"
                   >
-                    <span className="opacity-0 group-hover/dots:opacity-100 text-[9px] font-bold text-amber-950 transition-opacity leading-none select-none">
-                      −
+                    <span className="flex h-3 w-3 items-center justify-center rounded-full bg-amber-400 group-hover/btn:bg-amber-500 transition shadow-2xs">
+                      <span className="opacity-0 group-hover/dots:opacity-100 group-hover/btn:opacity-100 text-[9px] font-bold text-amber-950 transition-opacity leading-none select-none">
+                        −
+                      </span>
                     </span>
                   </button>
 
@@ -714,10 +748,12 @@ export default function Hero3DVisualizer() {
                     onClick={() => setIsMaximized((prev) => !prev)}
                     title={isMaximized ? "Restore Size" : "Maximize Console Width"}
                     aria-label={isMaximized ? "Restore Size" : "Maximize Console Width"}
-                    className="group/btn flex h-3 w-3 items-center justify-center rounded-full bg-emerald-500 hover:bg-emerald-600 transition shadow-2xs focus:outline-none cursor-pointer"
+                    className="group/btn -m-2.5 flex h-11 w-11 items-center justify-center rounded-full transition focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 cursor-pointer"
                   >
-                    <span className="opacity-0 group-hover/dots:opacity-100 text-[7px] font-bold text-emerald-950 transition-opacity leading-none select-none">
-                      {isMaximized ? "⤡" : "⤢"}
+                    <span className="flex h-3 w-3 items-center justify-center rounded-full bg-emerald-500 group-hover/btn:bg-emerald-600 transition shadow-2xs">
+                      <span className="opacity-0 group-hover/dots:opacity-100 group-hover/btn:opacity-100 text-[7px] font-bold text-emerald-950 transition-opacity leading-none select-none">
+                        {isMaximized ? "⤡" : "⤢"}
+                      </span>
                     </span>
                   </button>
 
@@ -901,11 +937,11 @@ export default function Hero3DVisualizer() {
                             {/* Authentic JSON Content Window (Pure White & Slate-50) */}
                             <div className="mt-3 overflow-x-hidden select-text font-mono text-[11px] sm:text-[13px] leading-relaxed bg-slate-50/70 rounded-xl p-2.5 sm:p-4 border border-slate-200/70">
                               {/* Line 01: Opening Brace */}
-                              <div className="flex items-center py-0.5 px-1 sm:px-2 text-slate-600 font-mono">
-                                <span className="select-none text-[10px] sm:text-[11px] text-slate-400 w-5 sm:w-6 shrink-0 text-right pr-1 sm:pr-2">01</span>
-                                <span className="text-slate-400 select-none pl-1 pr-2">{" "}</span>
-                                <span className="text-slate-900 font-bold">&#123;</span>
-                                <span className="ml-3 text-[10px] text-slate-400 font-normal select-none hidden sm:inline">// 200 OK · application/json · HTTP/3 QUIC</span>
+                              <div className="flex items-center py-0.5 px-1 sm:px-2 text-slate-700 font-mono">
+                                <span className="select-none text-[10px] sm:text-[11px] text-slate-500 font-medium w-5 sm:w-6 shrink-0 text-right pr-1 sm:pr-2">01</span>
+                                <span className="text-slate-500 select-none pl-1 pr-2">{" "}</span>
+                                <span className="text-slate-950 font-bold">&#123;</span>
+                                <span className="ml-3 text-[10px] text-slate-600 font-medium select-none hidden sm:inline">// 200 OK · application/json · HTTP/3 QUIC</span>
                               </div>
 
                               {/* Streamed Fields: generated one by one with authentic JSON syntax */}
@@ -922,19 +958,19 @@ export default function Hero3DVisualizer() {
                                     className="group flex flex-nowrap items-center justify-between gap-2 rounded-md py-0.5 px-1 sm:px-2 hover:bg-slate-100/80 transition-colors"
                                   >
                                     <div className="flex items-center min-w-0 font-mono overflow-hidden">
-                                      <span className="select-none text-[10px] sm:text-[11px] text-slate-400 w-5 sm:w-6 shrink-0 text-right pr-1 sm:pr-2">
+                                      <span className="select-none text-[10px] sm:text-[11px] text-slate-500 font-medium w-5 sm:w-6 shrink-0 text-right pr-1 sm:pr-2">
                                         {String(idx + 2).padStart(2, "0")}
                                       </span>
                                       <span className="text-slate-400 select-none pl-1 pr-1 sm:pr-2">{"  "}</span>
                                       <span className="text-sky-700 font-semibold shrink-0">
                                         &quot;{field.key}&quot;
                                       </span>
-                                      <span className="text-slate-400 select-none">:&nbsp;</span>
+                                      <span className="text-slate-500 select-none">:&nbsp;</span>
                                       <span className="text-emerald-700 font-medium truncate">
                                         {field.value}
                                       </span>
                                       {idx < API_RESPONSE_FIELDS.length - 1 && (
-                                        <span className="text-slate-400 select-none shrink-0">,</span>
+                                        <span className="text-slate-500 select-none shrink-0">,</span>
                                       )}
                                     </div>
 
@@ -954,7 +990,7 @@ export default function Hero3DVisualizer() {
                                   animate={{ opacity: 1 }}
                                   className="flex items-center py-0.5 px-1 sm:px-2 text-xs text-blue-600 bg-blue-50/70 rounded font-mono"
                                 >
-                                  <span className="select-none text-[10px] sm:text-[11px] text-slate-400 w-5 sm:w-6 shrink-0 text-right pr-1 sm:pr-2">
+                                  <span className="select-none text-[10px] sm:text-[11px] text-slate-500 font-medium w-5 sm:w-6 shrink-0 text-right pr-1 sm:pr-2">
                                     {String(streamedIndex + 2).padStart(2, "0")}
                                   </span>
                                   <span className="text-slate-400 select-none pl-1 pr-1 sm:pr-2">{"  "}</span>
@@ -972,14 +1008,14 @@ export default function Hero3DVisualizer() {
                                 <motion.div
                                   initial={{ opacity: 0, y: 2 }}
                                   animate={{ opacity: 1, y: 0 }}
-                                  className="flex items-center justify-between py-0.5 px-1 sm:px-2 text-slate-600 font-mono"
+                                  className="flex items-center justify-between py-0.5 px-1 sm:px-2 text-slate-700 font-mono"
                                 >
                                   <div className="flex items-center">
-                                    <span className="select-none text-[10px] sm:text-[11px] text-slate-400 w-5 sm:w-6 shrink-0 text-right pr-1 sm:pr-2">
+                                    <span className="select-none text-[10px] sm:text-[11px] text-slate-500 font-medium w-5 sm:w-6 shrink-0 text-right pr-1 sm:pr-2">
                                       {String(API_RESPONSE_FIELDS.length + 2).padStart(2, "0")}
                                     </span>
-                                    <span className="text-slate-400 select-none pl-1 pr-2">{" "}</span>
-                                    <span className="text-slate-900 font-bold">&#125;</span>
+                                    <span className="text-slate-500 select-none pl-1 pr-2">{" "}</span>
+                                    <span className="text-slate-950 font-bold">&#125;</span>
                                   </div>
                                   <span className="text-[10px] sm:text-[11px] text-emerald-700 font-medium flex items-center gap-1">
                                     <Check className="h-3 sm:h-3.5 w-3 sm:w-3.5 text-emerald-600" />
@@ -991,20 +1027,20 @@ export default function Hero3DVisualizer() {
                             </div>
 
                             {/* Telemetry Footer */}
-                            <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-nowrap items-center justify-between gap-2 text-[10px] sm:text-[11px] text-slate-500 font-mono">
+                            <div className="mt-3 pt-2.5 border-t border-slate-100 flex flex-nowrap items-center justify-between gap-2 text-[10px] sm:text-[11px] text-slate-600 font-mono">
                               <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                                <span className="whitespace-nowrap"><strong className="text-slate-700 font-semibold">HTTP/3</strong> · QUIC</span>
-                                <span className="text-slate-300">·</span>
-                                <span className="whitespace-nowrap"><strong className="text-slate-700 font-semibold">14ms</strong></span>
-                                <span className="hidden sm:inline text-slate-300">·</span>
-                                <span className="hidden sm:inline whitespace-nowrap"><strong className="text-slate-700 font-semibold">BOM-EDGE</strong></span>
+                                <span className="whitespace-nowrap"><strong className="text-slate-800 font-semibold">HTTP/3</strong> · QUIC</span>
+                                <span className="text-slate-400">·</span>
+                                <span className="whitespace-nowrap"><strong className="text-slate-800 font-semibold">14ms</strong></span>
+                                <span className="hidden sm:inline text-slate-400">·</span>
+                                <span className="hidden sm:inline whitespace-nowrap"><strong className="text-slate-800 font-semibold">BOM-EDGE</strong></span>
                               </div>
 
                               <button
                                 type="button"
                                 onClick={runApiTest}
                                 disabled={isStreaming || apiSimRunning}
-                                className="inline-flex items-center gap-1 sm:gap-1.5 text-blue-600 hover:text-blue-700 transition font-semibold disabled:opacity-50 text-[10px] sm:text-xs shrink-0"
+                                className="inline-flex items-center gap-1 sm:gap-1.5 text-blue-600 hover:text-blue-700 transition font-semibold disabled:opacity-50 text-[10px] sm:text-xs shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded"
                               >
                                 <RotateCcw className={`h-3 sm:h-3.5 w-3 sm:w-3.5 ${isStreaming || apiSimRunning ? "animate-spin" : ""}`} />
                                 <span>Replay</span>
