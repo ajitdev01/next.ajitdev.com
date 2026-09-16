@@ -21,6 +21,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { showToast, confirmDelete, promptEditTodo, showError } from "@/lib/swal";
+import { fireConfetti } from "@/lib/useConfetti";
 import { DatePicker } from "../components/ui/date-picker";
 import Footer from "../components/footer";
 import Breadcrumbs from "@/components/seo/breadcrumbs";
@@ -134,6 +135,8 @@ export default function TodoPage() {
         const nextState = !t.completed;
         if (nextState) {
           showToast("Task completed", "success");
+          // 🎉 Celebrate task completion with confetti!
+          fireConfetti();
         } else {
           showToast("Task marked pending", "info");
         }
