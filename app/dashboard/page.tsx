@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { User, Mail, ShieldCheck, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { SignOutSubmitButton } from "../login/nextauth/login-button";
+import DashboardConfetti from "./dashboard-confetti";
 
 export const metadata = {
   title: "Dashboard | AJITDEV",
@@ -22,6 +23,9 @@ export default async function DashboardPage() {
 
   return (
     <div className="relative min-h-screen bg-slate-50 text-slate-900 selection:bg-slate-900 selection:text-white antialiased flex flex-col justify-between overflow-x-clip">
+      {/* 🎉 Confetti celebration on successful login/signup */}
+      <DashboardConfetti />
+
       {/* Background ambient glow */}
       <div
         style={{ contain: "paint" }}

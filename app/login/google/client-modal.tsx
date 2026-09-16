@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { fireConfetti } from "@/lib/useConfetti";
 import {
   User,
   Mail,
@@ -34,10 +35,17 @@ export default function ClientLoginModal({ session }: ClientLoginModalProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  const confettiFired = useRef(false);
+
   // Auto-open modal if user just returned from Google OAuth sign-in
   useEffect(() => {
     if (session?.user) {
       setIsOpen(true);
+      // Fire confetti celebration for successful login/signup
+      if (!confettiFired.current) {
+        confettiFired.current = true;
+        setTimeout(() => fireConfetti(), 400);
+      }
     }
   }, [session]);
 

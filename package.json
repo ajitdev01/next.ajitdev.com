@@ -19,6 +19,7 @@
     "@types/nodemailer": "^8.0.1",
     "@vercel/analytics": "^2.0.1",
     "@vercel/functions": "^3.9.7",
+    "canvas-confetti": "^1.9.4",
     "framer-motion": "^13.2.0",
     "lucide-react": "^1.45.0",
     "mongodb": "^7.6.0",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
