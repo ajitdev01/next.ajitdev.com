@@ -2,6 +2,9 @@
 
 html {
   scroll-behavior: smooth;
+  /* CLS mitigation: reduce text reflow when web font (Inter) replaces fallback */
+  font-size-adjust: from-font;
+  font-synthesis: none;
 }
 
 /* Refined custom scrollbar */

@@ -1325,8 +1325,8 @@ export default function Hero3DVisualizer() {
       {/* ECOSYSTEM DOMAINS 3D SHOWCASE CARDS                                   */}
       {/* ====================================================================== */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.4 }}
         className="relative z-20 mt-16 w-full max-w-5xl border-t border-slate-200/80 pt-10"
       >

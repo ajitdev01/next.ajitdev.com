@@ -286,8 +286,8 @@ export default function EngineeringPillars() {
     >
       {/* Header Section with Scroll Reveal */}
       <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.5, ease: [0.21, 0.47, 0.32, 0.98] }}
         className="text-center"
@@ -313,8 +313,8 @@ export default function EngineeringPillars() {
 
       {/* Senior UX Controls: Category Filter Tabs & Instant Filter Search */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.45, delay: 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
         className="mt-10 flex flex-col items-center gap-4"
@@ -398,8 +398,8 @@ export default function EngineeringPillars() {
             return (
               <motion.article
                 key={pillar.id}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{
@@ -407,7 +407,7 @@ export default function EngineeringPillars() {
                   delay: Math.min(index * 0.05, 0.25),
                   ease: "easeOut",
                 }}
-                style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
+                style={{ willChange: "opacity", transform: "translateZ(0)" }}
                 className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 shadow-xs transition duration-200 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-200/40"
               >
                 <div>

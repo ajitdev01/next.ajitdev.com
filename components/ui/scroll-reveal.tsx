@@ -16,43 +16,27 @@ export default function ScrollReveal({
   children,
   className = "",
   delay = 0,
-  direction = "up",
-  distance = 16,
+  direction: _direction = "up",
+  distance: _distance = 16,
   duration = 0.35,
 }: ScrollRevealProps) {
-  const getInitialOffset = () => {
-    switch (direction) {
-      case "up":
-        return { y: distance };
-      case "down":
-        return { y: -distance };
-      case "left":
-        return { x: distance };
-      case "right":
-        return { x: -distance };
-      case "none":
-        return {};
-    }
-  };
+  // CLS Fix: Using only opacity transitions instead of positional offsets.
+  // Y/X offsets cause Cumulative Layout Shift because the element starts at
+  // a displaced position and then shifts to its final position, which is
+  // measured as a layout shift by Lighthouse/CrUX.
+  // Opacity-only transitions are compositor-friendly with zero CLS impact.
 
   return (
     <motion.div
-      initial={{
-        opacity: 0,
-        ...getInitialOffset(),
-      }}
-      whileInView={{
-        opacity: 1,
-        x: 0,
-        y: 0,
-      }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
       transition={{
         duration,
         delay,
         ease: "easeOut",
       }}
-      style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
+      style={{ willChange: "opacity", transform: "translateZ(0)" }}
       className={className}
     >
       {children}
