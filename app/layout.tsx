@@ -7,6 +7,7 @@ import ClarityAnalytics from "./components/clarity";
 import { Analytics } from "@vercel/analytics/next";
 import Header from "./components/header";
 import ScrollToTop from "./components/scroll-to-top";
+import CloudAssistant from "@/components/CloudAssistant";
 import ReduxProvider from "@/lib/store/provider";
 
 import { siteConfig, personConfig } from "@/lib/seo/config";
@@ -148,6 +149,9 @@ export default function RootLayout({
           <Header />
 
           {children}
+
+          {/* AJITDEV Cloud Assistant (AI) */}
+          <CloudAssistant />
 
           {/* Global Floating Scroll-To-Top Button */}
           <ScrollToTop />

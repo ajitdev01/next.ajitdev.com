@@ -20,9 +20,11 @@ import {
   Globe,
   ShoppingBag,
   CloudSun,
+  Bot,
 } from "lucide-react";
 
 const TAG_ICONS: Record<string, React.ReactNode> = {
+  "AI Assistant": <Bot className="h-3.5 w-3.5" />,
   "E-Commerce": <ShoppingBag className="h-3.5 w-3.5" />,
   Weather: <CloudSun className="h-3.5 w-3.5" />,
   Productivity: <CheckSquare className="h-3.5 w-3.5" />,
@@ -35,18 +37,31 @@ const TAG_ICONS: Record<string, React.ReactNode> = {
 };
 
 const TAG_COLORS: Record<string, { bg: string; text: string; border: string; dot: string }> = {
-  "E-Commerce":     { bg: "bg-rose-50",    text: "text-rose-700",    border: "border-rose-200",    dot: "bg-rose-500"    },
-  Weather:          { bg: "bg-sky-50",     text: "text-sky-700",     border: "border-sky-200",     dot: "bg-sky-500"     },
-  Productivity:     { bg: "bg-violet-50",  text: "text-violet-700",  border: "border-violet-200",  dot: "bg-violet-500"  },
-  Authentication:   { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200", dot: "bg-emerald-500" },
-  "Developer Tools": { bg: "bg-blue-50",    text: "text-blue-700",    border: "border-blue-200",    dot: "bg-blue-500"    },
-  Playground:       { bg: "bg-amber-50",   text: "text-amber-700",   border: "border-amber-200",   dot: "bg-amber-500"   },
-  Solutions:        { bg: "bg-sky-50",     text: "text-sky-700",     border: "border-sky-200",     dot: "bg-sky-500"     },
-  Discovery:        { bg: "bg-orange-50",  text: "text-orange-700",  border: "border-orange-200",  dot: "bg-orange-500"  },
-  Education:        { bg: "bg-pink-50",    text: "text-pink-700",    border: "border-pink-200",    dot: "bg-pink-500"    },
+  "AI Assistant": { bg: "bg-indigo-50", text: "text-indigo-700", border: "border-indigo-200", dot: "bg-indigo-500" },
+  "E-Commerce": { bg: "bg-rose-50", text: "text-rose-700", border: "border-rose-200", dot: "bg-rose-500" },
+  Weather: { bg: "bg-sky-50", text: "text-sky-700", border: "border-sky-200", dot: "bg-sky-500" },
+  Productivity: { bg: "bg-violet-50", text: "text-violet-700", border: "border-violet-200", dot: "bg-violet-500" },
+  Authentication: { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200", dot: "bg-emerald-500" },
+  "Developer Tools": { bg: "bg-blue-50", text: "text-blue-700", border: "border-blue-200", dot: "bg-blue-500" },
+  Playground: { bg: "bg-amber-50", text: "text-amber-700", border: "border-amber-200", dot: "bg-amber-500" },
+  Solutions: { bg: "bg-sky-50", text: "text-sky-700", border: "border-sky-200", dot: "bg-sky-500" },
+  Discovery: { bg: "bg-orange-50", text: "text-orange-700", border: "border-orange-200", dot: "bg-orange-500" },
+  Education: { bg: "bg-pink-50", text: "text-pink-700", border: "border-pink-200", dot: "bg-pink-500" },
 };
 
 const PROJECTS = [
+  {
+    title: "AJITDEV Cloud Assistant",
+    subtitle: "Gemini Agentic AI Assistant",
+    description: "Production-grade AI Assistant powered by Google GenAI and Gemini models. Features deep contextual knowledge of the AJITDEV ecosystem, real-time responses, and multi-turn technical dialogues.",
+    href: "#assistant",
+    tag: "AI Assistant",
+    badge: "Live on next.ajitdev.com",
+    external: false,
+    featured: true,
+    tech: ["Next.js 16", "@google/genai", "Gemini Flash", "TypeScript", "Tailwind CSS"],
+    details: "Server-side Google GenAI SDK integration with multi-model resilience, real-time system prompt grounding, and interactive drawer UI.",
+  },
   {
     title: "E-comm Store",
     subtitle: "Next.js & Redux Toolkit Storefront",
@@ -269,7 +284,7 @@ function ProjectCard({ project }: { project: Project }) {
             </div>
             <div className="mt-4 flex items-center justify-end">
               <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0.5">
-                {project.external ? "Visit site" : "Open project"}
+                {project.external ? "Visit site" : project.href === "#assistant" ? "Chat with AI" : "Open project"}
                 <ArrowRight className="h-3 w-3" />
               </span>
             </div>
@@ -307,6 +322,22 @@ function ProjectCard({ project }: { project: Project }) {
       </HoverCard.Portal>
     </HoverCard.Root>
   );
+
+  if (project.href === "#assistant") {
+    return (
+      <button
+        type="button"
+        onClick={() => {
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new CustomEvent("open-cloud-assistant"));
+          }
+        }}
+        className="block h-full w-full text-left cursor-pointer focus:outline-none"
+      >
+        {cardInner}
+      </button>
+    );
+  }
 
   if (project.external) {
     return (
@@ -385,9 +416,8 @@ export default function ProjectsPage() {
               >
                 {tab !== "All" && TAG_ICONS[tab]}
                 {tab}
-                <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold leading-none ${
-                  activeTab === tab ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
-                }`}>
+                <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold leading-none ${activeTab === tab ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
+                  }`}>
                   {counts[tab] ?? 0}
                 </span>
               </Tabs.Trigger>
