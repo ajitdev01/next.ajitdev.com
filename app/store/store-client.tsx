@@ -918,7 +918,12 @@ function CheckoutDialog({
             {/* Order Summary */}
             <div className="rounded-2xl bg-slate-50 border border-slate-200/80 p-3 space-y-1 text-xs">
               <div className="flex justify-between text-slate-500">
-                <span>Subtotal ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
+                <span>
+                  Subtotal ({items.length} {items.length === 1 ? "product" : "products"}
+                  {items.reduce((s, i) => s + i.quantity, 0) !== items.length
+                    ? `, ${items.reduce((s, i) => s + i.quantity, 0)} units`
+                    : ""})
+                </span>
                 <span>${subtotal.toFixed(2)}</span>
               </div>
               {discount > 0 && (
@@ -1058,7 +1063,8 @@ function CartDrawer({
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
-  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const productsCount = items.length;
+  const totalUnits = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const discount = useMemo(() => {
     if (!appliedCoupon) return 0;
@@ -1106,8 +1112,11 @@ function CartDrawer({
                   Your Cart
                 </Dialog.Title>
                 <Dialog.Description className="text-xs text-slate-400">
-                  {itemCount} {itemCount === 1 ? "item" : "items"} • Persisted in
-                  Redux
+                  {productsCount} {productsCount === 1 ? "product" : "products"}
+                  {totalUnits !== productsCount
+                    ? ` (${totalUnits} ${totalUnits === 1 ? "unit" : "units"})`
+                    : ""}{" "}
+                  • Persisted in Redux
                 </Dialog.Description>
               </div>
             </div>
@@ -1182,9 +1191,16 @@ function CartDrawer({
                       <h4 className="text-xs font-bold text-slate-900 truncate">
                         {item.product.title}
                       </h4>
-                      <p className="text-xs font-black text-slate-900 mt-0.5">
-                        ${(item.product.price * item.quantity).toFixed(2)}
-                      </p>
+                      <div className="flex items-baseline gap-1.5 mt-0.5">
+                        <span className="text-xs font-black text-slate-900">
+                          ${(item.product.price * item.quantity).toFixed(2)}
+                        </span>
+                        {item.quantity > 1 && (
+                          <span className="text-[11px] text-slate-400 font-medium">
+                            (${item.product.price.toFixed(2)} × {item.quantity})
+                          </span>
+                        )}
+                      </div>
                       <div className="flex items-center gap-1.5 mt-1.5">
                         <button
                           onClick={() =>
@@ -1296,7 +1312,9 @@ function CartDrawer({
               {/* Price Breakdown */}
               <div className="space-y-1 text-xs pt-1 border-t border-slate-200/60">
                 <div className="flex justify-between text-slate-500">
-                  <span>Subtotal</span>
+                  <span>
+                    Subtotal ({totalUnits} {totalUnits === 1 ? "unit" : "units"})
+                  </span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
                 {discount > 0 && (
@@ -1631,7 +1649,8 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
     (state: RootState) => state.cart.appliedCoupon
   );
 
-  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const cartProductsCount = cartItems.length;
+  const cartTotalUnits = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const wishlistCount = wishlist.length;
   const ordersCount = orders.length;
 
@@ -1931,9 +1950,9 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
               className="relative h-14 w-14 rounded-2xl bg-slate-900 text-white shadow-xl shadow-slate-900/25 flex items-center justify-center transition hover:bg-slate-800 hover:scale-105 active:scale-95"
             >
               <ShoppingCart className="h-5 w-5" />
-              {cartCount > 0 && (
+              {cartProductsCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 h-6 min-w-[24px] rounded-full bg-indigo-600 text-[10px] font-black text-white flex items-center justify-center px-1.5 shadow-sm">
-                  {cartCount}
+                  {cartProductsCount}
                 </span>
               )}
             </button>
@@ -1943,7 +1962,11 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
               className="z-[200] rounded-lg bg-slate-900 px-2.5 py-1 text-[11px] font-semibold text-white shadow-md"
               side="left"
             >
-              Cart ({cartCount})
+              Cart ({cartProductsCount}{" "}
+              {cartProductsCount === 1 ? "product" : "products"}
+              {cartTotalUnits !== cartProductsCount
+                ? ` • ${cartTotalUnits} units`
+                : ""})
               <Tooltip.Arrow className="fill-slate-900" />
             </Tooltip.Content>
           </Tooltip.Portal>
@@ -1987,7 +2010,12 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
               className="inline-flex items-center gap-2 rounded-2xl bg-slate-900 text-white px-4 py-2.5 text-xs font-bold shadow-md shadow-slate-900/10 hover:bg-slate-800 transition active:scale-95"
             >
               <ShoppingCart className="h-3.5 w-3.5" />
-              <span>Cart ({cartCount})</span>
+              <span>
+                Cart ({cartProductsCount}
+                {cartTotalUnits !== cartProductsCount
+                  ? ` • ${cartTotalUnits} units`
+                  : ""})
+              </span>
             </button>
             <button
               onClick={() => setWishlistOpen(true)}
