@@ -94,30 +94,77 @@ const availableCoupons = [
 ];
 
 /* ───────── Skeleton Shimmer Card ───────── */
-function ProductSkeletonCard() {
+function ProductSkeletonCard({ index = 0 }: { index?: number }) {
   return (
-    <div className="relative rounded-3xl bg-white border border-slate-100 overflow-hidden">
-      {/* Shimmer overlay */}
-      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite] bg-gradient-to-r from-transparent via-white/60 to-transparent z-10 pointer-events-none" />
-      {/* Image area */}
-      <div className="h-48 bg-gradient-to-br from-slate-100 to-slate-200" />
-      {/* Content area */}
+    <div
+      className="relative rounded-3xl bg-white border border-slate-100 overflow-hidden"
+      style={{ animationDelay: `${index * 60}ms` }}
+    >
+      {/* Shimmer sweep */}
+      <div
+        className="absolute inset-0 z-10 pointer-events-none"
+        style={{
+          background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)",
+          animation: `shimmer 1.6s ease-in-out ${index * 80}ms infinite`,
+          transform: "translateX(-100%)",
+        }}
+      />
+      {/* Image placeholder */}
+      <div className="h-52 bg-gradient-to-br from-slate-100 via-slate-50 to-slate-100" />
+      {/* Content */}
       <div className="p-4 space-y-3">
-        <div className="h-3 w-16 bg-slate-200 rounded-full" />
+        {/* Category badge */}
+        <div className="h-5 w-20 bg-slate-100 rounded-full" />
+        {/* Title lines */}
+        <div className="space-y-2">
+          <div className="h-4 w-full bg-slate-100 rounded-lg" />
+          <div className="h-4 w-4/5 bg-slate-100 rounded-lg" />
+        </div>
+        {/* Stars */}
+        <div className="flex items-center gap-1.5">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="h-3 w-3 bg-slate-100 rounded-full" />
+          ))}
+          <div className="h-3 w-12 bg-slate-100 rounded ml-1" />
+        </div>
+        {/* Price + button */}
+        <div className="pt-2 border-t border-slate-50 flex items-center justify-between">
+          <div className="h-7 w-16 bg-slate-100 rounded-lg" />
+          <div className="h-9 w-24 bg-slate-100 rounded-2xl" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SkeletonListItem({ index = 0 }: { index?: number }) {
+  return (
+    <div
+      className="relative flex gap-4 rounded-3xl bg-white border border-slate-100 p-4 overflow-hidden"
+      style={{ animationDelay: `${index * 80}ms` }}
+    >
+      <div
+        className="absolute inset-0 z-10 pointer-events-none"
+        style={{
+          background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)",
+          animation: `shimmer 1.6s ease-in-out ${index * 80}ms infinite`,
+          transform: "translateX(-100%)",
+        }}
+      />
+      <div className="h-28 w-28 shrink-0 rounded-2xl bg-gradient-to-br from-slate-100 via-slate-50 to-slate-100" />
+      <div className="flex-1 space-y-3 py-1">
+        <div className="h-4 w-20 bg-slate-100 rounded-full" />
         <div className="space-y-1.5">
-          <div className="h-4 w-full bg-slate-200 rounded-lg" />
-          <div className="h-4 w-3/4 bg-slate-200 rounded-lg" />
+          <div className="h-4 w-3/4 bg-slate-100 rounded-lg" />
+          <div className="h-3 w-full bg-slate-100 rounded" />
+          <div className="h-3 w-2/3 bg-slate-100 rounded" />
         </div>
         <div className="flex gap-1">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="h-3 w-3 bg-slate-200 rounded-full" />
+            <div key={i} className="h-3 w-3 bg-slate-100 rounded-full" />
           ))}
-          <div className="h-3 w-10 bg-slate-100 rounded ml-1" />
         </div>
-        <div className="pt-1 flex items-center justify-between">
-          <div className="h-6 w-16 bg-slate-200 rounded-lg" />
-          <div className="h-8 w-8 bg-slate-200 rounded-xl" />
-        </div>
+        <div className="h-9 w-28 bg-slate-100 rounded-2xl" />
       </div>
     </div>
   );
@@ -1662,17 +1709,16 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
         ) {
           isLoadingMoreRef.current = true;
           setIsLoadingMore(true);
-          // Small delay so skeleton cards are actually visible
           setTimeout(() => {
             setVisibleCount((prev) =>
               Math.min(prev + 20, filteredProductsRef.current.length)
             );
             setIsLoadingMore(false);
             isLoadingMoreRef.current = false;
-          }, 600);
+          }, 400);
         }
       },
-      { rootMargin: "600px 0px" }
+      { rootMargin: "800px 0px" }
     );
 
     observer.observe(sentinel);
@@ -2067,26 +2113,36 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
           </div>
         ) : viewMode === "grid" ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-            {visibleProducts.map((product) => (
-              <ProductCard
+            {visibleProducts.map((product, i) => (
+              <div
                 key={product.id}
-                product={product}
-                isLiked={wishlist.includes(product.id)}
-                onQuickView={handleQuickView}
-                onToast={showToast}
-              />
+                className="animate-[fadeSlideUp_0.35s_ease_forwards] opacity-0"
+                style={{ animationDelay: `${(i % 20) * 30}ms` }}
+              >
+                <ProductCard
+                  product={product}
+                  isLiked={wishlist.includes(product.id)}
+                  onQuickView={handleQuickView}
+                  onToast={showToast}
+                />
+              </div>
             ))}
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            {visibleProducts.map((product) => (
-              <ProductListItem
+            {visibleProducts.map((product, i) => (
+              <div
                 key={product.id}
-                product={product}
-                isLiked={wishlist.includes(product.id)}
-                onQuickView={handleQuickView}
-                onToast={showToast}
-              />
+                className="animate-[fadeSlideUp_0.35s_ease_forwards] opacity-0"
+                style={{ animationDelay: `${(i % 20) * 25}ms` }}
+              >
+                <ProductListItem
+                  product={product}
+                  isLiked={wishlist.includes(product.id)}
+                  onQuickView={handleQuickView}
+                  onToast={showToast}
+                />
+              </div>
             ))}
           </div>
         )}
@@ -2097,26 +2153,13 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
             {viewMode === "grid" ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 {Array.from({ length: 8 }).map((_, i) => (
-                  <ProductSkeletonCard key={i} />
+                  <ProductSkeletonCard key={i} index={i} />
                 ))}
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="relative flex flex-col sm:flex-row items-center gap-4 rounded-3xl bg-white border border-slate-100 p-4 overflow-hidden"
-                  >
-                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite] bg-gradient-to-r from-transparent via-white/60 to-transparent z-10 pointer-events-none" />
-                    <div className="h-32 w-32 shrink-0 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200" />
-                    <div className="flex-1 w-full space-y-2.5">
-                      <div className="h-3 w-20 bg-slate-200 rounded-full" />
-                      <div className="h-4 w-3/4 bg-slate-200 rounded-lg" />
-                      <div className="h-3 w-full bg-slate-100 rounded" />
-                      <div className="h-3 w-2/3 bg-slate-100 rounded" />
-                      <div className="h-8 w-28 bg-slate-200 rounded-xl mt-2" />
-                    </div>
-                  </div>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <SkeletonListItem key={i} index={i} />
                 ))}
               </div>
             )}

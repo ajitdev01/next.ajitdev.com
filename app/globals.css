@@ -59,6 +59,18 @@ html {
   }
 }
 
+/* Product card entrance animation */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .animate-aurora-fade {
   animation: auroraFade 8s ease-in-out infinite;
   will-change: opacity;
