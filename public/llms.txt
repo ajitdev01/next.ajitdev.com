@@ -14,6 +14,8 @@ This is a Next.js 16 developer hub built and maintained by Ajit Dev (ajitdev01).
 
 ## Live Apps
 
+- [E-comm Store](https://next.ajitdev.com/store): Next.js & Redux Toolkit modern e-commerce storefront with cart & confetti checkout
+- [Weather App](https://next.ajitdev.com/weather): Live OpenWeatherMap meteorological telemetry and geocoding city search
 - [Todo App](https://next.ajitdev.com/todo): Local-first task manager — no backend, full data sovereignty
 - [Notes App](https://next.ajitdev.com/note): Minimal private notes with real-time search and JSON backup
 - [Google OAuth Login](https://next.ajitdev.com/login/google): Production Auth.js v5 Google OAuth 2.0 sign-in demo

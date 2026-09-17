@@ -18,9 +18,13 @@ import {
   ArrowRight,
   Zap,
   Globe,
+  ShoppingBag,
+  CloudSun,
 } from "lucide-react";
 
 const TAG_ICONS: Record<string, React.ReactNode> = {
+  "E-Commerce": <ShoppingBag className="h-3.5 w-3.5" />,
+  Weather: <CloudSun className="h-3.5 w-3.5" />,
   Productivity: <CheckSquare className="h-3.5 w-3.5" />,
   Authentication: <Lock className="h-3.5 w-3.5" />,
   "Developer Tools": <Code2 className="h-3.5 w-3.5" />,
@@ -31,6 +35,8 @@ const TAG_ICONS: Record<string, React.ReactNode> = {
 };
 
 const TAG_COLORS: Record<string, { bg: string; text: string; border: string; dot: string }> = {
+  "E-Commerce":     { bg: "bg-rose-50",    text: "text-rose-700",    border: "border-rose-200",    dot: "bg-rose-500"    },
+  Weather:          { bg: "bg-sky-50",     text: "text-sky-700",     border: "border-sky-200",     dot: "bg-sky-500"     },
   Productivity:     { bg: "bg-violet-50",  text: "text-violet-700",  border: "border-violet-200",  dot: "bg-violet-500"  },
   Authentication:   { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200", dot: "bg-emerald-500" },
   "Developer Tools": { bg: "bg-blue-50",    text: "text-blue-700",    border: "border-blue-200",    dot: "bg-blue-500"    },
@@ -41,6 +47,30 @@ const TAG_COLORS: Record<string, { bg: string; text: string; border: string; dot
 };
 
 const PROJECTS = [
+  {
+    title: "E-comm Store",
+    subtitle: "Next.js & Redux Toolkit Storefront",
+    description: "Modern e-commerce platform built with Next.js and Redux Toolkit. Features product catalog browsing, category filters, interactive cart drawer, quantity controls, and celebratory confetti checkout modal.",
+    href: "/store",
+    tag: "E-Commerce",
+    badge: "Live on next.ajitdev.com",
+    external: false,
+    featured: true,
+    tech: ["Next.js 16", "Redux Toolkit", "TypeScript", "Tailwind CSS", "Canvas Confetti"],
+    details: "Full client-side Redux cart store with persistent state, real-time totals calculation, and celebratory confetti modal.",
+  },
+  {
+    title: "Weather App",
+    subtitle: "Real-Time OpenWeather Forecasts",
+    description: "Live weather application powered by OpenWeatherMap APIs. Features instant multi-city geocoding resolution, live weather conditions, atmospheric telemetry (humidity, pressure, wind), and Celsius/Fahrenheit units.",
+    href: "/weather",
+    tag: "Weather",
+    badge: "Live on next.ajitdev.com",
+    external: false,
+    featured: true,
+    tech: ["Next.js 16", "OpenWeatherMap API", "Geocoding API", "React 19", "Tailwind CSS"],
+    details: "Direct coordinate resolution, atmospheric telemetry cards, and a crisp high-contrast white aesthetic.",
+  },
   {
     title: "Todo App",
     subtitle: "Local-First Task Manager",

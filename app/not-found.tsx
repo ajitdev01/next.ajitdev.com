@@ -24,6 +24,18 @@ const QUICK_LINKS = [
     tag: "Main",
   },
   {
+    title: "E-comm Store",
+    desc: "Browse products, add to cart & checkout with Redux",
+    href: "/store",
+    tag: "App",
+  },
+  {
+    title: "Weather App",
+    desc: "Real-time worldwide weather forecasts and search",
+    href: "/weather",
+    tag: "App",
+  },
+  {
     title: "Todo App",
     desc: "Manage tasks, dates, and priorities with LocalStorage",
     href: "/todo",

@@ -127,6 +127,7 @@ export default function Header() {
             <span>Projects</span>
           </Link>
 
+
           {/* ajitdev.com Link */}
           <a
             href="https://www.ajitdev.com/"
@@ -152,6 +153,7 @@ export default function Header() {
 
         {/* Mobile Navigation Toggle */}
         <div className="flex items-center gap-2 md:hidden">
+
           <Link
             href="/projects"
             className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-semibold transition active:scale-95 ${
@@ -203,7 +205,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Clean Dropdown Menu (Only Projects, ajitdev.com, api.ajitdev.com) */}
+      {/* Mobile Clean Dropdown Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -214,6 +216,7 @@ export default function Header() {
             className="overflow-hidden border-b border-slate-200/90 bg-white/95 px-4 py-3 shadow-lg shadow-slate-900/5 backdrop-blur-xl md:hidden"
           >
             <div className="flex flex-col space-y-1">
+
               {/* Projects */}
               <Link
                 href="/projects"
@@ -230,6 +233,8 @@ export default function Header() {
                 </div>
                 <ArrowRight className="h-3.5 w-3.5 opacity-60" />
               </Link>
+
+
 
               {/* ajitdev.com */}
               <a

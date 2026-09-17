@@ -7,6 +7,7 @@ import ClarityAnalytics from "./components/clarity";
 import { Analytics } from "@vercel/analytics/next";
 import Header from "./components/header";
 import ScrollToTop from "./components/scroll-to-top";
+import ReduxProvider from "@/lib/store/provider";
 
 import { siteConfig, personConfig } from "@/lib/seo/config";
 import { buildConnectedGraph, buildWebSiteSchema, buildPersonSchema } from "@/lib/seo/schema";
@@ -142,13 +143,15 @@ export default function RootLayout({
         {/* Microsoft Clarity */}
         <ClarityAnalytics />
 
-        {/* Global 10-Year UX Sticky Header */}
-        <Header />
+        <ReduxProvider>
+          {/* Global 10-Year UX Sticky Header */}
+          <Header />
 
-        {children}
+          {children}
 
-        {/* Global Floating Scroll-To-Top Button */}
-        <ScrollToTop />
+          {/* Global Floating Scroll-To-Top Button */}
+          <ScrollToTop />
+        </ReduxProvider>
 
         {/* Vercel Web Analytics */}
         <Analytics />

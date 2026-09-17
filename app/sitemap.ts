@@ -34,6 +34,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     // ── Live apps ───────────────────────────────────────────
     {
+      url: `${siteConfig.siteUrl}/store`,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${siteConfig.siteUrl}/weather`,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
       url: `${siteConfig.siteUrl}/todo`,
       changeFrequency: "monthly",
       priority: 0.7,

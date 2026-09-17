@@ -87,12 +87,24 @@ export default function ProjectsLayout({
         {
           "@type": "ListItem",
           position: 1,
+          name: "E-comm Store — Next.js & Redux Toolkit",
+          url: `${siteConfig.siteUrl}/store`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Weather App — Live OpenWeather Geocoding",
+          url: `${siteConfig.siteUrl}/weather`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
           name: "Todo App — Local-First Task Management",
           url: `${siteConfig.siteUrl}/todo`,
         },
         {
           "@type": "ListItem",
-          position: 2,
+          position: 4,
           name: "Notes App — Minimal Local-First Notes",
           url: `${siteConfig.siteUrl}/note`,
         },
