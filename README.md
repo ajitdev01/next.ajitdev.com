@@ -282,8 +282,19 @@ npm run start
 [![X / Twitter](https://img.shields.io/badge/X-@ajitdev01-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/ajitdev01)
 [![Instagram](https://img.shields.io/badge/Instagram-@ajitdev01-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/ajitdev01/)
 [![LeetCode](https://img.shields.io/badge/LeetCode-ajitdev01-FFA116?style=for-the-badge&logo=leetcode&logoColor=black)](https://leetcode.com/u/ajitdev01/)
+[![Email](https://img.shields.io/badge/Email-ajit23192%40gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:ajit23192@gmail.com)
+[![Support](https://img.shields.io/badge/Support-support%40ajitdev.com-0078D4?style=for-the-badge&logo=maildotru&logoColor=white)](mailto:support@ajitdev.com)
 
 </div>
+
+<br />
+
+### 📬 Direct Inquiries & Support
+
+| Channel | Address | Purpose |
+| :--- | :--- | :--- |
+| **Primary Email** | [`ajit23192@gmail.com`](mailto:ajit23192@gmail.com) | Direct communication, collaborations & engineering queries |
+| **Support Email** | [`support@ajitdev.com`](mailto:support@ajitdev.com) | Platform assistance, bug reporting & developer support |
 
 ---
 
@@ -292,5 +303,6 @@ npm run start
 This repository is open-sourced under the **MIT License**. See the [LICENSE](LICENSE) file for complete details.
 
 <div align="center">
-  <sub>Engineered with dedication & passion by <strong>Ajit Dev</strong> · Built for performance, privacy, and sovereignty.</sub>
+  <sub>Engineered with dedication & passion by <strong>Ajit Dev</strong></sub><br />
+  <sub>📧 <a href="mailto:ajit23192@gmail.com">ajit23192@gmail.com</a> · 🛡️ <a href="mailto:support@ajitdev.com">support@ajitdev.com</a> · Built for performance, privacy, and sovereignty.</sub>
 </div>
