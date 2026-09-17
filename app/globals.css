@@ -49,6 +49,16 @@ html {
   }
 }
 
+/* Skeleton shimmer sweep */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
 .animate-aurora-fade {
   animation: auroraFade 8s ease-in-out infinite;
   will-change: opacity;

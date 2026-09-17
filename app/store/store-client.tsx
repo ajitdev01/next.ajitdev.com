@@ -43,7 +43,6 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import {
-  products,
   categories,
   categoryLabels,
   categoryIcons,
@@ -93,6 +92,36 @@ const availableCoupons = [
   { code: "SUPER20", label: "20% OFF", discount: 20 },
   { code: "FREESHIP", label: "Free Shipping", discount: 0 },
 ];
+
+/* ───────── Skeleton Shimmer Card ───────── */
+function ProductSkeletonCard() {
+  return (
+    <div className="relative rounded-3xl bg-white border border-slate-100 overflow-hidden">
+      {/* Shimmer overlay */}
+      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite] bg-gradient-to-r from-transparent via-white/60 to-transparent z-10 pointer-events-none" />
+      {/* Image area */}
+      <div className="h-48 bg-gradient-to-br from-slate-100 to-slate-200" />
+      {/* Content area */}
+      <div className="p-4 space-y-3">
+        <div className="h-3 w-16 bg-slate-200 rounded-full" />
+        <div className="space-y-1.5">
+          <div className="h-4 w-full bg-slate-200 rounded-lg" />
+          <div className="h-4 w-3/4 bg-slate-200 rounded-lg" />
+        </div>
+        <div className="flex gap-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="h-3 w-3 bg-slate-200 rounded-full" />
+          ))}
+          <div className="h-3 w-10 bg-slate-100 rounded ml-1" />
+        </div>
+        <div className="pt-1 flex items-center justify-between">
+          <div className="h-6 w-16 bg-slate-200 rounded-lg" />
+          <div className="h-8 w-8 bg-slate-200 rounded-xl" />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /* ───────── Star Rating ───────── */
 function Stars({ rate, count }: { rate: number; count: number }) {
@@ -266,18 +295,20 @@ function WishlistDrawer({
   onClose,
   onOpenCart,
   onToast,
+  allProducts,
 }: {
   open: boolean;
   onClose: () => void;
   onOpenCart: () => void;
   onToast: (msg: string) => void;
+  allProducts: Product[];
 }) {
   const dispatch = useDispatch();
   const wishlistIds = useSelector((state: RootState) => state.cart.wishlist);
 
   const wishlistProducts = useMemo(() => {
-    return products.filter((p) => wishlistIds.includes(p.id));
-  }, [wishlistIds]);
+    return allProducts.filter((p) => wishlistIds.includes(p.id));
+  }, [allProducts, wishlistIds]);
 
   const handleMoveToCart = (prod: Product) => {
     dispatch(moveToCartFromWishlist(prod));
@@ -1496,25 +1527,8 @@ const ProductListItem = React.memo(function ProductListItem({
   );
 });
 
-/* ───────── Product Skeleton Card (Loading State) ───────── */
-function ProductSkeletonCard() {
-  return (
-    <div className="flex flex-col rounded-3xl bg-white border border-slate-100 p-5 shadow-[0_1px_3px_rgba(0,0,0,0.04)] animate-pulse">
-      <div className="h-44 w-full rounded-2xl bg-slate-100 mb-4" />
-      <div className="h-3 w-16 rounded bg-slate-200 mb-2" />
-      <div className="h-4 w-full rounded bg-slate-200 mb-1" />
-      <div className="h-4 w-2/3 rounded bg-slate-200 mb-3" />
-      <div className="h-3 w-20 rounded bg-slate-100 mb-4" />
-      <div className="mt-auto pt-3 flex items-center justify-between border-t border-slate-100">
-        <div className="h-5 w-14 rounded bg-slate-200" />
-        <div className="h-8 w-20 rounded-xl bg-slate-200" />
-      </div>
-    </div>
-  );
-}
-
 /* ───────── Main Store Client ───────── */
-export default function StoreClient() {
+export default function StoreClient({ initialProducts }: { initialProducts: Product[] }) {
   const [activeCategory, setActiveCategory] = useState<Category>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const deferredSearch = useDeferredValue(searchQuery);
@@ -1574,7 +1588,7 @@ export default function StoreClient() {
 
   // High-performance memoized product filter
   const filteredProducts = useMemo(() => {
-    let result = products;
+    let result = initialProducts;
 
     if (activeCategory !== "all") {
       result = result.filter((p) => p.category === activeCategory);
@@ -1648,13 +1662,14 @@ export default function StoreClient() {
         ) {
           isLoadingMoreRef.current = true;
           setIsLoadingMore(true);
-          requestAnimationFrame(() => {
+          // Small delay so skeleton cards are actually visible
+          setTimeout(() => {
             setVisibleCount((prev) =>
               Math.min(prev + 20, filteredProductsRef.current.length)
             );
             setIsLoadingMore(false);
             isLoadingMoreRef.current = false;
-          });
+          }, 600);
         }
       },
       { rootMargin: "600px 0px" }
@@ -1674,12 +1689,12 @@ export default function StoreClient() {
   }, []);
 
   const categoryCounts = useMemo(() => {
-    const counts: Record<string, number> = { all: products.length };
-    products.forEach((p) => {
+    const counts: Record<string, number> = { all: initialProducts.length };
+    initialProducts.forEach((p) => {
       counts[p.category] = (counts[p.category] || 0) + 1;
     });
     return counts;
-  }, []);
+  }, [initialProducts]);
 
   const handleOrderPlaced = (order: Order) => {
     setCompletedOrder(order);
@@ -2076,38 +2091,35 @@ export default function StoreClient() {
           </div>
         )}
 
-        {/* Infinite Scroll Skeletons when loading next batch */}
+        {/* Skeleton cards while loading next batch */}
         {isLoadingMore && (
-          <div className="mt-5 space-y-4">
+          <div className="mt-5">
             {viewMode === "grid" ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                {Array.from({ length: 4 }).map((_, i) => (
+                {Array.from({ length: 8 }).map((_, i) => (
                   <ProductSkeletonCard key={i} />
                 ))}
               </div>
             ) : (
               <div className="flex flex-col gap-3">
-                {Array.from({ length: 3 }).map((_, i) => (
+                {Array.from({ length: 4 }).map((_, i) => (
                   <div
                     key={i}
-                    className="flex flex-col sm:flex-row items-center gap-4 rounded-3xl bg-white border border-slate-100 p-4 animate-pulse"
+                    className="relative flex flex-col sm:flex-row items-center gap-4 rounded-3xl bg-white border border-slate-100 p-4 overflow-hidden"
                   >
-                    <div className="h-32 w-32 rounded-2xl bg-slate-100" />
-                    <div className="flex-1 w-full space-y-2">
-                      <div className="h-3 w-20 bg-slate-200 rounded" />
-                      <div className="h-4 w-3/4 bg-slate-200 rounded" />
+                    <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.4s_infinite] bg-gradient-to-r from-transparent via-white/60 to-transparent z-10 pointer-events-none" />
+                    <div className="h-32 w-32 shrink-0 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-200" />
+                    <div className="flex-1 w-full space-y-2.5">
+                      <div className="h-3 w-20 bg-slate-200 rounded-full" />
+                      <div className="h-4 w-3/4 bg-slate-200 rounded-lg" />
                       <div className="h-3 w-full bg-slate-100 rounded" />
+                      <div className="h-3 w-2/3 bg-slate-100 rounded" />
+                      <div className="h-8 w-28 bg-slate-200 rounded-xl mt-2" />
                     </div>
                   </div>
                 ))}
               </div>
             )}
-            <div className="flex items-center justify-center py-4">
-              <div className="inline-flex items-center gap-2 rounded-full bg-slate-900 text-white px-4 py-2 text-xs font-semibold shadow-md">
-                <div className="h-3.5 w-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                <span>Loading next 20 products...</span>
-              </div>
-            </div>
           </div>
         )}
 
@@ -2144,6 +2156,7 @@ export default function StoreClient() {
         onClose={() => setWishlistOpen(false)}
         onOpenCart={() => setCartOpen(true)}
         onToast={showToast}
+        allProducts={initialProducts}
       />
 
       <CartDrawer

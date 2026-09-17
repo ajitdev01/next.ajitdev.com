@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import StoreClient from "./store-client";
 import Footer from "@/app/components/footer";
 import ReduxProvider from "@/lib/store/provider";
+import { fetchProducts } from "@/lib/store-data";
 
 export const metadata: Metadata = {
   title: "E-comm Store | Premium E-Commerce",
@@ -15,11 +16,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function StorePage() {
+export default async function StorePage() {
+  const products = await fetchProducts();
+
   return (
     <ReduxProvider>
       <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-slate-900 selection:text-white antialiased">
-        <StoreClient />
+        <StoreClient initialProducts={products} />
 
         {/* Footer */}
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-10">
@@ -29,3 +32,4 @@ export default function StorePage() {
     </ReduxProvider>
   );
 }
+
