@@ -1,5 +1,14 @@
 import React from "react";
 import Link from "next/link";
+import { Playfair_Display } from "next/font/google";
+import { Heart } from "lucide-react";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["600", "700", "800"],
+  display: "swap",
+  fallback: ["Georgia", "Times New Roman", "serif"],
+});
 
 interface FooterProps {
   className?: string;
@@ -86,7 +95,7 @@ export default function Footer({
     ? "text-white/40 hover:text-white hover:bg-white/8"
     : "text-slate-400 hover:text-slate-900 hover:bg-slate-100";
 
-  const brandCls = isDark ? "text-white/80" : "text-slate-800";
+
 
   return (
     <footer
@@ -99,9 +108,36 @@ export default function Footer({
           {/* Brand */}
           <Link
             href="/"
-            className={`text-sm font-semibold tracking-tight transition-colors ${brandCls}`}
+            aria-label="AJIT and AVNI Home"
+            className="group inline-flex items-center gap-2 rounded-full py-1 transition-transform duration-200 hover:scale-[1.03] active:scale-95 focus:outline-none"
           >
-            AJIT❤️AVNI
+            <span
+              className={`${playfair.className} text-base sm:text-lg font-bold tracking-[0.2em] uppercase transition-all duration-300 ${
+                isDark
+                  ? "bg-gradient-to-r from-slate-100 via-white to-slate-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-rose-200"
+                  : "bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent group-hover:from-slate-950 group-hover:to-rose-900"
+              }`}
+            >
+              AJIT
+            </span>
+
+            <span className="relative flex items-center justify-center">
+              <Heart
+                className="h-4 w-4 fill-rose-500 text-rose-500 transition-all duration-300 group-hover:scale-125 group-hover:rotate-12 drop-shadow-[0_2px_8px_rgba(244,63,94,0.45)]"
+                strokeWidth={0}
+              />
+              <span className="absolute inset-0 rounded-full bg-rose-500/30 blur-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100 animate-ping pointer-events-none" />
+            </span>
+
+            <span
+              className={`${playfair.className} text-base sm:text-lg font-bold tracking-[0.2em] uppercase transition-all duration-300 ${
+                isDark
+                  ? "bg-gradient-to-r from-slate-300 via-white to-slate-100 bg-clip-text text-transparent group-hover:from-rose-200 group-hover:to-white"
+                  : "bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 bg-clip-text text-transparent group-hover:from-rose-900 group-hover:to-slate-950"
+              }`}
+            >
+              AVNI
+            </span>
           </Link>
 
           {/* Social icons */}
