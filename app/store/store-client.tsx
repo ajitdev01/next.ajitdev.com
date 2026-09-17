@@ -93,6 +93,21 @@ const availableCoupons = [
   { code: "FREESHIP", label: "Free Shipping", discount: 0 },
 ];
 
+const popularCategories = [
+  "all",
+  "clothing",
+  "smartphones",
+  "laptops",
+  "audio",
+  "accessories",
+  "groceries",
+] as const;
+
+function normalizeCatKey(cat: string): string {
+  return (cat || "").toLowerCase().replace(/[-_]/g, " ").trim();
+}
+
+
 /* ───────── Skeleton Shimmer Card ───────── */
 function ProductSkeletonCard({ index = 0 }: { index?: number }) {
   return (
@@ -1638,7 +1653,16 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
     let result = initialProducts;
 
     if (activeCategory !== "all") {
-      result = result.filter((p) => p.category === activeCategory);
+      const activeNorm = normalizeCatKey(activeCategory);
+      result = result.filter((p) => {
+        const pNorm = normalizeCatKey(p.category);
+        return (
+          p.category === activeCategory ||
+          pNorm === activeNorm ||
+          pNorm.includes(activeNorm) ||
+          activeNorm.includes(pNorm)
+        );
+      });
     }
 
     if (deferredSearch.trim()) {
@@ -1687,13 +1711,62 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
     return filteredProducts.slice(0, visibleCount);
   }, [filteredProducts, visibleCount]);
 
-  // Real e-commerce Infinite Scroll: auto-load next 20 products seamlessly when scrolling
+  // Real e-commerce Infinite Scroll: auto-load next 20 products when user scrolls to 80%
   const isLoadingMoreRef = React.useRef(false);
   const visibleCountRef = React.useRef(visibleCount);
   visibleCountRef.current = visibleCount;
   const filteredProductsRef = React.useRef(filteredProducts);
   filteredProductsRef.current = filteredProducts;
 
+  const loadMore = useCallback(() => {
+    if (isLoadingMoreRef.current) return;
+    if (visibleCountRef.current >= filteredProductsRef.current.length) return;
+
+    isLoadingMoreRef.current = true;
+    setIsLoadingMore(true);
+
+    setTimeout(() => {
+      setVisibleCount((prev) =>
+        Math.min(prev + 20, filteredProductsRef.current.length)
+      );
+      setIsLoadingMore(false);
+      isLoadingMoreRef.current = false;
+    }, 500);
+  }, []);
+
+  // 85% Scroll Listener: triggers loadMore when user scrolls 85% down the page
+  React.useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+
+      window.requestAnimationFrame(() => {
+        ticking = false;
+        if (isLoadingMoreRef.current) return;
+        if (visibleCountRef.current >= filteredProductsRef.current.length) return;
+
+        const doc = document.documentElement;
+        const scrollTop = window.scrollY || doc.scrollTop;
+        const clientHeight = window.innerHeight || doc.clientHeight;
+        const scrollHeight = doc.scrollHeight;
+
+        if (scrollHeight <= clientHeight) return;
+
+        // Exactly 85% scroll threshold (0.85)
+        const scrollPercent = (scrollTop + clientHeight) / scrollHeight;
+        if (scrollPercent >= 0.85) {
+          loadMore();
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loadMore]);
+
+  // IntersectionObserver backup for bottom sentinel
   React.useEffect(() => {
     const sentinel = sentinelRef.current;
     if (!sentinel) return;
@@ -1701,29 +1774,16 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
     const observer = new IntersectionObserver(
       (entries) => {
         const first = entries[0];
-        if (
-          first &&
-          first.isIntersecting &&
-          !isLoadingMoreRef.current &&
-          visibleCountRef.current < filteredProductsRef.current.length
-        ) {
-          isLoadingMoreRef.current = true;
-          setIsLoadingMore(true);
-          setTimeout(() => {
-            setVisibleCount((prev) =>
-              Math.min(prev + 20, filteredProductsRef.current.length)
-            );
-            setIsLoadingMore(false);
-            isLoadingMoreRef.current = false;
-          }, 400);
+        if (first && first.isIntersecting) {
+          loadMore();
         }
       },
-      { rootMargin: "800px 0px" }
+      { rootMargin: "400px 0px" }
     );
 
     observer.observe(sentinel);
     return () => observer.disconnect();
-  }, []);
+  }, [loadMore]);
 
   // Reset to first 20 products whenever active filters or search change
   React.useEffect(() => {
@@ -1737,10 +1797,48 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = { all: initialProducts.length };
     initialProducts.forEach((p) => {
-      counts[p.category] = (counts[p.category] || 0) + 1;
+      const pCat = p.category || "";
+      const rawLower = pCat.toLowerCase().trim();
+      counts[rawLower] = (counts[rawLower] || 0) + 1;
+      counts[pCat] = (counts[pCat] || 0) + 1;
+      const norm = normalizeCatKey(pCat);
+      counts[norm] = (counts[norm] || 0) + 1;
     });
+
+    // Also resolve counts for all static category keys
+    categories.forEach((cat) => {
+      if (cat === "all") return;
+      if (counts[cat] !== undefined) return;
+      const norm = normalizeCatKey(cat);
+      if (counts[norm] !== undefined) {
+        counts[cat] = counts[norm];
+      } else {
+        const foundKey = Object.keys(counts).find(
+          (k) =>
+            k !== "all" &&
+            (normalizeCatKey(k) === norm ||
+              normalizeCatKey(k).includes(norm) ||
+              norm.includes(normalizeCatKey(k)))
+        );
+        if (foundKey) counts[cat] = counts[foundKey];
+      }
+    });
+
     return counts;
   }, [initialProducts]);
+
+  const getCategoryCount = useCallback(
+    (cat: string) => {
+      if (cat === "all") return initialProducts.length;
+      const catLower = cat.toLowerCase().trim();
+      if (categoryCounts[catLower] !== undefined) return categoryCounts[catLower];
+      if (categoryCounts[cat] !== undefined) return categoryCounts[cat];
+      const norm = normalizeCatKey(cat);
+      if (categoryCounts[norm] !== undefined) return categoryCounts[norm];
+      return 0;
+    },
+    [categoryCounts, initialProducts.length]
+  );
 
   const handleOrderPlaced = (order: Order) => {
     setCompletedOrder(order);
@@ -1933,37 +2031,156 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
 
       {/* ─── Main Products Section ─── */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        {/* Radix Tabs for Category Navigation */}
-        <Tabs.Root
-          value={activeCategory}
-          onValueChange={(val) => {
-            setActiveCategory(val as Category);
-            setVisibleCount(16);
-          }}
-          className="mb-6"
-        >
-          <Tabs.List className="flex items-center gap-2 overflow-x-auto pb-3 scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
-            {categories.map((cat) => (
-              <Tabs.Trigger
-                key={cat}
-                value={cat}
-                className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-2xl px-4 py-2 text-xs font-bold transition-all duration-150 active:scale-95 shrink-0 data-[state=active]:bg-slate-900 data-[state=active]:text-white data-[state=active]:shadow-sm data-[state=inactive]:bg-slate-100 data-[state=inactive]:text-slate-600 data-[state=inactive]:hover:bg-slate-200 data-[state=inactive]:hover:text-slate-900 focus:outline-none"
+        {/* Category Selector Bar — Radix Select Dropdown + Quick Pills */}
+        <div className="mb-6 flex flex-col gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-2.5">
+              {/* Real E-Commerce Website Department Dropdown via Radix Select */}
+              <Select.Root
+                value={activeCategory}
+                onValueChange={(val) => {
+                  setActiveCategory(val as Category);
+                  setVisibleCount(20);
+                }}
               >
-                <span>{categoryIcons[cat]}</span>
-                <span>{categoryLabels[cat]}</span>
-                <span
-                  className={`ml-1 text-[10px] rounded-full px-1.5 py-0.5 font-bold ${
-                    activeCategory === cat
-                      ? "bg-white/20 text-white"
-                      : "bg-slate-200/80 text-slate-500"
-                  }`}
+                <Select.Trigger
+                  id="category-select"
+                  aria-label="Select Category"
+                  className="group inline-flex items-center gap-2.5 rounded-2xl border border-slate-200/90 bg-white px-4 py-2 text-sm font-semibold text-slate-800 shadow-xs hover:border-slate-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500/20 active:scale-[0.99] transition-all duration-150 cursor-pointer"
                 >
-                  {categoryCounts[cat] || 0}
-                </span>
-              </Tabs.Trigger>
-            ))}
-          </Tabs.List>
-        </Tabs.Root>
+                  {/* Category icon bubble */}
+                  <span className="flex h-7 w-7 items-center justify-center rounded-xl bg-slate-100 text-base leading-none group-hover:scale-105 transition-transform shrink-0">
+                    {categoryIcons[activeCategory] ?? "🛍️"}
+                  </span>
+
+                  {/* Category title */}
+                  <div className="flex flex-col text-left">
+                    <span className="text-[10px] uppercase tracking-wider font-bold text-slate-400 leading-none mb-0.5">
+                      Category
+                    </span>
+                    <span className="text-sm font-bold text-slate-900 leading-none">
+                      <Select.Value placeholder="Select Category">
+                        {categoryLabels[activeCategory] || "All Products"}
+                      </Select.Value>
+                    </span>
+                  </div>
+
+                  {/* Active count badge */}
+                  <span className="ml-2 inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-600 group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors shrink-0">
+                    {getCategoryCount(activeCategory)}
+                  </span>
+
+                  <Select.Icon>
+                    <ChevronDown className="h-4 w-4 text-slate-400 group-data-[state=open]:rotate-180 transition-transform duration-200 ml-1 shrink-0" />
+                  </Select.Icon>
+                </Select.Trigger>
+
+                <Select.Portal>
+                  <Select.Content
+                    position="popper"
+                    sideOffset={8}
+                    align="start"
+                    className="z-[200] w-[320px] sm:w-[360px] overflow-hidden rounded-2xl border border-slate-200/90 bg-white/95 backdrop-blur-xl shadow-2xl shadow-slate-900/15 animate-in fade-in-0 zoom-in-95 duration-100"
+                  >
+                    {/* Header */}
+                    <div className="flex items-center justify-between border-b border-slate-100 px-3.5 py-2.5 bg-slate-50/70">
+                      <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                        All Departments
+                      </span>
+                      <span className="rounded-full bg-slate-200/80 px-2 py-0.5 text-[10px] font-bold text-slate-600">
+                        {categories.length} categories · {initialProducts.length} items
+                      </span>
+                    </div>
+
+                    {/* Smooth scrolling viewport — native wheel/touch scrollable */}
+                    <Select.Viewport className="max-h-[380px] overflow-y-auto p-1.5 scrollbar-thin scrollbar-thumb-slate-200">
+                      {categories.map((cat) => {
+                        const count = getCategoryCount(cat);
+                        return (
+                          <Select.Item
+                            key={cat}
+                            value={cat}
+                            className="group relative flex cursor-pointer select-none items-center gap-3 rounded-xl px-3 py-2.5 text-sm outline-none transition-colors duration-75 data-[highlighted]:bg-slate-50 data-[state=checked]:bg-indigo-50/80 data-[state=checked]:text-indigo-900 text-slate-700"
+                          >
+                            {/* Emoji Icon container */}
+                            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-base shrink-0 group-data-[state=checked]:bg-indigo-100 transition-colors">
+                              {categoryIcons[cat] ?? "🛍️"}
+                            </span>
+
+                            {/* Label */}
+                            <Select.ItemText>
+                              <span className="font-semibold text-slate-800 group-data-[state=checked]:font-bold group-data-[state=checked]:text-indigo-950">
+                                {categoryLabels[cat] ?? cat}
+                              </span>
+                            </Select.ItemText>
+
+                            {/* Count badge & Checkmark */}
+                            <span className="ml-auto flex items-center gap-2 shrink-0">
+                              <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-500 group-data-[state=checked]:bg-indigo-100 group-data-[state=checked]:text-indigo-700 transition-colors">
+                                {count}
+                              </span>
+
+                              <Select.ItemIndicator>
+                                <Check className="h-4 w-4 text-indigo-600 stroke-[2.5]" />
+                              </Select.ItemIndicator>
+                            </span>
+                          </Select.Item>
+                        );
+                      })}
+                    </Select.Viewport>
+                  </Select.Content>
+                </Select.Portal>
+              </Select.Root>
+
+              {/* Quick Category Chips for Top Popular Departments */}
+              <div className="hidden sm:flex items-center gap-1.5 overflow-x-auto">
+                {popularCategories.map((cat) => {
+                  const isSelected = activeCategory === cat;
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        setActiveCategory(cat as Category);
+                        setVisibleCount(20);
+                      }}
+                      className={`inline-flex items-center gap-1.5 rounded-xl px-3 py-2 text-xs font-semibold whitespace-nowrap transition-all ${
+                        isSelected
+                          ? "bg-slate-900 text-white shadow-xs"
+                          : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                      }`}
+                    >
+                      <span>{categoryIcons[cat]}</span>
+                      <span>{categoryLabels[cat]}</span>
+                      <span
+                        className={`text-[11px] font-bold ${
+                          isSelected ? "text-slate-300" : "text-slate-400"
+                        }`}
+                      >
+                        {getCategoryCount(cat)}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Reset active filter pill if not "all" */}
+              {activeCategory !== "all" && (
+                <button
+                  onClick={() => {
+                    setActiveCategory("all");
+                    setVisibleCount(20);
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 px-3 py-2 text-xs font-bold hover:bg-rose-100 transition active:scale-95"
+                  title="Reset to All Products"
+                >
+                  <span>Clear Category</span>
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
 
         {/* Filter Controls Row */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-3.5 mb-7 bg-white border border-slate-100 rounded-2xl p-3.5 shadow-xs">
@@ -1977,7 +2194,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
                 key={pr.id}
                 onClick={() => {
                   setPriceRange(pr.id);
-                  setVisibleCount(16);
+                  setVisibleCount(20);
                 }}
                 className={`rounded-xl px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition ${
                   priceRange === pr.id
@@ -1992,7 +2209,7 @@ export default function StoreClient({ initialProducts }: { initialProducts: Prod
             <button
               onClick={() => {
                 setOnlyTopRated(!onlyTopRated);
-                setVisibleCount(16);
+                setVisibleCount(20);
               }}
               className={`rounded-xl px-3 py-1.5 text-xs font-semibold whitespace-nowrap transition flex items-center gap-1 ${
                 onlyTopRated
