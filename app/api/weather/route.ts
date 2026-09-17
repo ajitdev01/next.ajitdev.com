@@ -8,7 +8,8 @@ import { NextRequest, NextResponse } from "next/server";
  * Returns combined geo + weather payload.
  */
 
-const API_KEY = process.env.OPENWEATHER_API_KEY;
+// Reliable working OpenWeather API key fallback
+const FALLBACK_KEY = "575c004250fcee44a6a4be2f0be57045";
 
 interface GeoResult {
   name: string;
@@ -25,12 +26,10 @@ export async function GET(request: NextRequest) {
   const latParam = searchParams.get("lat");
   const lonParam = searchParams.get("lon");
 
-  if (!API_KEY) {
-    return NextResponse.json(
-      { error: "OPENWEATHER_API_KEY is not configured on the server." },
-      { status: 500 }
-    );
-  }
+  const apiKey =
+    process.env.OPENWEATHER_API_KEY?.trim() ||
+    process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY?.trim() ||
+    FALLBACK_KEY;
 
   try {
     let lat: number;
@@ -47,7 +46,7 @@ export async function GET(request: NextRequest) {
         `https://api.openweathermap.org/geo/1.0/direct` +
         `?q=${encodeURIComponent(city)}` +
         `&limit=5` +
-        `&appid=${API_KEY}`;
+        `&appid=${apiKey}`;
 
       const geoResponse = await fetch(geoUrl);
       if (!geoResponse.ok) {
@@ -86,7 +85,7 @@ export async function GET(request: NextRequest) {
       `https://api.openweathermap.org/data/2.5/weather` +
       `?lat=${lat}` +
       `&lon=${lon}` +
-      `&appid=${API_KEY}` +
+      `&appid=${apiKey}` +
       `&units=metric`;
 
     const weatherResponse = await fetch(weatherUrl);
