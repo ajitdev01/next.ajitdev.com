@@ -98,9 +98,27 @@ export async function GET(request: NextRequest) {
 
     const weather = await weatherResponse.json();
 
+    // Step 3: Fetch 5-day / 3-hour forecast
+    let forecast = null;
+    try {
+      const forecastUrl =
+        `https://api.openweathermap.org/data/2.5/forecast` +
+        `?lat=${lat}` +
+        `&lon=${lon}` +
+        `&appid=${apiKey}` +
+        `&units=metric`;
+      const forecastRes = await fetch(forecastUrl);
+      if (forecastRes.ok) {
+        forecast = await forecastRes.json();
+      }
+    } catch {
+      // Non-blocking fallback
+    }
+
     return NextResponse.json({
       locations,
       weather,
+      forecast,
     });
   } catch (err) {
     console.error("[/api/weather] Error:", err);
