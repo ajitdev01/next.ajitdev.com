@@ -83,8 +83,8 @@ export async function POST(request: Request) {
       ];
     }
 
-    // Try primary models: gemini-flash-latest, gemini-3.6-flash, gemini-2.5-flash
-    const candidateModels = ["gemini-flash-latest", "gemini-3.6-flash", "gemini-2.5-flash"];
+    // Try primary models: gemini-2.5-flash first (best free-tier: 1500 RPD), then fallbacks
+    const candidateModels = ["gemini-2.5-flash", "gemini-2.0-flash"];
     let replyText: string | null = null;
     let lastError: any = null;
 
