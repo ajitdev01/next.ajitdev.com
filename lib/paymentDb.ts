@@ -161,3 +161,33 @@ export async function markPaymentFailed(data: {
     return { success: false, error: errorMsg };
   }
 }
+
+/**
+ * Retrieve recent payment records from MongoDB Atlas (latest first)
+ */
+export async function getAllPayments(limit = 50): Promise<PaymentRecord[]> {
+  try {
+    if (!process.env.DATABASE_MONGODB_URI) {
+      return [];
+    }
+
+    const client = await getMongoClient();
+    const db = client.db("ajitdev");
+    const collection = db.collection<PaymentRecord>("payments");
+
+    const records = await collection
+      .find({})
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .toArray();
+
+    return records.map((doc) => ({
+      ...doc,
+      _id: doc._id?.toString(),
+    }));
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : "Failed to fetch payments";
+    console.error("Failed to retrieve payments from MongoDB:", errorMsg);
+    return [];
+  }
+}

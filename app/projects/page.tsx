@@ -21,6 +21,7 @@ import {
   ShoppingBag,
   CloudSun,
   Bot,
+  CreditCard,
 } from "lucide-react";
 
 const TAG_ICONS: Record<string, React.ReactNode> = {
@@ -32,11 +33,13 @@ const TAG_ICONS: Record<string, React.ReactNode> = {
   "Developer Tools": <Code2 className="h-3.5 w-3.5" />,
   Playground: <Compass className="h-3.5 w-3.5" />,
   Solutions: <Globe className="h-3.5 w-3.5" />,
+  "Payments": <CreditCard className="h-3.5 w-3.5" />,
   Discovery: <Zap className="h-3.5 w-3.5" />,
   Education: <FileText className="h-3.5 w-3.5" />,
 };
 
 const TAG_COLORS: Record<string, { bg: string; text: string; border: string; dot: string }> = {
+  "Payments": { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200", dot: "bg-emerald-500" },
   "AI Assistant": { bg: "bg-indigo-50", text: "text-indigo-700", border: "border-indigo-200", dot: "bg-indigo-500" },
   "E-Commerce": { bg: "bg-rose-50", text: "text-rose-700", border: "border-rose-200", dot: "bg-rose-500" },
   Weather: { bg: "bg-sky-50", text: "text-sky-700", border: "border-sky-200", dot: "bg-sky-500" },
@@ -61,6 +64,18 @@ const PROJECTS = [
     featured: true,
     tech: ["Next.js 16", "@google/genai", "Gemini Flash", "TypeScript", "Tailwind CSS"],
     details: "Server-side Google GenAI SDK integration with multi-model resilience, real-time system prompt grounding, and interactive drawer UI.",
+  },
+  {
+    title: "Razorpay Direct Payment",
+    subtitle: "Production Payment Gateway",
+    description: "Production-ready Razorpay payment integration with custom amount selection, server-side order generation, cryptographic HMAC-SHA256 signature verification, MongoDB Atlas persistence, and digital receipt printing.",
+    href: "/payments/test",
+    tag: "Payments",
+    badge: "Live on next.ajitdev.com",
+    external: false,
+    featured: true,
+    tech: ["Next.js 16", "Razorpay SDK", "HMAC SHA256", "MongoDB Atlas", "TypeScript", "Tailwind CSS"],
+    details: "Server-side order creation, 256-bit SSL encryption, instant cryptographic signature verification, and printable digital receipts.",
   },
   {
     title: "E-comm Store",
