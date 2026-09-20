@@ -38,6 +38,10 @@ export async function GET() {
     const keyId = cleanEnv(process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID);
     const keySecret = cleanEnv(process.env.RAZORPAY_KEY_SECRET);
 
+    console.log(
+      `[Razorpay List Diagnostics] RAZORPAY_KEY_ID exists: ${Boolean(keyId)}, RAZORPAY_KEY_SECRET exists: ${Boolean(keySecret)}`
+    );
+
     // 1. Fetch from MongoDB
     const dbPayments = await getAllPayments(50);
 

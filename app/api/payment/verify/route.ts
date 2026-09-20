@@ -20,12 +20,16 @@ export async function POST(req: NextRequest) {
   try {
     const keySecret = cleanEnv(process.env.RAZORPAY_KEY_SECRET);
 
+    console.log(
+      `[Razorpay Verify Diagnostics] RAZORPAY_KEY_SECRET exists: ${Boolean(keySecret)}`
+    );
+
     if (!keySecret) {
       console.error("Razorpay Error: RAZORPAY_KEY_SECRET is not configured on server.");
       return NextResponse.json(
         {
           success: false,
-          message: "Payment gateway configuration error. Please contact support.",
+          message: "Payment gateway configuration error. Please configure RAZORPAY_KEY_SECRET in Vercel.",
         },
         { status: 500 }
       );

@@ -25,13 +25,19 @@ export async function POST(req: NextRequest) {
     const keyId = cleanEnv(process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID);
     const keySecret = cleanEnv(process.env.RAZORPAY_KEY_SECRET);
 
+    console.log(
+      `[Razorpay Server Diagnostics] RAZORPAY_KEY_ID exists: ${Boolean(keyId)}, RAZORPAY_KEY_SECRET exists: ${Boolean(keySecret)}`
+    );
+
     // 1. Verify Razorpay credentials exist on the server
     if (!keyId || !keySecret) {
-      console.error("Razorpay Error: Missing RAZORPAY_KEY_ID or RAZORPAY_KEY_SECRET in environment variables.");
+      console.error(
+        `Razorpay Error: Missing credentials. KEY_ID: ${Boolean(keyId)}, KEY_SECRET: ${Boolean(keySecret)}`
+      );
       return NextResponse.json(
         {
           success: false,
-          message: "Payment gateway is currently not configured. Please contact support.",
+          message: "Payment gateway is currently not configured. Please configure environment variables in Vercel.",
         },
         { status: 500 }
       );
