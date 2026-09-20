@@ -109,3 +109,53 @@ html {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Print Optimization: Print ONLY the payment receipt */
+@media print {
+  @page {
+    margin: 1cm;
+    size: auto;
+  }
+  html,
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+  header,
+  footer,
+  nav,
+  aside,
+  #gtm-script,
+  .no-print {
+    display: none !important;
+    visibility: hidden !important;
+  }
+  body * {
+    visibility: hidden;
+  }
+  #payment-receipt-printable,
+  #payment-receipt-printable * {
+    visibility: visible !important;
+  }
+  #payment-receipt-printable {
+    position: absolute !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    max-width: 580px !important;
+    margin: 0 auto !important;
+    padding: 24px !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 16px !important;
+    background: #ffffff !important;
+    box-shadow: none !important;
+  }
+  #payment-receipt-printable .no-print,
+  #payment-receipt-printable .no-print * {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
