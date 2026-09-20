@@ -119,7 +119,7 @@ export default function TestPaymentsHistoryPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-slate-50 text-slate-900 selection:bg-slate-950 selection:text-white">
+    <div className="relative min-h-screen bg-slate-50 text-slate-900 selection:bg-slate-950 selection:text-white w-full max-w-full overflow-x-hidden">
       {/* Background Decorative Grid */}
       <div
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.035]"
@@ -130,41 +130,43 @@ export default function TestPaymentsHistoryPage() {
         }}
       />
 
-      <main className="mx-auto max-w-7xl px-4 pt-8 pb-20 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-7xl px-3.5 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-20 w-full max-w-full overflow-x-hidden">
         {/* Navigation & Breadcrumbs */}
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <Breadcrumbs
-            items={[
-              { name: "Home", url: "/" },
-              { name: "Payments", url: "/payments/self" },
-              { name: "Test Payments", url: "/payments/test" },
-              { name: "Payment History", url: "/payments/testlist" },
-            ]}
-          />
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 w-full">
+          <div className="overflow-x-auto scrollbar-hide py-0.5 max-w-full">
+            <Breadcrumbs
+              items={[
+                { name: "Home", url: "/" },
+                { name: "Payments", url: "/payments/self" },
+                { name: "Test Payments", url: "/payments/test" },
+                { name: "Payment History", url: "/payments/testlist" },
+              ]}
+            />
+          </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <Link
               href="/payments/test"
-              className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-2xs hover:bg-slate-50 transition active:scale-95"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 shadow-2xs hover:bg-slate-50 transition active:scale-95 whitespace-nowrap"
             >
-              <History className="h-3.5 w-3.5" />
-              <span>Test Payment System</span>
+              <History className="h-3.5 w-3.5 shrink-0" />
+              <span>Test System</span>
             </Link>
             <Link
               href="/payments/self"
-              className="inline-flex items-center gap-1.5 rounded-xl bg-slate-950 px-3.5 py-2 text-xs font-semibold text-white shadow-xs hover:bg-slate-800 transition active:scale-95"
+              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 rounded-xl bg-slate-950 px-3 py-2 text-xs font-semibold text-white shadow-xs hover:bg-slate-800 transition active:scale-95 whitespace-nowrap"
             >
-              <Plus className="h-3.5 w-3.5" />
-              <span>Make New Payment</span>
+              <Plus className="h-3.5 w-3.5 shrink-0" />
+              <span>New Payment</span>
             </Link>
           </div>
         </div>
 
         {/* Hero Header */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3.5">
-              <div className="relative flex h-13 w-13 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-300/80 bg-slate-950 shadow-md shadow-slate-900/10">
+            <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
+              <div className="relative flex h-11 w-11 sm:h-13 sm:w-13 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-slate-300/80 bg-slate-950 shadow-md shadow-slate-900/10">
                 <Image
                   src="/logo.png"
                   alt="AJITDEV Metallic Logo"
@@ -174,18 +176,18 @@ export default function TestPaymentsHistoryPage() {
                   priority
                 />
               </div>
-              <div>
-                <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/80 px-2.5 py-0.5 text-[11px] font-semibold text-slate-700 shadow-2xs mb-1">
+              <div className="min-w-0">
+                <div className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-white/80 px-2.5 py-0.5 text-[10px] sm:text-[11px] font-semibold text-slate-700 shadow-2xs mb-0.5 sm:mb-1">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
                   </span>
                   <span>Payment History & Activity</span>
                 </div>
-                <h1 className="text-2xl sm:text-3xl font-black text-slate-950 tracking-tight">
+                <h1 className="text-xl sm:text-3xl font-black text-slate-950 tracking-tight truncate">
                   All Payments History
                 </h1>
-                <p className="text-xs sm:text-sm text-slate-500">
+                <p className="text-xs sm:text-sm text-slate-500 line-clamp-2 sm:line-clamp-none">
                   Comprehensive history of transactions recorded from Razorpay Gateway & MongoDB Atlas.
                 </p>
               </div>
@@ -195,7 +197,7 @@ export default function TestPaymentsHistoryPage() {
               type="button"
               onClick={fetchPayments}
               disabled={loading}
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition shadow-2xs cursor-pointer self-start sm:self-center"
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition shadow-2xs cursor-pointer self-start sm:self-center shrink-0"
             >
               <RefreshCw className={`h-3.5 w-3.5 text-slate-500 ${loading ? "animate-spin" : ""}`} />
               <span>Refresh Records</span>
@@ -203,90 +205,92 @@ export default function TestPaymentsHistoryPage() {
           </div>
 
           {/* Stats Bar */}
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-            <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+          <div className="mt-5 sm:mt-6 grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-3 sm:p-4 shadow-xs min-w-0">
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1 truncate">
                 Total Volume
               </span>
-              <p className="text-xl sm:text-2xl font-black text-slate-950 flex items-center gap-0.5">
-                <span className="text-sm font-semibold text-slate-400">₹</span>
+              <p className="text-lg sm:text-2xl font-black text-slate-950 flex items-center gap-0.5 truncate">
+                <span className="text-xs sm:text-sm font-semibold text-slate-400">₹</span>
                 {totalVolume.toLocaleString("en-IN")}
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-3 sm:p-4 shadow-xs min-w-0">
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1 truncate">
                 Total Transactions
               </span>
-              <p className="text-xl sm:text-2xl font-black text-slate-950">
+              <p className="text-lg sm:text-2xl font-black text-slate-950 truncate">
                 {payments.length}
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
-                Verified Success Rate
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-3 sm:p-4 shadow-xs min-w-0">
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1 truncate">
+                Verified Rate
               </span>
-              <p className="text-xl sm:text-2xl font-black text-emerald-600">
+              <p className="text-lg sm:text-2xl font-black text-emerald-600 truncate">
                 {successRate}%
               </p>
             </div>
 
-            <div className="rounded-2xl border border-slate-200/80 bg-white p-4 shadow-xs">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-3 sm:p-4 shadow-xs min-w-0">
+              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-1 truncate">
                 Gateway Mode
               </span>
-              <div className="flex items-center gap-1.5 mt-1">
-                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs font-bold text-slate-800">Razorpay Active</span>
+              <div className="flex items-center gap-1.5 mt-1 min-w-0">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                <span className="text-xs font-bold text-slate-800 truncate">Razorpay Active</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Filter and Search Bar */}
-        <div className="mb-6 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
-          {/* Status Tabs */}
-          <div className="flex items-center gap-1.5 overflow-x-auto p-1 rounded-xl bg-slate-200/70 border border-slate-200 w-fit">
-            {[
-              { id: "all", label: "All Records", count: payments.length },
-              { id: "success", label: "Success", count: successfulCount },
-              {
-                id: "created",
-                label: "Created / Pending",
-                count: payments.filter((p) => p.status === "created").length,
-              },
-              {
-                id: "failed",
-                label: "Failed",
-                count: payments.filter((p) => p.status === "failed").length,
-              },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => setFilter(tab.id as typeof filter)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition active:scale-95 cursor-pointer whitespace-nowrap ${
-                  filter === tab.id
-                    ? "bg-white text-slate-950 shadow-xs"
-                    : "text-slate-600 hover:text-slate-950 hover:bg-slate-100/60"
-                }`}
-              >
-                <span>{tab.label}</span>
-                <span className="ml-1.5 text-[10px] opacity-60">({tab.count})</span>
-              </button>
-            ))}
+        <div className="mb-6 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between w-full max-w-full">
+          {/* Status Tabs with smooth scroll */}
+          <div className="w-full sm:w-auto max-w-full overflow-x-auto scrollbar-hide py-0.5">
+            <div className="inline-flex items-center gap-1 sm:gap-1.5 p-1 rounded-xl bg-slate-200/70 border border-slate-200 min-w-max">
+              {[
+                { id: "all", label: "All Records", count: payments.length },
+                { id: "success", label: "Success", count: successfulCount },
+                {
+                  id: "created",
+                  label: "Created / Pending",
+                  count: payments.filter((p) => p.status === "created").length,
+                },
+                {
+                  id: "failed",
+                  label: "Failed",
+                  count: payments.filter((p) => p.status === "failed").length,
+                },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setFilter(tab.id as typeof filter)}
+                  className={`rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-semibold transition active:scale-95 cursor-pointer whitespace-nowrap ${
+                    filter === tab.id
+                      ? "bg-white text-slate-950 shadow-xs"
+                      : "text-slate-600 hover:text-slate-950 hover:bg-slate-100/60"
+                  }`}
+                >
+                  <span>{tab.label}</span>
+                  <span className="ml-1 text-[10px] opacity-60">({tab.count})</span>
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Search Input */}
-          <div className="relative w-full sm:w-72">
+          <div className="relative w-full sm:w-72 shrink-0">
             <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
             <input
               type="text"
               placeholder="Search ID, email, amount..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-xs text-slate-800 placeholder:text-slate-400 focus:border-slate-950 focus:outline-none focus:ring-1 focus:ring-slate-950 shadow-2xs"
+              className="w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-8 text-xs text-slate-800 placeholder:text-slate-400 focus:border-slate-950 focus:outline-none focus:ring-1 focus:ring-slate-950 shadow-2xs"
             />
             {search && (
               <button
@@ -294,7 +298,7 @@ export default function TestPaymentsHistoryPage() {
                 onClick={() => setSearch("")}
                 className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 cursor-pointer"
               >
-                <X className="h-3 w-3" />
+                <X className="h-3.5 w-3.5" />
               </button>
             )}
           </div>
