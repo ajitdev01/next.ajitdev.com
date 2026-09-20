@@ -315,7 +315,7 @@ export default function PaymentForm() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.3 }}
-            className="rounded-3xl border border-emerald-200/90 bg-white p-6 sm:p-8 shadow-xl shadow-emerald-500/5 relative overflow-hidden"
+            className="rounded-3xl border border-emerald-200/90 bg-white p-4 sm:p-8 shadow-xl shadow-emerald-500/5 relative overflow-hidden w-full max-w-full min-w-0"
           >
             {/* Top decorative gradient bar (hidden on print) */}
             <div className="no-print absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" />
@@ -455,7 +455,7 @@ export default function PaymentForm() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.25 }}
-            className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-xl shadow-slate-200/40 relative overflow-hidden"
+            className="rounded-3xl border border-slate-200/80 bg-white p-4 sm:p-8 shadow-xl shadow-slate-200/40 relative overflow-hidden w-full max-w-full min-w-0"
           >
             {/* Top subtle highlight */}
             <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600" />

@@ -58,7 +58,7 @@ const TEST_CREDENTIALS = [
 
 export default function TestPaymentsSandboxPage() {
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 selection:bg-slate-950 selection:text-white">
+    <div className="relative min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 text-slate-900 selection:bg-slate-950 selection:text-white w-full max-w-full overflow-x-hidden">
       {/* Preload Razorpay Checkout */}
       <Script
         src="https://checkout.razorpay.com/v1/checkout.js"
@@ -76,24 +76,26 @@ export default function TestPaymentsSandboxPage() {
         }}
       />
 
-      <main className="mx-auto max-w-5xl px-4 pt-8 pb-16 sm:px-6 lg:px-8">
+      <main className="mx-auto max-w-5xl px-3.5 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-16 w-full max-w-full overflow-x-hidden">
         {/* Navigation & Breadcrumbs */}
-        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <Breadcrumbs
-            items={[
-              { name: "Home", url: "/" },
-              { name: "Payments", url: "/payments/self" },
-              { name: "Test Payment System", url: "/payments/test" },
-            ]}
-          />
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 w-full">
+          <div className="overflow-x-auto scrollbar-hide py-0.5 max-w-full">
+            <Breadcrumbs
+              items={[
+                { name: "Home", url: "/" },
+                { name: "Payments", url: "/payments/self" },
+                { name: "Test Payment System", url: "/payments/test" },
+              ]}
+            />
+          </div>
 
           <Link
             href="/payments/testlist"
-            className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-800 shadow-2xs hover:bg-slate-50 transition active:scale-95 w-fit"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-800 shadow-2xs hover:bg-slate-50 transition active:scale-95 w-full sm:w-fit"
           >
-            <History className="h-3.5 w-3.5 text-blue-600" />
+            <History className="h-3.5 w-3.5 text-blue-600 shrink-0" />
             <span>View All Payment History</span>
-            <ArrowRight className="h-3 w-3 text-slate-400" />
+            <ArrowRight className="h-3 w-3 text-slate-400 shrink-0" />
           </Link>
         </div>
 
