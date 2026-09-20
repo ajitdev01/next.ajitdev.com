@@ -644,9 +644,9 @@ export default function PaymentForm() {
               </div>
 
               {/* Supported payment channels */}
-              <div className="flex items-center justify-between px-1 py-1 text-[11px] text-slate-500">
+              <div className="flex flex-wrap items-center justify-between gap-2 px-1 py-1 text-[11px] text-slate-500">
                 <span className="font-medium text-slate-600">Supported:</span>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                   <span className="inline-flex items-center gap-1">
                     <Smartphone className="h-3 w-3 text-slate-400" /> UPI / QR
                   </span>

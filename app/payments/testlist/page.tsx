@@ -377,30 +377,30 @@ export default function TestPaymentsHistoryPage() {
               return (
                 <div
                   key={item.id}
-                  className="group relative flex flex-col justify-between rounded-3xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-sm hover:shadow-md transition-all duration-200 hover:border-slate-300"
+                  className="group relative flex flex-col justify-between rounded-3xl border border-slate-200/90 bg-white p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-200 hover:border-slate-300 min-w-0 overflow-hidden"
                 >
                   {/* Top status & method row */}
                   <div>
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-between gap-2 mb-3 sm:mb-4">
                       {/* Method chip */}
-                      <div className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700">
+                      <div className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-2 sm:px-2.5 py-0.5 sm:py-1 text-[11px] sm:text-xs font-medium text-slate-700 min-w-0">
                         {getMethodIcon(item.method)}
-                        <span className="capitalize">{item.method || "Razorpay Gateway"}</span>
+                        <span className="capitalize truncate">{item.method || "Razorpay"}</span>
                       </div>
 
                       {/* Status pill */}
                       {isSuccess ? (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 text-[11px] font-bold text-emerald-700">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 sm:px-2.5 py-0.5 text-[10px] sm:text-[11px] font-bold text-emerald-700 shrink-0">
                           <CheckCircle2 className="h-3 w-3 text-emerald-600" />
                           <span>PAID</span>
                         </span>
                       ) : isFailed ? (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 border border-rose-200 px-2.5 py-0.5 text-[11px] font-bold text-rose-700">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-rose-50 border border-rose-200 px-2 sm:px-2.5 py-0.5 text-[10px] sm:text-[11px] font-bold text-rose-700 shrink-0">
                           <AlertCircle className="h-3 w-3 text-rose-600" />
                           <span>FAILED</span>
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 border border-amber-200 px-2.5 py-0.5 text-[11px] font-bold text-amber-700">
+                        <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 border border-amber-200 px-2 sm:px-2.5 py-0.5 text-[10px] sm:text-[11px] font-bold text-amber-700 shrink-0">
                           <Clock className="h-3 w-3 text-amber-600" />
                           <span>CREATED</span>
                         </span>
@@ -408,31 +408,31 @@ export default function TestPaymentsHistoryPage() {
                     </div>
 
                     {/* Amount */}
-                    <div className="mb-4">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
+                    <div className="mb-3 sm:mb-4">
+                      <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
                         Amount
                       </span>
-                      <div className="text-2xl sm:text-3xl font-black text-slate-950 flex items-center gap-1">
-                        <span className="text-lg text-slate-400">₹</span>
-                        <span>{item.amount.toLocaleString("en-IN")}</span>
-                        <span className="text-[11px] font-semibold text-slate-400 ml-1">
+                      <div className="text-2xl sm:text-3xl font-black text-slate-950 flex items-center gap-1 truncate">
+                        <span className="text-base sm:text-lg text-slate-400">₹</span>
+                        <span className="truncate">{item.amount.toLocaleString("en-IN")}</span>
+                        <span className="text-[10px] sm:text-[11px] font-semibold text-slate-400 ml-1 shrink-0">
                           {item.currency}
                         </span>
                       </div>
                     </div>
 
                     {/* Transaction Details Box */}
-                    <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3.5 space-y-2 text-xs text-slate-600">
+                    <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-3 sm:p-3.5 space-y-2 text-xs text-slate-600 overflow-hidden min-w-0">
                       {/* Payment ID */}
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-[11px] text-slate-400">Payment ID</span>
-                        <div className="flex items-center gap-1 font-mono font-semibold text-slate-800">
-                          <span className="truncate max-w-[130px]">{item.id}</span>
+                      <div className="flex items-center justify-between gap-2 min-w-0">
+                        <span className="text-[11px] text-slate-400 shrink-0">Payment ID</span>
+                        <div className="flex items-center gap-1 font-mono font-semibold text-slate-800 min-w-0">
+                          <span className="truncate max-w-[115px] sm:max-w-[150px]">{item.id}</span>
                           <button
                             type="button"
                             onClick={() => handleCopy(item.id, `pay-${item.id}`)}
                             title="Copy Payment ID"
-                            className="p-1 hover:bg-slate-200 rounded transition text-slate-400 hover:text-slate-700 cursor-pointer"
+                            className="p-1 hover:bg-slate-200 rounded transition text-slate-400 hover:text-slate-700 cursor-pointer shrink-0"
                           >
                             {copiedId === `pay-${item.id}` ? (
                               <Check className="h-3 w-3 text-emerald-600" />
@@ -445,15 +445,15 @@ export default function TestPaymentsHistoryPage() {
 
                       {/* Order ID */}
                       {item.orderId && (
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-[11px] text-slate-400">Order ID</span>
-                          <div className="flex items-center gap-1 font-mono text-slate-700">
-                            <span className="truncate max-w-[130px]">{item.orderId}</span>
+                        <div className="flex items-center justify-between gap-2 min-w-0">
+                          <span className="text-[11px] text-slate-400 shrink-0">Order ID</span>
+                          <div className="flex items-center gap-1 font-mono text-slate-700 min-w-0">
+                            <span className="truncate max-w-[115px] sm:max-w-[150px]">{item.orderId}</span>
                             <button
                               type="button"
                               onClick={() => handleCopy(item.orderId!, `ord-${item.orderId}`)}
                               title="Copy Order ID"
-                              className="p-1 hover:bg-slate-200 rounded transition text-slate-400 hover:text-slate-700 cursor-pointer"
+                              className="p-1 hover:bg-slate-200 rounded transition text-slate-400 hover:text-slate-700 cursor-pointer shrink-0"
                             >
                               {copiedId === `ord-${item.orderId}` ? (
                                 <Check className="h-3 w-3 text-emerald-600" />
@@ -467,9 +467,9 @@ export default function TestPaymentsHistoryPage() {
 
                       {/* Customer / Email */}
                       {(item.email || customerName !== "Customer") && (
-                        <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-200/50">
-                          <span className="text-[11px] text-slate-400">Payer</span>
-                          <span className="font-medium text-slate-800 truncate max-w-[150px]">
+                        <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-200/50 min-w-0">
+                          <span className="text-[11px] text-slate-400 shrink-0">Payer</span>
+                          <span className="font-medium text-slate-800 truncate max-w-[130px] sm:max-w-[170px] text-right">
                             {customerName !== "Customer" ? customerName : item.email}
                           </span>
                         </div>
@@ -477,9 +477,9 @@ export default function TestPaymentsHistoryPage() {
 
                       {/* Phone */}
                       {item.contact && (
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-[11px] text-slate-400">Phone</span>
-                          <span className="text-slate-700 font-mono text-[11px]">
+                        <div className="flex items-center justify-between gap-2 min-w-0">
+                          <span className="text-[11px] text-slate-400 shrink-0">Phone</span>
+                          <span className="text-slate-700 font-mono text-[11px] truncate">
                             {item.contact}
                           </span>
                         </div>
@@ -487,33 +487,33 @@ export default function TestPaymentsHistoryPage() {
 
                       {/* Purpose */}
                       {purpose && (
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-[11px] text-slate-400">Purpose</span>
-                          <span className="text-slate-700 truncate max-w-[150px]">
+                        <div className="flex items-center justify-between gap-2 min-w-0">
+                          <span className="text-[11px] text-slate-400 shrink-0">Purpose</span>
+                          <span className="text-slate-700 truncate max-w-[130px] sm:max-w-[170px] text-right">
                             {purpose}
                           </span>
                         </div>
                       )}
 
                       {/* Date */}
-                      <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-200/50 text-[11px]">
-                        <span className="text-slate-400">Date</span>
-                        <span className="text-slate-700">{formattedDate}</span>
+                      <div className="flex items-center justify-between gap-2 pt-1 border-t border-slate-200/50 text-[11px] min-w-0">
+                        <span className="text-slate-400 shrink-0">Date</span>
+                        <span className="text-slate-700 truncate text-right">{formattedDate}</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Card Bottom: Actions */}
-                  <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between">
-                    <div className="flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
-                      <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+                  <div className="mt-4 sm:mt-5 pt-3 sm:pt-3.5 border-t border-slate-100 flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-1 text-[10px] sm:text-[11px] font-semibold text-emerald-700 truncate">
+                      <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
                       <span>HMAC-SHA256</span>
                     </div>
 
                     <button
                       type="button"
                       onClick={() => setActiveReceipt(item)}
-                      className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition shadow-2xs cursor-pointer group-hover:border-slate-300"
+                      className="inline-flex items-center gap-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition shadow-2xs cursor-pointer group-hover:border-slate-300 shrink-0"
                     >
                       <Receipt className="h-3.5 w-3.5 text-slate-500" />
                       <span>View Receipt</span>
@@ -527,10 +527,10 @@ export default function TestPaymentsHistoryPage() {
 
         {/* ── MODAL: VIEW & PRINT INDIVIDUAL RECEIPT ─────────────────────────── */}
         {activeReceipt && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/60 backdrop-blur-xs overflow-y-auto">
             <div
               id="payment-receipt-printable"
-              className="relative w-full max-w-lg rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-2xl overflow-hidden"
+              className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-3xl border border-slate-200 bg-white p-5 sm:p-8 shadow-2xl"
             >
               {/* Close Button (no-print) */}
               <button
