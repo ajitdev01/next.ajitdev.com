@@ -107,8 +107,8 @@ export default function Footer({
         <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
           {/* Brand */}
           <Link
-            href="/"
-            aria-label="AJIT and AVNI Home"
+            href="https://github.com/nilamdev01"
+            aria-label="AJIT and NILAM Home"
             className="group inline-flex items-center gap-2 rounded-full py-1 transition-transform duration-200 hover:scale-[1.03] active:scale-95 focus:outline-none"
           >
             <span
@@ -136,7 +136,7 @@ export default function Footer({
                   : "bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 bg-clip-text text-transparent group-hover:from-rose-900 group-hover:to-slate-950"
               }`}
             >
-              AVNI
+              NILAM
             </span>
           </Link>
 
