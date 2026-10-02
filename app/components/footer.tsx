@@ -104,62 +104,57 @@ export default function Footer({
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
 
         {/* Top row: brand + social icons */}
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-          {/* Brand */}
-          <Link
-            href="https://github.com/nilamdev01"
-            aria-label="AJIT and NILAM Home"
-            className="group inline-flex items-center gap-2 rounded-full py-1 transition-transform duration-200 hover:scale-[1.03] active:scale-95 focus:outline-none"
-          >
-            <span
-              className={`${playfair.className} text-base sm:text-lg font-bold tracking-[0.2em] uppercase transition-all duration-300 ${
-                isDark
-                  ? "bg-gradient-to-r from-slate-100 via-white to-slate-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-rose-200"
-                  : "bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent group-hover:from-slate-950 group-hover:to-rose-900"
-              }`}
-            >
-              AJIT
-            </span>
+       <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+  {/* Brand */}
+  <Link
+    href="https://github.com/ajitdev01"
+    aria-label="Powered by AJIT"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group inline-flex items-center gap-2 rounded-full py-1 transition-transform duration-200 hover:scale-[1.03] active:scale-95 focus:outline-none"
+  >
+    <span
+      className={`${playfair.className} text-xs sm:text-sm font-semibold tracking-[0.18em] uppercase transition-all duration-300 ${
+        isDark
+          ? "bg-gradient-to-r from-slate-400 via-white to-slate-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-rose-200"
+          : "bg-gradient-to-r from-slate-600 via-slate-800 to-slate-700 bg-clip-text text-transparent group-hover:from-slate-950 group-hover:to-rose-900"
+      }`}
+    >
+      Powered by
+    </span>
 
-            <span className="relative flex items-center justify-center">
-              <Heart
-                className="h-4 w-4 fill-rose-500 text-rose-500 transition-all duration-300 group-hover:scale-125 group-hover:rotate-12 drop-shadow-[0_2px_8px_rgba(244,63,94,0.45)]"
-                strokeWidth={0}
-              />
-              <span className="absolute inset-0 rounded-full bg-rose-500/30 blur-xs opacity-0 transition-opacity duration-300 group-hover:opacity-100 animate-ping pointer-events-none" />
-            </span>
+    <span
+      className={`${playfair.className} text-sm sm:text-base font-bold tracking-[0.2em] uppercase transition-all duration-300 ${
+        isDark
+          ? "bg-gradient-to-r from-slate-100 via-white to-slate-300 bg-clip-text text-transparent group-hover:from-rose-200 group-hover:to-white"
+          : "bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent group-hover:from-rose-900 group-hover:to-slate-950"
+      }`}
+    >
+      AJIT
+    </span>
+  </Link>
 
-            <span
-              className={`${playfair.className} text-base sm:text-lg font-bold tracking-[0.2em] uppercase transition-all duration-300 ${
-                isDark
-                  ? "bg-gradient-to-r from-slate-300 via-white to-slate-100 bg-clip-text text-transparent group-hover:from-rose-200 group-hover:to-white"
-                  : "bg-gradient-to-r from-slate-700 via-slate-800 to-slate-900 bg-clip-text text-transparent group-hover:from-rose-900 group-hover:to-slate-950"
-              }`}
-            >
-              NILAM
-            </span>
-          </Link>
+  {/* Social icons */}
+  <div className="flex items-center gap-1">
+    {SOCIAL_LINKS.map(({ href, label, icon }) => {
+      const isExternal = href.startsWith("http");
 
-          {/* Social icons */}
-          <div className="flex items-center gap-1">
-            {SOCIAL_LINKS.map(({ href, label, icon }) => {
-              const isExternal = href.startsWith("http");
-              return (
-                <a
-                  key={href}
-                  href={href}
-                  aria-label={label}
-                  {...(isExternal
-                    ? { target: "_blank", rel: "noopener noreferrer" }
-                    : {})}
-                  className={`inline-flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${iconBtnCls}`}
-                >
-                  {icon}
-                </a>
-              );
-            })}
-          </div>
-        </div>
+      return (
+        <a
+          key={href}
+          href={href}
+          aria-label={label}
+          {...(isExternal
+            ? { target: "_blank", rel: "noopener noreferrer" }
+            : {})}
+          className={`inline-flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${iconBtnCls}`}
+        >
+          {icon}
+        </a>
+      );
+    })}
+  </div>
+</div>
 
         {/* Divider */}
         <div className={`my-5 h-px w-full ${dotCls} opacity-60`} />
