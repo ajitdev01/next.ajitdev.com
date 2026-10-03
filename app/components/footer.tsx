@@ -106,34 +106,57 @@ export default function Footer({
         {/* Top row: brand + social icons */}
        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
   {/* Brand */}
-  <Link
-    href="https://github.com/ajitdev01"
-    aria-label="Powered by AJIT"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="group inline-flex items-center gap-2 rounded-full py-1 transition-transform duration-200 hover:scale-[1.03] active:scale-95 focus:outline-none"
+<Link
+  href="https://github.com/ajitdev01"
+  aria-label="Powered by AJIT and AVNI"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="group inline-flex items-center gap-2 rounded-full py-1 transition-all duration-300 hover:scale-[1.04] active:scale-95 focus:outline-none"
+>
+  <span
+    className={`${playfair.className} text-xs sm:text-sm font-semibold tracking-[0.18em] uppercase transition-all duration-500 ${
+      isDark
+        ? "bg-gradient-to-r from-slate-400 via-white to-slate-300 bg-clip-text text-transparent"
+        : "bg-gradient-to-r from-slate-600 via-slate-800 to-slate-700 bg-clip-text text-transparent"
+    }`}
   >
-    <span
-      className={`${playfair.className} text-xs sm:text-sm font-semibold tracking-[0.18em] uppercase transition-all duration-300 ${
-        isDark
-          ? "bg-gradient-to-r from-slate-400 via-white to-slate-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-rose-200"
-          : "bg-gradient-to-r from-slate-600 via-slate-800 to-slate-700 bg-clip-text text-transparent group-hover:from-slate-950 group-hover:to-rose-900"
-      }`}
-    >
-      Powered by
-    </span>
+    Powered by
+  </span>
 
-    <span
-      className={`${playfair.className} text-sm sm:text-base font-bold tracking-[0.2em] uppercase transition-all duration-300 ${
-        isDark
-          ? "bg-gradient-to-r from-slate-100 via-white to-slate-300 bg-clip-text text-transparent group-hover:from-rose-200 group-hover:to-white"
-          : "bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent group-hover:from-rose-900 group-hover:to-slate-950"
-      }`}
-    >
-      AJIT
-    </span>
-  </Link>
+  {/* AJIT */}
+  <span
+    className={`${playfair.className} text-sm sm:text-base font-bold tracking-[0.2em] uppercase transition-all duration-500 ${
+      isDark
+        ? "bg-gradient-to-r from-slate-100 via-white to-slate-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-rose-200"
+        : "bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent group-hover:from-slate-950 group-hover:to-rose-900"
+    }`}
+  >
+    AJIT
+  </span>
 
+  {/* Heart */}
+  <span
+    className="relative inline-flex items-center justify-center text-sm sm:text-base
+               animate-[heartbeat_1.6s_ease-in-out_infinite]
+               group-hover:animate-[heartbeat_0.8s_ease-in-out_infinite]"
+  >
+    <span className="absolute inset-0 scale-75 rounded-full bg-rose-500/20 blur-md animate-pulse" />
+    <span className="relative transition-transform duration-300 group-hover:scale-125">
+      ❤️
+    </span>
+  </span>
+
+  {/* AVNI */}
+  <span
+    className={`${playfair.className} text-sm sm:text-base font-bold tracking-[0.2em] uppercase transition-all duration-500 ${
+      isDark
+        ? "bg-gradient-to-r from-rose-200 via-white to-slate-200 bg-clip-text text-transparent group-hover:from-rose-300 group-hover:to-white"
+        : "bg-gradient-to-r from-rose-700 via-rose-900 to-slate-800 bg-clip-text text-transparent group-hover:from-rose-800 group-hover:to-slate-950"
+    }`}
+  >
+    AVNI
+  </span>
+</Link>
   {/* Social icons */}
   <div className="flex items-center gap-1">
     {SOCIAL_LINKS.map(({ href, label, icon }) => {
