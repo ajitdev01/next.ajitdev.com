@@ -16,7 +16,8 @@ export const onRequestError: Instrumentation.onRequestError = async (
         $exception_stack_trace: err instanceof Error ? err.stack : undefined,
         path: request.path,
         method: request.method,
-        routerType: context.routerType,
+        routerKind: context.routerKind,
+        routePath: context.routePath,
         routeType: context.routeType,
       },
     });
