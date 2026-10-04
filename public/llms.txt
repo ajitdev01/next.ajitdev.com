@@ -14,6 +14,7 @@ This is a Next.js 16 developer hub built and maintained by Ajit Dev (ajitdev01).
 
 ## Live Apps
 
+- [Currency Converter](https://next.ajitdev.com/currency): Real-time European Central Bank (ECB) forex currency converter with historical timeseries SVG charts & parity matrix
 - [E-comm Store](https://next.ajitdev.com/store): Next.js & Redux Toolkit modern e-commerce storefront with cart & confetti checkout
 - [Weather App](https://next.ajitdev.com/weather): Live OpenWeatherMap meteorological telemetry and geocoding city search
 - [Todo App](https://next.ajitdev.com/todo): Local-first task manager — no backend, full data sovereignty

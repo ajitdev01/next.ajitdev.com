@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import StoreClient from "./store-client";
 import Footer from "@/app/components/footer";
 import ReduxProvider from "@/lib/store/provider";
@@ -21,6 +22,11 @@ export default async function StorePage() {
 
   return (
     <ReduxProvider>
+      <Script
+        src="https://checkout.razorpay.com/v1/checkout.js"
+        strategy="afterInteractive"
+        id="razorpay-checkout-script"
+      />
       <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-slate-900 selection:text-white antialiased">
         <StoreClient initialProducts={products} />
 

@@ -3,12 +3,13 @@
 </div>
 
 <h1 align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=4ECDC4&center=true&vCenter=true&width=950&lines=Next.js+16+App+Router+%7C+React+19+%7C+TypeScript+5;Razorpay+Production+Payment+Gateway+%7C+HMAC-SHA256;E-Commerce+Store+%7C+Redux+Toolkit+%7C+Radix+UI;Google+Gemini+Cloud+Assistant+%7C+Official+GenAI+SDK;Build+Fast.+Build+Secure.+Build+Scalable." alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=4ECDC4&center=true&vCenter=true&width=950&lines=Next.js+16+App+Router+%7C+React+19+%7C+TypeScript+5;Razorpay+Production+Payment+Gateway+%7C+HMAC-SHA256;Global+Currency+Converter+%7C+ECB+Forex+%7C+SVG+Charts;E-Commerce+Store+%7C+Redux+Toolkit+%7C+Radix+UI;Google+Gemini+Cloud+Assistant+%7C+Official+GenAI+SDK;Build+Fast.+Build+Secure.+Build+Scalable." alt="Typing SVG" />
 </h1>
 
 <p align="center">
   <a href="https://next.ajitdev.com"><img src="https://img.shields.io/badge/Production-next.ajitdev.com-000000?style=for-the-badge&logo=vercel&logoColor=white" /></a>
   <a href="https://next.ajitdev.com/payments/self"><img src="https://img.shields.io/badge/Razorpay-Live_Payments-0C2340?style=for-the-badge&logo=razorpay&logoColor=white" /></a>
+  <a href="https://next.ajitdev.com/currency"><img src="https://img.shields.io/badge/Forex-ECB_Rates-F59E0B?style=for-the-badge&logo=cashapp&logoColor=white" /></a>
   <img src="https://img.shields.io/badge/Next.js-16.3.5_Turbopack-000000?style=for-the-badge&logo=next.js&logoColor=white" />
   <img src="https://img.shields.io/badge/React-19.2.8_Canary-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
   <img src="https://img.shields.io/badge/TypeScript-5.0_Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
@@ -19,7 +20,7 @@
 
 <div align="center">
 
-[**🌐 Live Platform**](https://next.ajitdev.com) • [**💳 Direct Payments**](https://next.ajitdev.com/payments/self) • [**🧾 Payment History Cards**](https://next.ajitdev.com/payments/testlist) • [**🧪 Payments Sandbox**](https://next.ajitdev.com/payments/test) • [**🛍️ E-Comm Store**](https://next.ajitdev.com/store) • [**🤖 AI Cloud Assistant**](https://next.ajitdev.com/projects#assistant) • [**🌤️ Weather App**](https://next.ajitdev.com/weather) • [**⚡ API Hub**](https://next.ajitdev.com/api)
+[**🌐 Live Platform**](https://next.ajitdev.com) • [**💳 Direct Payments**](https://next.ajitdev.com/payments/self) • [**💱 Currency Converter**](https://next.ajitdev.com/currency) • [**🛍️ E-Comm Store**](https://next.ajitdev.com/store) • [**🧾 Payment History**](https://next.ajitdev.com/payments/testlist) • [**🧪 Payments Sandbox**](https://next.ajitdev.com/payments/test) • [**🤖 AI Cloud Assistant**](https://next.ajitdev.com/projects#assistant) • [**🌤️ Weather App**](https://next.ajitdev.com/weather) • [**⚡ API Hub**](https://next.ajitdev.com/api)
 
 ---
 
@@ -30,8 +31,9 @@
 **`next.ajitdev.com`** is the central high-performance web engineering hub and developer ecosystem engineered by **Ajit Dev**. Crafted from the ground up on bleeding-edge modern web standards, it showcases production-grade full-stack capabilities:
 
 - 💳 **Production Razorpay Direct Payment Integration**: Custom INR amounts, preset quick-add chips (+₹100, +₹500, +₹1,000), modal checkout, server-side cryptographic HMAC-SHA256 signature verification, persistent MongoDB records, and isolated `@media print` receipts.
+- 💱 **Real-Time Global Currency Converter (`/currency`)**: European Central Bank (ECB / Frankfurter) live forex rates across 31 world currencies with sub-second ISR caching, interactive SVG historical timeseries chart (7D/30D/90D/1Y curves), 12-currency live parity matrix, and 2x Retina snapshot card generator with instant multi-channel social sharing (WhatsApp, Telegram, 𝕏, clipboard image copying).
 - 🧾 **Payments Sandbox & Transaction Explorer (`/payments/testlist`)**: Real-time financial activity cards showing status pills, copyable IDs, total volume metrics, and printable digital receipts.
-- 🛒 **Refresh-Safe E-Commerce Experience (`/store`)**: 50+ products, instant search, dynamic coupon validation, and Redux Toolkit cart persistence synced to `localStorage`.
+- 🛒 **Refresh-Safe E-Commerce Experience (`/store`)**: 50+ products, instant search, dynamic coupon validation, 2x Retina snapshot card sharing, and Redux Toolkit cart persistence synced to `localStorage`.
 - 🤖 **AJITDEV Cloud Assistant**: Agentic AI chat assistant powered by `@google/genai` (Google Gemini Flash) with server-side API key protection and multi-model fallback.
 - 🌤️ **Atmospheric Weather Intelligence (`/weather`)**: Real-time weather measurements with server route proxy and offline mock resilience.
 - 🛡️ **Sovereign Local-First Tools (`/note`, `/todo`)**: Zero network dependency, 0ms interaction latency with IndexedDB, and 1-click JSON backup.
@@ -140,6 +142,8 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-38BDF8?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Radix UI](https://img.shields.io/badge/Radix_UI-Primitives-161618?style=for-the-badge&logo=radix-ui&logoColor=white)
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-13.2.0-FF0055?style=for-the-badge&logo=framer&logoColor=white)
+![Recharts](https://img.shields.io/badge/Recharts-Forex_Analytics-22C55E?style=for-the-badge&logo=d3.js&logoColor=white)
+![Sonner Toast](https://img.shields.io/badge/Sonner-Toast_Engine-000000?style=for-the-badge&logo=react&logoColor=white)
 ![Lucide Icons](https://img.shields.io/badge/Lucide_React-1.45.0-F56565?style=for-the-badge&logo=feather&logoColor=white)
 
 ### ⚙️ State Management & Cloud AI
@@ -266,6 +270,40 @@
 
 </td>
 </tr>
+<tr>
+<td width="50%" valign="top">
+
+### 💱 Global Currency & Forex Intelligence
+**Real-time exchange rates, interactive converter & market analytics**
+
+![Forex](https://img.shields.io/badge/Frankfurter-ECB_Rates-F59E0B?style=flat-square)
+![Recharts](https://img.shields.io/badge/Recharts-Analytics-22C55E?style=flat-square)
+![Next.js](https://img.shields.io/badge/ISR_Cache-1_Hour-black?style=flat-square)
+
+- [🌐 Currency Converter](https://next.ajitdev.com/currency)
+- 30+ European Central Bank tracked currency pairs
+- Interactive reverse quote swap, matrix table & 30-day trend chart
+- Resilient fallback engine with live latency tracking
+- 1-Click copy & social share with QR preview modal
+
+</td>
+<td width="50%" valign="top">
+
+### 📱 Responsive Mobile-First Engineering Grid
+**Dual-column compact showcase optimized for modern screens**
+
+![Next.js](https://img.shields.io/badge/Next.js-16_Turbopack-black?style=flat-square)
+![Lucide](https://img.shields.io/badge/Lucide-Icons-F43F5E?style=flat-square)
+![Tailwind](https://img.shields.io/badge/Tailwind-Dual_Column_Mobile-38BDF8?style=flat-square)
+
+- [🌐 Browse Projects](https://next.ajitdev.com/projects)
+- 2-Column fluid responsive mobile layout optimized for thumb-reach
+- Horizontal swipeable category pills (All, Cloud, Web, Payment, AI, Finance)
+- Interactive live project cards with quick copy & direct launch actions
+- Structured SEO `ItemList` schema graph with rich metadata
+
+</td>
+</tr>
 </table>
 
 ---
@@ -278,6 +316,8 @@
 | `/api/payment/verify` | `POST` | Payments | Cryptographically validates `razorpay_signature` via constant-time HMAC-SHA256 comparison and updates payment status to `success`. |
 | `/api/payment/list` | `GET` | Analytics | Merges transaction records from MongoDB Atlas and live Razorpay gateway for `/payments/testlist`. |
 | `/api/assistant` | `POST` | AI Engine | Streams responses from Google Gemini Flash via `@google/genai` with fallback model resilience and knowledge base grounding. |
+| `/api/currency/latest` | `GET` | Forex | Fetches real-time ECB exchange rates (base `USD`, `EUR`, `INR`, etc.) via Frankfurter with resilient fallback dataset & latency tracking. |
+| `/api/currency/history` | `GET` | Forex | Fetches 30-day historical time-series rates for interactive forex trend visualization and charting. |
 | `/api/weather` | `GET` | Weather | Proxies OpenWeatherMap API requests to safeguard server keys, providing realistic fallback metrics if rate limits occur. |
 | `/api/contact` | `POST` | Communication | Validates contact form submissions and dispatches formatted notification emails via Nodemailer SMTP. |
 | `/api/auth/[...nextauth]` | `*` | Security | Manages Google OAuth session lifecycles and token persistence via NextAuth.js v5. |
@@ -294,6 +334,9 @@ next.ajitdev.com/
 │   │   ├── assistant/            # Google Gemini AI Assistant Route (@google/genai)
 │   │   ├── auth/                 # NextAuth Handler Routes
 │   │   ├── contact/              # Transactional Email Dispatcher (Nodemailer)
+│   │   ├── currency/             # European Central Bank Real-Time Forex API (Frankfurter)
+│   │   │   ├── latest/           # Real-time exchange rates endpoint with fallback
+│   │   │   └── history/          # 30-day historical time series endpoint
 │   │   ├── payment/              # Razorpay Backend Gateway
 │   │   │   ├── create-order/     # Order initialization endpoint
 │   │   │   ├── verify/           # HMAC-SHA256 signature verification handler
@@ -301,6 +344,7 @@ next.ajitdev.com/
 │   │   ├── weather/              # Real-Time OpenWeatherMap Proxy
 │   │   └── page.tsx              # Interactive API Console Explorer
 │   ├── components/               # Global Layout Components (Header, Footer, Pillars)
+│   ├── currency/                 # Global Currency & Forex Converter Application
 │   ├── dashboard/                # Developer Analytics & User Console
 │   ├── feed.xml/                 # Dynamic RSS / Atom Syndication Feed
 │   ├── login/                    # NextAuth Login & Account Portal
@@ -309,7 +353,7 @@ next.ajitdev.com/
 │   │   ├── self/                 # Live direct payment page
 │   │   ├── test/                 # Sandbox testing interface with credentials
 │   │   └── testlist/             # Transactions history cards & printable receipt modal
-│   ├── projects/                 # Engineering Projects Showcase
+│   ├── projects/                 # Engineering Projects Showcase (2-Column Mobile Grid)
 │   ├── store/                    # Full-Featured E-Comm Store (Redux + Radix)
 │   ├── todo/                     # Offline-First Task Manager (IndexedDB)
 │   ├── weather/                  # Real-Time Weather Application
@@ -323,8 +367,9 @@ next.ajitdev.com/
 │   ├── payment-form.tsx          # Interactive Razorpay Checkout Form & Printable Receipt
 │   ├── CloudAssistant.tsx        # Floating Glassmorphic AI Chat Window
 │   ├── seo/                      # JSON-LD Schema Injector
-│   └── ui/                       # Reusable Micro-Interaction Wrappers
+│   └── ui/                       # Reusable Micro-Interaction Wrappers (Toast, Sonner)
 ├── lib/
+│   ├── currency-data.ts          # Curated Currency Metadata, Flags & Offline Rate Fallbacks
 │   ├── paymentDb.ts              # MongoDB Atlas Payments Persistence Helper
 │   ├── assistant/
 │   │   ├── knowledge.ts          # Curated Developer Knowledge Dataset
@@ -532,6 +577,6 @@ Code. Deploy. Secure. Scale. Repeat.
 
   ![Made with ❤️ in India](https://img.shields.io/badge/Made%20with%20❤️%20in-India-FF9933?style=flat-square)
   ![Maintained](https://img.shields.io/badge/Maintained-Yes-4ECDC4?style=flat-square)
-  ![Last Updated](https://img.shields.io/badge/Updated-September%202026-9B59B6?style=flat-square)
+  ![Last Updated](https://img.shields.io/badge/Updated-October%202026-9B59B6?style=flat-square)
 
 </div>

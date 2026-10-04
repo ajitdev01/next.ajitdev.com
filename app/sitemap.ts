@@ -44,6 +44,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${siteConfig.siteUrl}/currency`,
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
       url: `${siteConfig.siteUrl}/todo`,
       changeFrequency: "monthly",
       priority: 0.7,

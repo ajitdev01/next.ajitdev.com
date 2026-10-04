@@ -22,9 +22,11 @@ import {
   CloudSun,
   Bot,
   CreditCard,
+  Banknote,
 } from "lucide-react";
 
 const TAG_ICONS: Record<string, React.ReactNode> = {
+  "Finance": <Banknote className="h-3.5 w-3.5" />,
   "AI Assistant": <Bot className="h-3.5 w-3.5" />,
   "E-Commerce": <ShoppingBag className="h-3.5 w-3.5" />,
   Weather: <CloudSun className="h-3.5 w-3.5" />,
@@ -39,6 +41,7 @@ const TAG_ICONS: Record<string, React.ReactNode> = {
 };
 
 const TAG_COLORS: Record<string, { bg: string; text: string; border: string; dot: string }> = {
+  "Finance": { bg: "bg-amber-50", text: "text-amber-800", border: "border-amber-200", dot: "bg-amber-500" },
   "Payments": { bg: "bg-emerald-50", text: "text-emerald-700", border: "border-emerald-200", dot: "bg-emerald-500" },
   "AI Assistant": { bg: "bg-indigo-50", text: "text-indigo-700", border: "border-indigo-200", dot: "bg-indigo-500" },
   "E-Commerce": { bg: "bg-rose-50", text: "text-rose-700", border: "border-rose-200", dot: "bg-rose-500" },
@@ -76,6 +79,18 @@ const PROJECTS = [
     featured: true,
     tech: ["Next.js 16", "Razorpay SDK", "HMAC SHA256", "MongoDB Atlas", "TypeScript", "Tailwind CSS"],
     details: "Server-side order creation, 256-bit SSL encryption, instant cryptographic signature verification, and printable digital receipts.",
+  },
+  {
+    title: "Global Currency Converter",
+    subtitle: "Real-Time ECB Forex & Charts",
+    description: "Interactive multi-currency exchange converter powered by European Central Bank (Frankfurter) rates with sub-second API caching. Features 31 world currencies, dynamic historical timeseries SVG charts (7D/30D/90D/1Y), 12-currency live parity matrix, 2x Retina snapshot card generator, and instant multi-channel social sharing.",
+    href: "/currency",
+    tag: "Finance",
+    badge: "Live on next.ajitdev.com",
+    external: false,
+    featured: true,
+    tech: ["Next.js 16", "Frankfurter API", "ECB Rates", "SVG Timeseries", "html-to-image", "Tailwind CSS"],
+    details: "Live Frankfurt/ECB currency rates with sub-second ISR caching, SVG interactive timeseries charts, multi-currency parity matrix, and 2x retina screenshot sharing.",
   },
   {
     title: "E-comm Store",
@@ -258,49 +273,67 @@ function ProjectCard({ project }: { project: Project }) {
   const cardInner = (
     <HoverCard.Root openDelay={350} closeDelay={100}>
       <HoverCard.Trigger asChild>
-        <article className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-300 hover:shadow-lg hover:shadow-slate-200/60 cursor-pointer">
+        <article className="group relative flex h-full flex-col justify-between overflow-hidden rounded-xl sm:rounded-2xl border border-slate-200 bg-white p-3 sm:p-6 shadow-xs sm:shadow-sm transition-all duration-300 hover:-translate-y-0.5 sm:hover:-translate-y-1 hover:border-slate-300 hover:shadow-md sm:hover:shadow-lg hover:shadow-slate-200/60 cursor-pointer">
           {project.featured && (
-            <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.05),transparent_60%)]" />
+            <div className="pointer-events-none absolute inset-0 rounded-xl sm:rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-[radial-gradient(circle_at_top_left,rgba(99,102,241,0.05),transparent_60%)]" />
           )}
 
           <div>
-            <div className="flex items-start justify-between gap-3">
-              <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold ${colors.bg} ${colors.text} ${colors.border}`}>
-                <span className={`h-1.5 w-1.5 rounded-full ${colors.dot}`} />
-                {icon}
-                {project.tag}
+            <div className="flex items-start justify-between gap-1 sm:gap-3">
+              <span className={`inline-flex items-center gap-1 sm:gap-1.5 rounded-full border px-1.5 sm:px-2.5 py-0.5 sm:py-1 text-[9px] sm:text-[11px] font-semibold shrink-0 ${colors.bg} ${colors.text} ${colors.border}`}>
+                <span className={`h-1 w-1 sm:h-1.5 sm:w-1.5 rounded-full ${colors.dot}`} />
+                <span className="shrink-0">{icon}</span>
+                <span className="truncate max-w-[62px] sm:max-w-none">{project.tag}</span>
               </span>
-              <span className="flex items-center gap-1 text-[10px] font-mono text-slate-400 group-hover:text-slate-600 transition-colors shrink-0">
-                {project.badge}
+              <span className="flex items-center gap-0.5 sm:gap-1 text-[9px] sm:text-[10px] font-mono text-slate-400 group-hover:text-slate-600 transition-colors shrink-0">
+                <span className="hidden xs:inline truncate max-w-[85px] sm:max-w-none">{project.badge}</span>
+                <span className="xs:hidden">{project.external ? "Ext" : "Live"}</span>
                 {project.external ? (
-                  <ExternalLink className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ExternalLink className="h-2.5 w-2.5 sm:h-3 sm:w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 ) : (
-                  <ArrowUpRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  <ArrowUpRight className="h-2.5 w-2.5 sm:h-3 sm:w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 )}
               </span>
             </div>
 
-            <div className="mt-4">
-              <h3 className="text-base font-bold text-slate-900 transition-colors group-hover:text-indigo-600 leading-tight">
+            <div className="mt-2.5 sm:mt-4">
+              <h3 className="text-xs sm:text-base font-bold text-slate-900 transition-colors group-hover:text-indigo-600 leading-snug line-clamp-2">
                 {project.title}
               </h3>
-              <p className="mt-0.5 text-xs font-medium text-slate-500">{project.subtitle}</p>
+              <p className="mt-0.5 text-[10px] sm:text-xs font-medium text-slate-500 line-clamp-1">{project.subtitle}</p>
             </div>
 
-            <p className="mt-3 text-xs leading-relaxed text-slate-600">{project.description}</p>
+            <p className="mt-1.5 sm:mt-3 text-[11px] sm:text-xs leading-relaxed text-slate-600 line-clamp-3 sm:line-clamp-none">{project.description}</p>
           </div>
 
-          <div className="mt-5">
-            <Separator.Root className="mb-4 h-px bg-slate-100" />
-            <div className="flex flex-wrap gap-1.5">
-              {project.tech.map((t) => (
-                <TechChip key={t} label={t} />
-              ))}
+          <div className="mt-3 sm:mt-5">
+            <Separator.Root className="mb-2 sm:mb-4 h-px bg-slate-100" />
+            <div className="flex flex-wrap gap-1 sm:gap-1.5">
+              {/* Desktop: show all tech chips */}
+              <div className="hidden sm:flex flex-wrap gap-1.5">
+                {project.tech.map((t) => (
+                  <TechChip key={t} label={t} />
+                ))}
+              </div>
+              {/* Mobile 2-column: show first 2 chips + overflow badge */}
+              <div className="flex sm:hidden flex-wrap items-center gap-1">
+                {project.tech.slice(0, 2).map((t) => (
+                  <span key={t} className="inline-flex items-center rounded-md border border-slate-200/70 bg-slate-50 px-1.5 py-0.5 text-[9px] font-medium text-slate-600 truncate max-w-[70px]">
+                    {t}
+                  </span>
+                ))}
+                {project.tech.length > 2 && (
+                  <span className="inline-flex items-center rounded-md border border-slate-200/70 bg-slate-100 px-1 py-0.5 text-[9px] font-bold text-slate-500">
+                    +{project.tech.length - 2}
+                  </span>
+                )}
+              </div>
             </div>
-            <div className="mt-4 flex items-center justify-end">
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-indigo-600 opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0.5">
-                {project.external ? "Visit site" : project.href === "#assistant" ? "Chat with AI" : "Open project"}
-                <ArrowRight className="h-3 w-3" />
+            <div className="mt-2 sm:mt-4 flex items-center justify-end">
+              <span className="inline-flex items-center gap-0.5 sm:gap-1 text-[10px] sm:text-[11px] font-semibold text-indigo-600 opacity-100 sm:opacity-0 transition-all duration-200 sm:group-hover:opacity-100 group-hover:translate-x-0.5">
+                <span className="hidden sm:inline">{project.external ? "Visit site" : project.href === "#assistant" ? "Chat with AI" : "Open project"}</span>
+                <span className="sm:hidden">{project.external ? "Visit" : project.href === "#assistant" ? "Chat" : "Open"}</span>
+                <ArrowRight className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
               </span>
             </div>
           </div>
@@ -414,15 +447,15 @@ export default function ProjectsPage() {
       </section>
 
       {/* Radix Tabs */}
-      <Tabs.Root value={activeTab} onValueChange={setActiveTab} className="mt-10">
-        <div className="sticky top-0 z-20 -mx-4 bg-slate-50/90 px-4 pb-4 pt-2 backdrop-blur-md sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-          <Tabs.List aria-label="Filter projects by category" className="flex flex-wrap gap-2">
+      <Tabs.Root value={activeTab} onValueChange={setActiveTab} className="mt-6 sm:mt-10">
+        <div className="sticky top-0 z-20 -mx-4 bg-slate-50/90 px-4 pb-3 sm:pb-4 pt-2 backdrop-blur-md sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+          <Tabs.List aria-label="Filter projects by category" className="flex overflow-x-auto no-scrollbar sm:flex-wrap gap-1.5 sm:gap-2 pb-1 sm:pb-0 scroll-smooth">
             {ALL_TABS.map((tab) => (
               <Tabs.Trigger
                 key={tab}
                 value={tab}
                 className={[
-                  "inline-flex cursor-pointer items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-all duration-150",
+                  "inline-flex shrink-0 cursor-pointer items-center gap-1 sm:gap-1.5 rounded-full border px-2.5 sm:px-3.5 py-1 sm:py-1.5 text-[11px] sm:text-xs font-semibold transition-all duration-150 whitespace-nowrap",
                   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1",
                   activeTab === tab
                     ? "border-slate-900 bg-slate-900 text-white shadow-sm"
@@ -431,7 +464,7 @@ export default function ProjectsPage() {
               >
                 {tab !== "All" && TAG_ICONS[tab]}
                 {tab}
-                <span className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold leading-none ${activeTab === tab ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
+                <span className={`rounded-full px-1.5 py-0.5 text-[9px] sm:text-[10px] font-bold leading-none ${activeTab === tab ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
                   }`}>
                   {counts[tab] ?? 0}
                 </span>
@@ -448,7 +481,7 @@ export default function ProjectsPage() {
                 <p className="text-sm font-medium">No projects in this category yet.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-5">
                 {filtered.map((project) => (
                   <ProjectCard key={project.href} project={project} />
                 ))}

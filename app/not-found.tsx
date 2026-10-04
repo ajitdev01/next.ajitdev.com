@@ -24,6 +24,12 @@ const QUICK_LINKS = [
     tag: "Main",
   },
   {
+    title: "Currency Converter",
+    desc: "Real-time ECB forex rates, live charts & parity matrix",
+    href: "/currency",
+    tag: "App",
+  },
+  {
     title: "E-comm Store",
     desc: "Browse products, add to cart & checkout with Redux",
     href: "/store",

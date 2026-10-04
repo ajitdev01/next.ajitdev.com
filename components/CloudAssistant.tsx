@@ -22,6 +22,7 @@ interface Message {
   role: "user" | "assistant";
   text: string;
   timestamp: string;
+  model?: string;
 }
 
 const STARTER_QUESTIONS = [
@@ -118,6 +119,7 @@ export default function CloudAssistant() {
         role: "assistant",
         text: replyText,
         timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        model: data.model,
       };
 
       setMessages((prev) => [...prev, botMessage]);
@@ -304,8 +306,10 @@ export default function CloudAssistant() {
                       AJITDEV Cloud Assistant
                     </h3>
                   </div>
-                  <p className="text-[10px] text-slate-400">
-                    Official AI • Powered by Gemini
+                  <p className="text-[10px] text-slate-400 flex items-center gap-1.5">
+                    <span>Official AI</span>
+                    <span>•</span>
+                    <span className="text-indigo-400 font-medium">Gemini Multi-Key Cloud</span>
                   </p>
                 </div>
               </div>
@@ -314,7 +318,7 @@ export default function CloudAssistant() {
                 <button
                   type="button"
                   onClick={handleClear}
-                  className="h-8 w-8 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition flex items-center justify-center"
+                  className="h-8 w-8 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition flex items-center justify-center cursor-pointer"
                   title="Clear conversation"
                 >
                   <RotateCcw className="h-3.5 w-3.5" />
@@ -322,7 +326,7 @@ export default function CloudAssistant() {
                 <button
                   type="button"
                   onClick={() => setIsOpen(false)}
-                  className="h-8 w-8 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition flex items-center justify-center"
+                  className="h-8 w-8 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white transition flex items-center justify-center cursor-pointer"
                   title="Close assistant"
                 >
                   <X className="h-4 w-4" />
@@ -362,13 +366,21 @@ export default function CloudAssistant() {
                         <div>
                           {renderFormattedText(msg.text)}
 
-                          {/* Copy button for assistant responses */}
+                          {/* Copy button and model badge for assistant responses */}
                           <div className="mt-2.5 pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
-                            <span>{msg.timestamp}</span>
+                            <div className="flex items-center gap-1.5">
+                              <span>{msg.timestamp}</span>
+                              {msg.model && (
+                                <span className="inline-flex items-center gap-1 rounded-md bg-indigo-50/80 px-1.5 py-0.5 font-mono text-[9px] font-bold text-indigo-700 border border-indigo-100">
+                                  <Sparkles className="h-2.5 w-2.5 text-indigo-500" />
+                                  {msg.model}
+                                </span>
+                              )}
+                            </div>
                             <button
                               type="button"
                               onClick={() => handleCopy(msg.text, msg.id)}
-                              className="inline-flex items-center gap-1 hover:text-slate-700 transition"
+                              className="inline-flex items-center gap-1 hover:text-slate-700 transition cursor-pointer"
                             >
                               {copiedId === msg.id ? (
                                 <>

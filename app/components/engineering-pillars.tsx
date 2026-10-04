@@ -21,6 +21,7 @@ import {
   ArrowUpRight,
   Activity,
   Layers,
+  Banknote,
 } from "lucide-react";
 
 type CategoryFilter = "all" | "apps" | "cloud" | "core";
@@ -224,6 +225,31 @@ const PILLARS: PillarItem[] = [
     secondaryAction: {
       label: "Try Todo App (Offline)",
       href: "/todo",
+    },
+  },
+  {
+    id: "fintech",
+    category: "apps",
+    categoryLabel: "FinTech & Real-Time Data",
+    badge: "ECB Rates · Live Forex · SVG Charts",
+    title: "Financial Technology & Live Forex",
+    description:
+      "High-precision real-time financial applications with European Central Bank (ECB) rate feeds, sub-second caching, interactive timeseries charts, and Razorpay payment gateways.",
+    icon: Banknote,
+    iconColor: "text-amber-600",
+    iconBg: "bg-amber-50 border-amber-100",
+    highlights: [
+      "Real-Time ECB Forex Conversions",
+      "Interactive SVG Timeseries Charts",
+      "Razorpay Gateway Integration",
+    ],
+    primaryAction: {
+      label: "Currency Converter (Forex)",
+      href: "/currency",
+    },
+    secondaryAction: {
+      label: "Razorpay Payment Gateway",
+      href: "/payments/test",
     },
   },
 ];

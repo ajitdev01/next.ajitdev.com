@@ -27,7 +27,11 @@ export interface Order {
   shipping: number;
   tax: number;
   total: number;
+  totalUSD?: number;
+  exchangeRate?: number;
   paymentMethod: string;
+  paymentId?: string;
+  razorpayOrderId?: string;
   customer: OrderCustomer;
   status: "Confirmed" | "Processing" | "Delivered";
 }

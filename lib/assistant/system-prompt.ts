@@ -196,7 +196,7 @@ export function getFallbackResponse(query: string): string {
     q.startsWith("hello ") ||
     q.startsWith("namaste ")
   ) {
-    return "Hey there! 👋 How's it going? I'm the **AJITDEV Cloud Assistant**.\n\nAsk me anything about Ajit Dev's projects, APIs, education, 422+ LeetCode problems solved, or tech stack!";
+    return `Hey there! 👋 How's it going? I'm the **AJITDEV Cloud Assistant**.\n\nAsk me anything about Ajit Dev's projects, APIs, education, ${AJITDEV_KNOWLEDGE.dsa.currentLeetCodeProgress}+ LeetCode problems solved, or tech stack!`;
   }
 
   if (q.includes("how are you") || q.includes("kese ho") || q.includes("kaise ho") || q.includes("kya haal")) {
@@ -216,7 +216,7 @@ export function getFallbackResponse(query: string): string {
     return `Yes, absolutely! **ajitdev01** is **Ajit Dev's** official developer handle and username across all major platforms:
 
 - **GitHub**: [github.com/ajitdev01](${AJITDEV_KNOWLEDGE.developerProfiles.github})
-- **LeetCode**: [leetcode.com/u/ajitdev01](${AJITDEV_KNOWLEDGE.developerProfiles.leetcode}) (422+ problems solved)
+- **LeetCode**: [leetcode.com/u/ajitdev01](${AJITDEV_KNOWLEDGE.developerProfiles.leetcode}) (${AJITDEV_KNOWLEDGE.dsa.currentLeetCodeProgress}+ problems solved)
 - **Codeforces**: [codeforces.com/profile/ajitdev01](${AJITDEV_KNOWLEDGE.developerProfiles.codeforces})
 - **CodeChef**: [codechef.com/users/ajitdev01](${AJITDEV_KNOWLEDGE.developerProfiles.codechef})
 - **X / Twitter**: [@ajitdev01](${AJITDEV_KNOWLEDGE.developerProfiles.x})
@@ -292,7 +292,7 @@ I am the official conversational AI assistant and knowledge engine for the **AJI
 
 **Key Highlights:**
 - **Engineered with Next.js 16 & Gemini**: Real-time streaming API route with resilient server-side proxy.
-- **28-Category RAG Context Engine**: Dynamic context extraction covering Ajit's education, 422+ LeetCode questions, AWS/DevOps architecture, and web projects.
+- **28-Category RAG Context Engine**: Dynamic context extraction covering Ajit's education, ${AJITDEV_KNOWLEDGE.dsa.currentLeetCodeProgress}+ LeetCode questions, AWS/DevOps architecture, and web projects.
 - **High Resilience**: Offline-first conversational fallback engine ensuring instant answers with zero hallucination.
 - **Live on Projects**: Featured right on the **[Projects Showcase](/projects)**!`;
   }
@@ -449,7 +449,7 @@ I am the official conversational AI assistant and knowledge engine for the **AJI
   return `I'm here to help! As the **AJITDEV Cloud Assistant**, I have verified knowledge of:
 
 • **Ajit Dev's Profile & Education**: BCA in Cloud & Security (Amity University Online, CGPA 7.90)
-• **DSA Progress**: 422+ LeetCode problems solved
+• **DSA Progress**: ${AJITDEV_KNOWLEDGE.dsa.currentLeetCodeProgress}+ LeetCode problems solved
 • **Projects**: E-Comm Store, Weather App, CollegeSure, Brainzima, SentinelX, API Hub
 • **Tech Stack**: Next.js 16, React 19, TypeScript, Node.js, MongoDB, AWS, Docker, Kubernetes
 

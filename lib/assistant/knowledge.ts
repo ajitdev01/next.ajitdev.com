@@ -294,7 +294,7 @@ export const AJITDEV_KNOWLEDGE = {
   dsa: {
     platforms: ["LeetCode", "NeetCode", "Codeforces", "CodeChef"],
 
-    currentLeetCodeProgress: 422,
+    currentLeetCodeProgress: 537,
 
     learnedTopics: [
       "Arrays",
@@ -464,6 +464,13 @@ export const AJITDEV_KNOWLEDGE = {
       category: "Web Application",
       description:
         "Atmospheric weather intelligence dashboard with live OpenWeatherMap API and fallback metrics.",
+    },
+    {
+      name: "Global Currency Converter",
+      url: "https://next.ajitdev.com/currency",
+      category: "Fintech Web Application",
+      description:
+        "Real-time institutional foreign exchange converter powered by Frankfurter API and European Central Bank reference data with interactive historical charts and parity matrix.",
     },
     {
       name: "Brainzima Movie Explorer",

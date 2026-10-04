@@ -9,6 +9,7 @@ import Header from "./components/header";
 import ScrollToTop from "./components/scroll-to-top";
 import CloudAssistant from "@/components/CloudAssistant";
 import ReduxProvider from "@/lib/store/provider";
+import { Toaster } from "@/components/ui/sonner";
 
 import { siteConfig, personConfig } from "@/lib/seo/config";
 import { buildConnectedGraph, buildWebSiteSchema, buildPersonSchema } from "@/lib/seo/schema";
@@ -155,7 +156,17 @@ export default function RootLayout({
 
           {/* Global Floating Scroll-To-Top Button */}
           <ScrollToTop />
+
+          {/* shadcn Sonner Toast Provider */}
+          <Toaster position="top-center" richColors closeButton />
         </ReduxProvider>
+
+        {/* Razorpay Global Checkout SDK */}
+        <Script
+          src="https://checkout.razorpay.com/v1/checkout.js"
+          strategy="afterInteractive"
+          id="razorpay-global-checkout-sdk"
+        />
 
         {/* Vercel Web Analytics */}
         <Analytics />
