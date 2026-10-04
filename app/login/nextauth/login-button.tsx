@@ -2,6 +2,7 @@
 
 import { useFormStatus } from "react-dom";
 import { Loader2 } from "lucide-react";
+import { captureEvent, resetUser } from "@/lib/posthog";
 
 export function GoogleSubmitButton() {
   const { pending } = useFormStatus();
@@ -10,6 +11,7 @@ export function GoogleSubmitButton() {
     <button
       type="submit"
       disabled={pending}
+      onClick={() => captureEvent("login_completed", { method: "google" })}
       className="group relative flex w-full items-center justify-center gap-3 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 active:scale-[0.99] disabled:pointer-events-none disabled:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer"
     >
       {pending ? (
@@ -51,6 +53,10 @@ export function SignOutSubmitButton() {
     <button
       type="submit"
       disabled={pending}
+      onClick={() => {
+        captureEvent("logout_completed");
+        resetUser();
+      }}
       className="flex w-full items-center justify-center gap-2 rounded-xl border border-rose-200 bg-rose-50/70 px-4 py-2.5 text-xs font-semibold text-rose-700 hover:bg-rose-100 transition active:scale-98 disabled:opacity-60 cursor-pointer"
     >
       {pending ? (

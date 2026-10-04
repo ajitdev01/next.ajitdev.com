@@ -1,13 +1,28 @@
 "use client";
 
+import { useEffect } from "react";
 import { useConfetti } from "@/lib/useConfetti";
+import { identifyUser } from "@/lib/posthog";
+
+interface DashboardConfettiProps {
+  userId?: string;
+  role?: string;
+}
 
 /**
- * Client component that fires a confetti celebration when the user
- * lands on the dashboard after a successful login or sign-up.
- * Renders nothing visible — it's purely a side-effect component.
+ * Client component that fires a confetti celebration and syncs PostHog user identity
+ * when an authenticated member visits the dashboard.
  */
-export default function DashboardConfetti() {
+export default function DashboardConfetti({ userId, role }: DashboardConfettiProps) {
   useConfetti(true);
+
+  useEffect(() => {
+    if (userId) {
+      identifyUser(userId, {
+        role: role || "member",
+      });
+    }
+  }, [userId, role]);
+
   return null;
 }

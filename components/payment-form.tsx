@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { fireConfetti } from "@/lib/useConfetti";
 import type { RazorpayOptions } from "@/types/razorpay";
+import { captureEvent } from "@/lib/posthog";
 
 type PaymentStatus =
   | "idle"
@@ -197,6 +198,13 @@ export default function PaymentForm() {
         );
       }
 
+      captureEvent("payment_started", {
+        order_id: orderData.orderId,
+        amount: Number(amount),
+        currency: orderData.currency || "INR",
+        purpose: purpose.trim() || undefined,
+      });
+
       // Use absolute HTTPS URL so Razorpay checkout iframe can load the image without mixed-content or relative-path errors
       const logoUrl =
         typeof window !== "undefined" && window.location.protocol === "https:"
@@ -230,6 +238,12 @@ export default function PaymentForm() {
 
             if (verifyRes.ok && verifyData.success) {
               setStatus("success");
+              captureEvent("payment_completed", {
+                payment_id: response.razorpay_payment_id,
+                order_id: response.razorpay_order_id,
+                amount: Number(amount),
+                currency: "INR",
+              });
               setSuccessDetails({
                 paymentId: response.razorpay_payment_id,
                 orderId: response.razorpay_order_id,
@@ -247,6 +261,10 @@ export default function PaymentForm() {
               fireConfetti();
             } else {
               setStatus("error");
+              captureEvent("payment_failed", {
+                order_id: response.razorpay_order_id,
+                error: verifyData.message || "Verification failed",
+              });
               setErrorMessage(
                 verifyData.message ||
                   "Payment signature verification failed. Please contact support."
@@ -255,6 +273,10 @@ export default function PaymentForm() {
           } catch (err: unknown) {
             setStatus("error");
             const msg = err instanceof Error ? err.message : "An unexpected error occurred during verification.";
+            captureEvent("payment_failed", {
+              order_id: response.razorpay_order_id,
+              error: msg,
+            });
             setErrorMessage(msg);
           }
         },
