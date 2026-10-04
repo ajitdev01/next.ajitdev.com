@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { useConfetti } from "@/lib/useConfetti";
-import { identifyUser } from "@/lib/posthog";
+import { identifyUser, captureEvent } from "@/lib/posthog";
 
 interface DashboardConfettiProps {
   userId?: string;
@@ -20,6 +20,10 @@ export default function DashboardConfetti({ userId, role }: DashboardConfettiPro
     if (userId) {
       identifyUser(userId, {
         role: role || "member",
+      });
+      captureEvent("login_completed", {
+        role: role || "member",
+        destination: "dashboard",
       });
     }
   }, [userId, role]);

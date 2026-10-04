@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { markPaymentSuccess, markPaymentFailed } from "@/lib/paymentDb";
+import { captureServerEvent, captureServerError } from "@/lib/posthog-server";
 
 export const dynamic = "force-dynamic";
 
@@ -84,6 +85,18 @@ export async function POST(req: NextRequest) {
         errorMessage: "Signature mismatch during verification",
       });
 
+      // PostHog: server-side payment failure tracking (safe metadata only)
+      await captureServerEvent({
+        distinctId: "server_runtime",
+        event: "payment_failed_server",
+        properties: {
+          order_id: razorpay_order_id,
+          payment_id: razorpay_payment_id,
+          reason: "signature_mismatch",
+          source: "verify-api",
+        },
+      });
+
       return NextResponse.json(
         {
           success: false,
@@ -100,6 +113,18 @@ export async function POST(req: NextRequest) {
       signature: razorpay_signature,
     });
 
+    // PostHog: server-side payment success tracking (safe metadata only)
+    await captureServerEvent({
+      distinctId: "server_runtime",
+      event: "payment_completed_server",
+      properties: {
+        order_id: razorpay_order_id,
+        payment_id: razorpay_payment_id,
+        currency: "INR",
+        source: "verify-api",
+      },
+    });
+
     return NextResponse.json({
       success: true,
       message: "Payment verified successfully",
@@ -109,6 +134,11 @@ export async function POST(req: NextRequest) {
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : "Internal server error while verifying payment.";
     console.error("Payment verification server error:", message);
+    // PostHog: capture server error into Error Tracking
+    await captureServerError(error, "server_runtime", {
+      route: "/api/payment/verify",
+      method: "POST",
+    });
     return NextResponse.json(
       {
         success: false,

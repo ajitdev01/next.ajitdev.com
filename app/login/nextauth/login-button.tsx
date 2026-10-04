@@ -11,7 +11,7 @@ export function GoogleSubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      onClick={() => captureEvent("login_completed", { method: "google" })}
+      onClick={() => captureEvent("login_started", { method: "google" })}
       className="group relative flex w-full items-center justify-center gap-3 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 active:scale-[0.99] disabled:pointer-events-none disabled:opacity-70 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer"
     >
       {pending ? (

@@ -40,6 +40,7 @@
     "sonner": "^2.0.8"
   },
   "devDependencies": {
+    "@posthog/nextjs-config": "^1.11.1",
     "@tailwindcss/postcss": "^4",
     "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^20",

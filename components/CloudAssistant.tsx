@@ -16,6 +16,7 @@ import {
   ChevronDown,
   MessageSquare,
 } from "lucide-react";
+import { captureEvent, captureClientError } from "@/lib/posthog";
 
 interface Message {
   id: string;
@@ -92,6 +93,10 @@ export default function CloudAssistant() {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
+    captureEvent("feature_used", {
+      feature: "cloud_assistant",
+      action: "query_sent",
+    });
 
     try {
       // Build conversation history (up to last 6 messages)
@@ -125,6 +130,7 @@ export default function CloudAssistant() {
       setMessages((prev) => [...prev, botMessage]);
     } catch (err) {
       console.error("Assistant send error:", err);
+      captureClientError(err, { feature: "cloud_assistant" });
       const errorMessage: Message = {
         id: `assistant-err-${Date.now()}`,
         role: "assistant",

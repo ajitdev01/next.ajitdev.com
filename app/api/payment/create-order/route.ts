@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Razorpay from "razorpay";
 import { savePaymentOrder } from "@/lib/paymentDb";
+import { captureServerEvent, captureServerError } from "@/lib/posthog-server";
 
 export const dynamic = "force-dynamic";
 
@@ -117,7 +118,19 @@ export async function POST(req: NextRequest) {
       notes: order.notes,
     });
 
-    // 8. Return response (keyId is safe to share with client for checkout modal)
+    // 8. PostHog: log payment order creation (safe metadata only — no secrets or PII)
+    await captureServerEvent({
+      distinctId: "server_runtime",
+      event: "payment_order_created_server",
+      properties: {
+        order_id: order.id,
+        amount_inr: parsedAmount,
+        currency: "INR",
+        source: "create-order-api",
+      },
+    });
+
+    // 9. Return response (keyId is safe to share with client for checkout modal)
     return NextResponse.json({
       success: true,
       orderId: order.id,
@@ -132,6 +145,11 @@ export async function POST(req: NextRequest) {
       errorObj?.message ||
       "Failed to initialize payment order. Please try again.";
     console.error("Razorpay order creation error:", message);
+    // PostHog: capture server error (no secrets, no request body)
+    await captureServerError(error, "server_runtime", {
+      route: "/api/payment/create-order",
+      method: "POST",
+    });
     return NextResponse.json(
       {
         success: false,
