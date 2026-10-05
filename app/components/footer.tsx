@@ -104,80 +104,58 @@ export default function Footer({
       <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
 
         {/* Top row: brand + social icons */}
-       <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-  {/* Brand */}
-<Link
-  href="https://github.com/ajitdev01"
-  aria-label="Powered by AJIT and AVNI"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="group inline-flex items-center gap-2 rounded-full py-1 transition-all duration-300 hover:scale-[1.04] active:scale-95 focus:outline-none"
->
-  <span
-    className={`${playfair.className} text-xs sm:text-sm font-semibold tracking-[0.18em] uppercase transition-all duration-500 ${
-      isDark
-        ? "bg-gradient-to-r from-slate-400 via-white to-slate-300 bg-clip-text text-transparent"
-        : "bg-gradient-to-r from-slate-600 via-slate-800 to-slate-700 bg-clip-text text-transparent"
-    }`}
-  >
-    Powered by
-  </span>
+        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+          {/* Brand */}
 
-  {/* AJIT */}
-  <span
-    className={`${playfair.className} text-sm sm:text-base font-bold tracking-[0.2em] uppercase transition-all duration-500 ${
-      isDark
-        ? "bg-gradient-to-r from-slate-100 via-white to-slate-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-rose-200"
-        : "bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent group-hover:from-slate-950 group-hover:to-rose-900"
-    }`}
-  >
-    AJIT
-  </span>
+          <Link
+            href="https://github.com/ajitdev01"
+            aria-label="AJIT DEV — Study Hard. Work Hard."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex flex-col items-center gap-1 rounded-full py-2 transition-all duration-300 hover:scale-[1.02] active:scale-95 focus:outline-none"
+          >
+            {/* Motto */}
+            <span
+              className={`${playfair.className} text-[10px] sm:text-xs font-semibold tracking-[0.18em] uppercase text-center transition-all duration-500 ${isDark
+                  ? "bg-gradient-to-r from-slate-400 via-white to-slate-400 bg-clip-text text-transparent group-hover:from-white group-hover:via-slate-200 group-hover:to-white"
+                  : "bg-gradient-to-r from-slate-500 via-slate-800 to-slate-500 bg-clip-text text-transparent group-hover:from-slate-800 group-hover:via-slate-950 group-hover:to-slate-800"
+                }`}
+            >
+              STUDY HARD. WORK HARD.
+            </span>
 
-  {/* Heart */}
-  <span
-    className="relative inline-flex items-center justify-center text-sm sm:text-base
-               animate-[heartbeat_1.6s_ease-in-out_infinite]
-               group-hover:animate-[heartbeat_0.8s_ease-in-out_infinite]"
-  >
-    <span className="absolute inset-0 scale-75 rounded-full bg-rose-500/20 blur-md animate-pulse" />
-    <span className="relative transition-transform duration-300 group-hover:scale-125">
-      ❤️
-    </span>
-  </span>
+            {/* Signature */}
+            <span
+              className={`${playfair.className} text-sm sm:text-base font-bold tracking-[0.24em] uppercase transition-all duration-500 ${isDark
+                  ? "bg-gradient-to-r from-slate-200 via-white to-slate-300 bg-clip-text text-transparent group-hover:from-white group-hover:to-slate-200"
+                  : "bg-gradient-to-r from-slate-800 via-slate-950 to-slate-700 bg-clip-text text-transparent group-hover:from-slate-950 group-hover:to-slate-800"
+                }`}
+            >
+              — AJIT DEV
+            </span>
+          </Link>
+          
+          {/* Social icons */}
+          <div className="flex items-center gap-1">
+            {SOCIAL_LINKS.map(({ href, label, icon }) => {
+              const isExternal = href.startsWith("http");
 
-  {/* AVNI */}
-  <span
-    className={`${playfair.className} text-sm sm:text-base font-bold tracking-[0.2em] uppercase transition-all duration-500 ${
-      isDark
-        ? "bg-gradient-to-r from-rose-200 via-white to-slate-200 bg-clip-text text-transparent group-hover:from-rose-300 group-hover:to-white"
-        : "bg-gradient-to-r from-rose-700 via-rose-900 to-slate-800 bg-clip-text text-transparent group-hover:from-rose-800 group-hover:to-slate-950"
-    }`}
-  >
-    AVNI
-  </span>
-</Link>
-  {/* Social icons */}
-  <div className="flex items-center gap-1">
-    {SOCIAL_LINKS.map(({ href, label, icon }) => {
-      const isExternal = href.startsWith("http");
-
-      return (
-        <a
-          key={href}
-          href={href}
-          aria-label={label}
-          {...(isExternal
-            ? { target: "_blank", rel: "noopener noreferrer" }
-            : {})}
-          className={`inline-flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${iconBtnCls}`}
-        >
-          {icon}
-        </a>
-      );
-    })}
-  </div>
-</div>
+              return (
+                <a
+                  key={href}
+                  href={href}
+                  aria-label={label}
+                  {...(isExternal
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className={`inline-flex h-8 w-8 items-center justify-center rounded-lg transition-colors ${iconBtnCls}`}
+                >
+                  {icon}
+                </a>
+              );
+            })}
+          </div>
+        </div>
 
         {/* Divider */}
         <div className={`my-5 h-px w-full ${dotCls} opacity-60`} />
