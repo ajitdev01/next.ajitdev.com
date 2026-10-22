@@ -39,11 +39,11 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
-  applicationName: "AJITDEV",
+  applicationName: "Next",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "AJITDEV",
+    title: "Next",
   },
   formatDetection: {
     telephone: false,
@@ -156,10 +156,10 @@ export default function RootLayout({
         <link rel="author" href="/humans.txt" />
         {/* PWA & Mobile Web App Compatibility */}
         <link rel="manifest" href="/manifest.webmanifest" />
-        <meta name="application-name" content="AJITDEV" />
+        <meta name="application-name" content="Next" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="AJITDEV" />
+        <meta name="apple-mobile-web-app-title" content="Next" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileColor" content="#0f172a" />
         {/* Explicit Open Graph Meta Fallbacks */}

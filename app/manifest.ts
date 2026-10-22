@@ -3,10 +3,10 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "Ajit Dev Projects",
-    short_name: "AjitDev",
+    name: "Next",
+    short_name: "Next",
     description:
-      "Explore Ajit Dev projects, Next.js applications and developer tools.",
+      "Next.js engineering projects, developer tools, and web applications by Ajit Dev.",
     start_url: "/",
     scope: "/",
     display: "standalone",

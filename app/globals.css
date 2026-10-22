@@ -66,6 +66,10 @@ body {
   }
 }
 
+.animate-shimmer {
+  animation: shimmer 2.5s infinite linear;
+}
+
 /* Product card entrance animation */
 @keyframes fadeSlideUp {
   from {

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "id": "https://next.ajitdev.com/",
-  "name": "AJITDEV — Next.js Engineering & Developer Tools",
-  "short_name": "AJITDEV",
+  "name": "Next",
+  "short_name": "Next",
   "description": "Central developer platform by Ajit Dev covering full stack engineering, DevOps, DevSecOps, cloud architecture, system design, DSA, and modern developer tools.",
   "start_url": "/?source=pwa",
   "scope": "/",
