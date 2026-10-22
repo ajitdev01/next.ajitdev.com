@@ -2,7 +2,7 @@
 // Version: 1.0.0
 // Caches core offline shell assets and provides stale-while-revalidate strategy.
 
-const CACHE_NAME = "ajitdev-pwa-v1";
+const CACHE_NAME = "ajitdev-pwa-v2";
 const OFFLINE_URL = "/";
 
 const PRECACHE_ASSETS = [

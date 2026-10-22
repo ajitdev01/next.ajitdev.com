@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import InstallButton from "./InstallButton";
 import Footer from "@/app/components/footer";
+import { ReplayIntroButton } from "@/components/app-intro-splash";
 import { Zap, ShieldCheck, Smartphone, HardDrive, Sparkles } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -42,16 +43,16 @@ export default function DownloadPage() {
     <div className="flex min-h-screen flex-col justify-between bg-white dark:bg-black text-black dark:text-white transition-colors">
       <main className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center justify-center px-4 py-12 sm:px-6 sm:py-20 text-center">
         
-        {/* App Icon Container with Ambient Monochrome Shadow */}
+        {/* App Icon Container with Ambient Monochrome Shadow (Gol Round) */}
         <div className="relative mb-6">
-          <div className="absolute -inset-2 rounded-3xl bg-black/10 dark:bg-white/10 opacity-70 blur-xl animate-pulse" />
-          <div className="relative flex h-24 w-24 sm:h-28 sm:w-28 items-center justify-center overflow-hidden rounded-3xl bg-black p-2 shadow-2xl border border-neutral-300 dark:border-neutral-800">
+          <div className="absolute -inset-2 rounded-full bg-black/10 dark:bg-white/10 opacity-70 blur-xl animate-pulse" />
+          <div className="relative flex h-24 w-24 sm:h-28 sm:w-28 items-center justify-center overflow-hidden rounded-full shadow-2xl border border-neutral-300 dark:border-neutral-700 bg-neutral-950 p-1">
             <Image
               src="/icons/pwa-192.png"
               alt="Next App Icon"
               width={112}
               height={112}
-              className="h-full w-full object-contain rounded-2xl"
+              className="h-full w-full object-contain rounded-full"
               priority
             />
           </div>
@@ -78,8 +79,12 @@ export default function DownloadPage() {
         </p>
 
         {/* Install Button & Guides (White & Black Theme with Shimmer & Bounce Animations) */}
-        <div className="mt-8 w-full">
+        <div className="mt-8 w-full space-y-3">
           <InstallButton />
+
+          <div className="flex items-center justify-center pt-1">
+            <ReplayIntroButton />
+          </div>
         </div>
 
         {/* Feature Highlights Grid in White & Black */}

@@ -11,6 +11,7 @@ import CloudAssistant from "@/components/CloudAssistant";
 import ReduxProvider from "@/lib/store/provider";
 import { Toaster } from "@/components/ui/sonner";
 import PwaRegister from "@/components/pwa-register";
+import AppIntroSplash from "@/components/app-intro-splash";
 
 import { siteConfig, personConfig } from "@/lib/seo/config";
 import {
@@ -231,6 +232,9 @@ export default function RootLayout({
 
         {/* Microsoft Clarity */}
         <ClarityAnalytics />
+
+        {/* Cinematic App Opening Video Splash (4-6 sec) */}
+        <AppIntroSplash />
 
         {/* PWA Service Worker Registration */}
         <PwaRegister />
