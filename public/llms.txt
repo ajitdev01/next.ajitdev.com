@@ -11,6 +11,7 @@ This is a Next.js 16 developer hub built and maintained by Ajit Dev (ajitdev01).
 - [Projects](https://next.ajitdev.com/projects): Live software applications and production engineering showcase
 - [Contact](https://next.ajitdev.com/contact): Contact form to reach Ajit Dev directly
 - [API Hub](https://next.ajitdev.com/api): Free developer REST and JSON API documentation
+- [Install App](https://next.ajitdev.com/download): Install AjitDev as a progressive web app (PWA) on mobile or desktop
 
 ## Live Apps
 

@@ -74,7 +74,7 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  manifest: "/manifest.json",
+  manifest: "/manifest.webmanifest",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -84,12 +84,12 @@ export const metadata: Metadata = {
     ],
     shortcut: ["/favicon.ico"],
     apple: [
-      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
     other: [
       {
         rel: "apple-touch-icon-precomposed",
-        url: "/apple-touch-icon.png",
+        url: "/icons/apple-touch-icon.png",
       },
     ],
   },
@@ -155,7 +155,7 @@ export default function RootLayout({
         {/* Author / humans.txt discovery */}
         <link rel="author" href="/humans.txt" />
         {/* PWA & Mobile Web App Compatibility */}
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="application-name" content="AJITDEV" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
