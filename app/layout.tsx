@@ -155,13 +155,40 @@ export default function RootLayout({
         {/* Author / humans.txt discovery */}
         <link rel="author" href="/humans.txt" />
         {/* PWA & Mobile Web App Compatibility */}
-        <link rel="manifest" href="/manifest.webmanifest" />
         <meta name="application-name" content="Next" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Next" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="msapplication-TileColor" content="#0f172a" />
+        {/* Instant PWA Prompt Pre-Capture & Service Worker Bootstrap */}
+        <script
+          id="pwa-init"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.__deferredInstallPrompt = null;
+              window.addEventListener('beforeinstallprompt', function(e) {
+                e.preventDefault();
+                window.__deferredInstallPrompt = e;
+                try {
+                  window.dispatchEvent(new CustomEvent('pwa-prompt-ready'));
+                } catch(_) {}
+              });
+              window.addEventListener('appinstalled', function() {
+                window.__pwaInstalled = true;
+                window.__deferredInstallPrompt = null;
+                try {
+                  window.dispatchEvent(new CustomEvent('pwa-installed'));
+                } catch(_) {}
+              });
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js').catch(function() {});
+                });
+              }
+            `,
+          }}
+        />
         {/* Explicit Open Graph Meta Fallbacks */}
         <meta property="og:site_name" content={siteConfig.name} />
         <meta property="og:type" content="website" />

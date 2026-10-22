@@ -7,20 +7,28 @@ const OFFLINE_URL = "/";
 
 const PRECACHE_ASSETS = [
   "/",
-  "/manifest.json",
+  "/manifest.webmanifest",
   "/favicon.ico",
   "/favicon.svg",
-  "/apple-touch-icon.png",
-  "/icon-192.png",
-  "/icon-512.png",
+  "/icons/apple-touch-icon.png",
+  "/icons/pwa-192.png",
+  "/icons/pwa-512.png",
+  "/icons/pwa-maskable-512.png",
 ];
 
-// Install Event: Precaches core shell assets
+// Install Event: Precaches core shell assets safely
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(PRECACHE_ASSETS);
-    }).then(() => self.skipWaiting())
+    caches
+      .open(CACHE_NAME)
+      .then(async (cache) => {
+        await Promise.allSettled(
+          PRECACHE_ASSETS.map((asset) =>
+            cache.add(asset).catch(() => {})
+          )
+        );
+      })
+      .then(() => self.skipWaiting())
   );
 });
 
