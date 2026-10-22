@@ -1,0 +1,24 @@
+/* TEAM */
+Developer: Ajit Dev
+Title: Full Stack Developer & DevOps Engineer
+Site: https://www.ajitdev.com/
+GitHub: https://github.com/ajitdev01
+LinkedIn: https://linkedin.com/in/ajitdev01
+Twitter: https://twitter.com/ajitdev01
+Location: Katihar, Bihar, India
+
+/* SITE */
+Name: AJITDEV
+Site URL: https://next.ajitdev.com/
+Last update: 2026-10-22
+Standards: HTML5, CSS3, ESNext, TypeScript, Schema.org
+Components: Next.js 16 (App Router), React 19, Tailwind CSS v4, Redux Toolkit
+Hosting: Vercel Edge Network
+Language: English
+
+/* THANKS */
+Open Source Community
+Next.js Team (Vercel)
+React Team
+Tailwind Labs
+Radix UI & Lucide Icons

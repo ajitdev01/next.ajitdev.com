@@ -134,7 +134,7 @@ const API_RESPONSE_FIELDS = [
 const RAW_API_RESPONSE_JSON = JSON.stringify(
   {
     status: "success",
-    latency: "< 50ms Edge",
+    latency: "< 15ms Edge",
     protocol: "HTTP/3 · QUIC",
     endpoint: "https://api.ajitdev.com/v1/health",
     cluster: "edge-asia-south1",
@@ -1021,7 +1021,7 @@ export default function Hero3DVisualizer() {
                               <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                                 <span className="whitespace-nowrap"><strong className="text-slate-800 font-semibold">HTTP/3</strong> · QUIC</span>
                                 <span className="text-slate-400">·</span>
-                                <span className="whitespace-nowrap"><strong className="text-slate-800 font-semibold">&lt; 50ms</strong></span>
+                                <span className="whitespace-nowrap"><strong className="text-slate-800 font-semibold">&lt; 15ms</strong></span>
                                 <span className="hidden sm:inline text-slate-400">·</span>
                                 <span className="hidden sm:inline whitespace-nowrap"><strong className="text-slate-800 font-semibold">BOM-EDGE</strong></span>
                               </div>

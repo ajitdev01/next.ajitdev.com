@@ -16,6 +16,11 @@ export default function robots(): MetadataRoute.Robots {
 
           // Authentication flows — not useful for search indexing
           "/login/",
+          "/login",
+
+          // Payment testing & mock checkout routes
+          "/payments/",
+          "/payments",
 
           // NextAuth.js internal API routes (callbacks, CSRF, session)
           "/api/auth/",

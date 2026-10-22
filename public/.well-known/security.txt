@@ -1,0 +1,7 @@
+Contact: mailto:contact@ajitdev.com
+Contact: https://next.ajitdev.com/contact
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en, hi
+Canonical: https://next.ajitdev.com/.well-known/security.txt
+Policy: https://next.ajitdev.com/privacy
+Acknowledgments: https://next.ajitdev.com/about

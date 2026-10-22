@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 1.0,
+      images: [`${siteConfig.siteUrl}/og-image.png`],
     },
 
     // ── Core public sections ────────────────────────────────
@@ -18,13 +19,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${siteConfig.siteUrl}/about`,
       lastModified: currentDate,
       changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.9,
+      images: [`${siteConfig.siteUrl}/og-image.png`],
     },
     {
       url: `${siteConfig.siteUrl}/projects`,
       lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 0.9,
+      images: [`${siteConfig.siteUrl}/og-image.png`],
     },
     {
       url: `${siteConfig.siteUrl}/api`,

@@ -142,10 +142,18 @@ export default function RootLayout({
         />
         <link
           rel="alternate"
+          type="application/rss+xml"
+          title="AJITDEV RSS Feed (rss.xml)"
+          href="/rss.xml"
+        />
+        <link
+          rel="alternate"
           type="application/atom+xml"
           title="AJITDEV Atom Feed"
           href="/feed.xml"
         />
+        {/* Author / humans.txt discovery */}
+        <link rel="author" href="/humans.txt" />
         {/* PWA & Mobile Web App Compatibility */}
         <link rel="manifest" href="/manifest.json" />
         <meta name="application-name" content="AJITDEV" />

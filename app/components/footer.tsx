@@ -26,6 +26,13 @@ const NAV_LINKS = [
   { href: "/terms", label: "Terms" },
 ];
 
+const DEV_LINKS = [
+  { href: "/sitemap.xml", label: "Sitemap" },
+  { href: "/robots.txt", label: "Robots" },
+  { href: "/humans.txt", label: "Humans" },
+  { href: "/security.txt", label: "Security" },
+];
+
 const SOCIAL_LINKS = [
   {
     href: "https://x.com/ajitdev01",
@@ -171,22 +178,41 @@ export default function Footer({
         <div className={`my-5 h-px w-full ${dotCls} opacity-60`} />
 
         {/* Bottom row: nav links + copyright */}
-        <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-          {/* Nav links — wraps cleanly on mobile */}
-          <nav
-            aria-label="Footer Navigation"
-            className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 sm:justify-start"
-          >
-            {NAV_LINKS.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                className={`text-xs font-medium transition-colors ${linkCls}`}
-              >
-                {label}
-              </Link>
-            ))}
-          </nav>
+        <div className="flex flex-col items-center gap-4 sm:flex-row sm:items-center sm:justify-between">
+          {/* Nav links — 2 clean, balanced rows with exact original nice look */}
+          <div className="flex flex-col items-center gap-2 sm:items-start">
+            <nav
+              aria-label="Footer Navigation"
+              className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 sm:justify-start"
+            >
+              {NAV_LINKS.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`text-xs font-medium transition-colors ${linkCls}`}
+                >
+                  {label}
+                </Link>
+              ))}
+            </nav>
+
+            <nav
+              aria-label="Developer & SEO Endpoints"
+              className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 sm:justify-start"
+            >
+              {DEV_LINKS.map(({ href, label }) => (
+                <a
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`text-xs font-medium transition-colors ${linkCls}`}
+                >
+                  {label}
+                </a>
+              ))}
+            </nav>
+          </div>
 
           {/* Copyright */}
           <p className="shrink-0 text-xs">
@@ -201,6 +227,11 @@ export default function Footer({
               {link.name} — {link.platform}
             </a>
           ))}
+          <a href="/sitemap.xml">XML Sitemap</a>
+          <a href="/robots.txt">Robots Exclusion</a>
+          <a href="/humans.txt">Developer Credits</a>
+          <a href="/security.txt">Security Disclosure</a>
+          <a href="/llms.txt">LLM Reference</a>
         </nav>
       </div>
     </footer>

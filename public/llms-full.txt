@@ -1,0 +1,79 @@
+# AJITDEV — Full Developer Platform & Technical Reference (Full Context)
+
+> AJITDEV (https://next.ajitdev.com) is the central developer platform engineered by Ajit Dev. It spans modern full-stack web applications, DevOps automation, cloud architecture, system design, REST APIs, and local-first productivity tools.
+
+## Entity & Developer Details
+- Developer: Ajit Dev (known as AJITDEV / @ajitdev01)
+- Location: Katihar, Bihar, India
+- Role: Full Stack Developer, API Architect, DevOps & Cloud Security Engineer
+- Organization / Affiliation: Brainzima Innovation (https://brainzima.com/)
+- Official Portfolio: https://www.ajitdev.com/
+- Public API Hub: https://api.ajitdev.com/
+- Verified Coding Profiles:
+  - GitHub: https://github.com/ajitdev01
+  - LinkedIn: https://linkedin.com/in/ajitdev01
+  - LeetCode: https://leetcode.com/ajitdev01
+  - Codeforces: https://codeforces.com/profile/ajitdev01
+  - CodeChef: https://www.codechef.com/users/ajitdev01/
+  - NeetCode: https://neetcode.io/user/MoltenJinchuriki774
+
+---
+
+## Core Public Routes & Applications
+
+### 1. Home (`/`)
+- URL: https://next.ajitdev.com/
+- Description: Central platform overview featuring an interactive architectural ecosystem visualizer, technical competencies across 6 core disciplines, real-time live metrics, and direct links to all sub-applications.
+
+### 2. About (`/about`)
+- URL: https://next.ajitdev.com/about
+- Description: Complete profile of Ajit Dev, professional trajectory from 2024 to 2026+, verified external profiles, technical competencies (Next.js 16, React 19, TypeScript, Docker, CI/CD, DevSecOps, System Design, DSA), and schema.org ProfilePage validation.
+
+### 3. Projects Showcase (`/projects`)
+- URL: https://next.ajitdev.com/projects
+- Description: Curated catalog of production web applications, open-source repositories, developer tools, and client platforms built by Ajit Dev with live demos and repository links.
+
+### 4. API Hub (`/api`)
+- URL: https://next.ajitdev.com/api
+- Description: Documentation and interactive test sandboxes for public REST and JSON developer endpoints, including currency conversion, meteorological telemetry, system utilities, and health checks.
+
+### 5. Contact (`/contact`)
+- URL: https://next.ajitdev.com/contact
+- Description: Interactive contact form with automated server-side email dispatch, rate-limiting, and validation to connect directly with Ajit Dev for collaborations and technical consultations.
+
+### 6. Currency Converter (`/currency`)
+- URL: https://next.ajitdev.com/currency
+- Description: Real-time foreign exchange converter supporting 31 global currencies with rates sourced from the European Central Bank (ECB), sub-second server-side caching, historical timeseries SVG charts, and parity matrix.
+
+### 7. E-Commerce Store (`/store`)
+- URL: https://next.ajitdev.com/store
+- Description: Next.js 16 and Redux Toolkit production e-commerce storefront featuring client-side cart drawer, product catalogs, mock payment workflows, and confetti celebration checkout.
+
+### 8. Weather App (`/weather`)
+- URL: https://next.ajitdev.com/weather
+- Description: Live meteorological telemetry client powered by OpenWeatherMap geocoding, displaying temperature, humidity, atmospheric pressure, wind metrics, and sunrise/sunset timings worldwide.
+
+### 9. Todo App (`/todo`)
+- URL: https://next.ajitdev.com/todo
+- Description: Private, local-first task manager with priority filtering, category organization, and 100% in-browser persistence with zero tracking.
+
+### 10. Notes App (`/note`)
+- URL: https://next.ajitdev.com/note
+- Description: Minimalist, local-first markdown note-taking tool featuring instant full-text client search, category tagging, and JSON export/import.
+
+### 11. Privacy Policy (`/privacy`) & Terms of Service (`/terms`)
+- Privacy: https://next.ajitdev.com/privacy
+- Terms: https://next.ajitdev.com/terms
+- Description: Transparent data protection disclosures, local storage usage guidelines, OAuth credential safeguards, and fair usage terms.
+
+---
+
+## Machine-Readable Endpoints
+- Sitemaps: https://next.ajitdev.com/sitemap.xml
+- RSS Feed: https://next.ajitdev.com/feed.xml and https://next.ajitdev.com/rss.xml
+- Robots Rules: https://next.ajitdev.com/robots.txt
+- Author & Team Credits: https://next.ajitdev.com/humans.txt
+- Security Disclosure (RFC 9116): https://next.ajitdev.com/.well-known/security.txt
+- Web App Manifest: https://next.ajitdev.com/manifest.json and https://next.ajitdev.com/manifest.webmanifest
+- LLM Index: https://next.ajitdev.com/llms.txt
+- LLM Full Reference: https://next.ajitdev.com/llms-full.txt
