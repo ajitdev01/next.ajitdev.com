@@ -30,12 +30,21 @@ export const metadata: Metadata = {
     url: pageUrl,
     type: "website",
     siteName: siteConfig.name,
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: title,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title,
     description,
     creator: "@ajitdev01",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -55,8 +64,13 @@ export default function CurrencyPage() {
     },
     author: {
       "@type": "Person",
+      "@id": "https://www.ajitdev.com/#person",
       name: "Ajit Dev",
-      url: siteConfig.siteUrl,
+      url: "https://www.ajitdev.com/",
+    },
+    creator: {
+      "@type": "Person",
+      "@id": "https://www.ajitdev.com/#person",
     },
   };
 

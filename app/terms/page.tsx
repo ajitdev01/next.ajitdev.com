@@ -6,17 +6,51 @@ import {
 } from "lucide-react";
 import Footer from "@/app/components/footer";
 
+import { siteConfig } from "@/lib/seo/config";
+import {
+  buildConnectedGraph,
+  buildWebPageSchema,
+  buildBreadcrumbSchema,
+} from "@/lib/seo/schema";
+import JsonLd from "@/components/seo/json-ld";
+
+const pageUrl = `${siteConfig.siteUrl}/terms`;
+const title = "Terms of Service | AJITDEV";
+const description =
+  "Terms of Service governing your use of the AJITDEV developer platform, applications, Google Sign-In authentication, and acceptable use guidelines.";
+
 export const metadata: Metadata = {
-  title: "Terms of Service | AJITDEV",
-  description:
-    "Terms of Service governing your use of the AJITDEV developer platform, applications, Google Sign-In authentication, and acceptable use guidelines.",
-  alternates: { canonical: "https://next.ajitdev.com/terms" },
+  title,
+  description,
+  keywords: [
+    "AJITDEV terms of service",
+    "developer terms",
+    "Google OAuth terms",
+    "acceptable use policy",
+    "terms and conditions",
+    "governing law",
+  ],
+  alternates: { canonical: pageUrl },
   openGraph: {
-    title: "Terms of Service | AJITDEV",
-    description:
-      "Review the Terms of Service for AJITDEV, including Google OAuth authentication, user responsibilities, and acceptable use.",
-    url: "https://next.ajitdev.com/terms",
+    title,
+    description,
+    url: pageUrl,
     type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: title,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    creator: "@ajitdev01",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -36,8 +70,24 @@ const SECTIONS = [
 export default function TermsOfServicePage() {
   const lastUpdated = "September 15, 2026";
 
+  const breadcrumbs = [
+    { name: "Home", url: siteConfig.siteUrl },
+    { name: "Terms of Service", url: pageUrl },
+  ];
+
+  const termsSchema = buildConnectedGraph([
+    buildWebPageSchema({
+      name: title,
+      description,
+      url: pageUrl,
+      breadcrumbs,
+    }),
+    buildBreadcrumbSchema(breadcrumbs, pageUrl),
+  ]);
+
   return (
     <div className="relative min-h-screen bg-slate-50 text-slate-900 antialiased selection:bg-slate-900 selection:text-white overflow-x-clip">
+      <JsonLd id="terms-schema-graph" schema={termsSchema} />
       {/* Gradient hero backdrop */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-indigo-50/60 to-transparent" />
       <div

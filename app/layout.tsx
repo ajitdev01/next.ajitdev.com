@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -10,9 +10,15 @@ import ScrollToTop from "./components/scroll-to-top";
 import CloudAssistant from "@/components/CloudAssistant";
 import ReduxProvider from "@/lib/store/provider";
 import { Toaster } from "@/components/ui/sonner";
+import PwaRegister from "@/components/pwa-register";
 
 import { siteConfig, personConfig } from "@/lib/seo/config";
-import { buildConnectedGraph, buildWebSiteSchema, buildPersonSchema } from "@/lib/seo/schema";
+import {
+  buildConnectedGraph,
+  buildWebSiteSchema,
+  buildPersonSchema,
+  buildOrganizationSchema,
+} from "@/lib/seo/schema";
 import JsonLd from "@/components/seo/json-ld";
 
 const inter = Inter({
@@ -21,8 +27,27 @@ const inter = Inter({
   fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"],
 });
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0f172a" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
+  applicationName: "AJITDEV",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "AJITDEV",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   title: {
     default: siteConfig.defaultTitle,
     template: siteConfig.titleTemplate,
@@ -101,18 +126,45 @@ export default function RootLayout({
   const globalSchema = buildConnectedGraph([
     buildWebSiteSchema(),
     buildPersonSchema(),
+    buildOrganizationSchema(),
   ]);
 
   return (
     <html lang="en">
       <head>
         <JsonLd id="global-schema-graph" schema={globalSchema} />
+        {/* RSS & Atom Feeds */}
         <link
           rel="alternate"
           type="application/rss+xml"
           title="AJITDEV RSS Feed"
           href="/feed.xml"
         />
+        <link
+          rel="alternate"
+          type="application/atom+xml"
+          title="AJITDEV Atom Feed"
+          href="/feed.xml"
+        />
+        {/* PWA & Mobile Web App Compatibility */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="application-name" content="AJITDEV" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="apple-mobile-web-app-title" content="AJITDEV" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="msapplication-TileColor" content="#0f172a" />
+        {/* Explicit Open Graph Meta Fallbacks */}
+        <meta property="og:site_name" content={siteConfig.name} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={siteConfig.defaultTitle} />
+        <meta property="og:description" content={siteConfig.description} />
+        <meta property="og:url" content={siteConfig.siteUrl} />
+        <meta property="og:image" content={`${siteConfig.siteUrl}/og-image.png`} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content="AJITDEV — Technical Hub & Developer Ecosystem by Ajit Dev" />
+        <meta property="og:locale" content={siteConfig.locale} />
         {/* Google Tag Manager */}
         <Script
           id="gtm-script"
@@ -144,6 +196,9 @@ export default function RootLayout({
 
         {/* Microsoft Clarity */}
         <ClarityAnalytics />
+
+        {/* PWA Service Worker Registration */}
+        <PwaRegister />
 
         <ReduxProvider>
           {/* Global 10-Year UX Sticky Header */}

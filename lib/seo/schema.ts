@@ -24,17 +24,18 @@ export interface SoftwareApplicationOptions {
 }
 
 /**
- * Builds the canonical Person schema for Ajit Dev
+ * Builds the canonical Person schema for Ajit Dev with stable global ID
  */
 export function buildPersonSchema() {
   return {
     "@type": "Person",
-    "@id": `${siteConfig.siteUrl}/#person`,
+    "@id": "https://www.ajitdev.com/#person",
     name: personConfig.name,
     alternateName: personConfig.alternateName,
     url: personConfig.url,
     jobTitle: personConfig.jobTitle,
     description: personConfig.description,
+    mainEntityOfPage: "https://www.ajitdev.com/",
     address: {
       "@type": "PostalAddress",
       addressLocality: personConfig.location.addressLocality,
@@ -43,6 +44,34 @@ export function buildPersonSchema() {
     },
     sameAs: [...personConfig.sameAs],
     knowsAbout: [...personConfig.knowsAbout],
+    worksFor: {
+      "@type": "Organization",
+      "@id": "https://brainzima.com/#organization",
+      name: "Brainzima Innovation",
+      url: "https://brainzima.com/",
+    },
+    affiliation: {
+      "@type": "Organization",
+      "@id": "https://brainzima.com/#organization",
+      name: "Brainzima Innovation",
+      url: "https://brainzima.com/",
+    },
+  };
+}
+
+/**
+ * Builds the verified Organization schema for Brainzima Innovation
+ */
+export function buildOrganizationSchema() {
+  return {
+    "@type": "Organization",
+    "@id": "https://brainzima.com/#organization",
+    name: "Brainzima Innovation",
+    url: "https://brainzima.com/",
+    description: "Educational platform, technical resources, and higher education analytics initiatives.",
+    sameAs: [
+      "https://collegesure.brainzima.com/",
+    ],
   };
 }
 
@@ -58,10 +87,10 @@ export function buildWebSiteSchema() {
     description: siteConfig.description,
     inLanguage: siteConfig.locale.replace("_", "-"),
     publisher: {
-      "@id": `${siteConfig.siteUrl}/#person`,
+      "@id": "https://www.ajitdev.com/#person",
     },
     author: {
-      "@id": `${siteConfig.siteUrl}/#person`,
+      "@id": "https://www.ajitdev.com/#person",
     },
   };
 }
@@ -97,7 +126,10 @@ export function buildWebPageSchema(options: WebPageSchemaOptions) {
       "@id": `${siteConfig.siteUrl}/#website`,
     },
     about: {
-      "@id": `${siteConfig.siteUrl}/#person`,
+      "@id": "https://www.ajitdev.com/#person",
+    },
+    author: {
+      "@id": "https://www.ajitdev.com/#person",
     },
   };
 
@@ -136,10 +168,10 @@ export function buildSoftwareApplicationSchema(options: SoftwareApplicationOptio
       availability: "https://schema.org/InStock",
     },
     author: {
-      "@id": `${siteConfig.siteUrl}/#person`,
+      "@id": "https://www.ajitdev.com/#person",
     },
     creator: {
-      "@id": `${siteConfig.siteUrl}/#person`,
+      "@id": "https://www.ajitdev.com/#person",
     },
     featureList: options.features || [],
   };

@@ -7,18 +7,36 @@ import EngineeringPillars from "@/app/components/engineering-pillars";
 import Footer from "@/app/components/footer";
 
 export const metadata: Metadata = {
-  title: "AJITDEV | Full Stack Development, DevOps, Cloud & APIs",
+  title: "Ajit Dev's Next.js Projects | Full Stack, DevOps & Cloud",
   description:
-    "AJITDEV is the central developer platform by Ajit Dev covering full stack engineering, DevOps, DevSecOps, cloud architecture, system design, DSA, and modern developer tools.",
+    "Explore Ajit Dev's Next.js and React projects, full stack applications, developer APIs, DevOps automation and cloud engineering work.",
+  keywords: [
+    ...siteConfig.keywords,
+  ],
   alternates: {
     canonical: siteConfig.siteUrl,
   },
   openGraph: {
-    title: "AJITDEV | Full Stack Development, DevOps, Cloud & APIs",
+    title: "Ajit Dev's Next.js Projects | Full Stack, DevOps & Cloud",
     description:
-      "Central developer hub by Ajit Dev covering full stack development, DevOps, cloud engineering, system design, DSA, and developer APIs.",
+      "Explore Ajit Dev's Next.js and React projects, full stack applications, developer APIs, DevOps automation and cloud engineering work.",
     url: siteConfig.siteUrl,
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Ajit Dev's Next.js Projects | Full Stack, DevOps & Cloud",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Ajit Dev's Next.js Projects | Full Stack, DevOps & Cloud",
+    description: siteConfig.description,
+    creator: "@ajitdev01",
+    images: ["/twitter-image.png"],
   },
 };
 

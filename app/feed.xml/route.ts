@@ -37,6 +37,30 @@ export async function GET() {
         "Minimalist, local-first notes application with instant full-text search, categories, and zero cloud tracking.",
     },
     {
+      title: "Global Currency Converter — Real-Time ECB Forex & Timeseries Charts",
+      link: `${siteConfig.siteUrl}/currency`,
+      guid: `${siteConfig.siteUrl}/currency`,
+      pubDate: "Tue, 15 Sep 2026 00:00:00 GMT",
+      description:
+        "Real-time currency converter across 31 world currencies powered by European Central Bank rates with sub-second caching, timeseries SVG charts, and parity matrix.",
+    },
+    {
+      title: "E-comm Store — Next.js 16 & Redux Toolkit E-Commerce",
+      link: `${siteConfig.siteUrl}/store`,
+      guid: `${siteConfig.siteUrl}/store`,
+      pubDate: "Wed, 16 Sep 2026 00:00:00 GMT",
+      description:
+        "Modern e-commerce platform built with Next.js 16, Redux Toolkit, interactive cart drawer, and celebratory confetti modal.",
+    },
+    {
+      title: "Weather App — Live Atmospheric Conditions & OpenWeather Telemetry",
+      link: `${siteConfig.siteUrl}/weather`,
+      guid: `${siteConfig.siteUrl}/weather`,
+      pubDate: "Thu, 17 Sep 2026 00:00:00 GMT",
+      description:
+        "Search any city worldwide for real-time temperature, atmospheric pressure, humidity, wind velocity, and sunrise/sunset metrics.",
+    },
+    {
       title: "AJITDEV Projects & Developer Portfolio Showcase",
       link: `${siteConfig.siteUrl}/projects`,
       guid: `${siteConfig.siteUrl}/projects`,
@@ -88,8 +112,8 @@ export async function GET() {
 
   return new Response(rss.trim(), {
     headers: {
-      "Content-Type": "application/xml; charset=utf-8",
-      "Cache-Control": "s-maxage=3600, stale-while-revalidate",
+      "Content-Type": "application/rss+xml; charset=utf-8",
+      "Cache-Control": "s-maxage=3600, stale-while-revalidate=86400",
     },
   });
 }

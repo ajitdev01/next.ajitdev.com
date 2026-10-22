@@ -6,17 +6,52 @@ import {
 } from "lucide-react";
 import Footer from "@/app/components/footer";
 
+import { siteConfig } from "@/lib/seo/config";
+import {
+  buildConnectedGraph,
+  buildWebPageSchema,
+  buildBreadcrumbSchema,
+} from "@/lib/seo/schema";
+import JsonLd from "@/components/seo/json-ld";
+
+const pageUrl = `${siteConfig.siteUrl}/privacy`;
+const title = "Privacy Policy | AJITDEV";
+const description =
+  "Privacy Policy for AJITDEV detailing data collection, Google Sign-In / OAuth integration, session handling, user rights, and data protection practices.";
+
 export const metadata: Metadata = {
-  title: "Privacy Policy | AJITDEV",
-  description:
-    "Privacy Policy for AJITDEV detailing data collection, Google Sign-In / OAuth integration, session handling, user rights, and data protection practices.",
-  alternates: { canonical: "https://next.ajitdev.com/privacy" },
+  title,
+  description,
+  keywords: [
+    "AJITDEV privacy policy",
+    "data protection",
+    "Google OAuth privacy",
+    "cookie policy",
+    "data privacy by design",
+    "security practices",
+    "user rights",
+  ],
+  alternates: { canonical: pageUrl },
   openGraph: {
-    title: "Privacy Policy | AJITDEV",
-    description:
-      "Understand how AJITDEV handles authentication, Google OAuth basic profile data, cookies, and data privacy.",
-    url: "https://next.ajitdev.com/privacy",
+    title,
+    description,
+    url: pageUrl,
     type: "website",
+    images: [
+      {
+        url: "/opengraph-image",
+        width: 1200,
+        height: 630,
+        alt: title,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    creator: "@ajitdev01",
+    images: ["/opengraph-image"],
   },
 };
 
@@ -36,8 +71,24 @@ const SECTIONS = [
 export default function PrivacyPolicyPage() {
   const lastUpdated = "September 15, 2026";
 
+  const breadcrumbs = [
+    { name: "Home", url: siteConfig.siteUrl },
+    { name: "Privacy Policy", url: pageUrl },
+  ];
+
+  const privacySchema = buildConnectedGraph([
+    buildWebPageSchema({
+      name: title,
+      description,
+      url: pageUrl,
+      breadcrumbs,
+    }),
+    buildBreadcrumbSchema(breadcrumbs, pageUrl),
+  ]);
+
   return (
     <div className="relative min-h-screen bg-slate-50 text-slate-900 antialiased selection:bg-slate-900 selection:text-white overflow-x-clip">
+      <JsonLd id="privacy-schema-graph" schema={privacySchema} />
       {/* Gradient hero backdrop */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-blue-50/60 to-transparent" />
       <div

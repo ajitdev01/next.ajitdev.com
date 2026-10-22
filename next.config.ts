@@ -56,9 +56,110 @@ const baseNextConfig: NextConfig = {
     ],
   },
 
+  // Compression & security headers
+  compress: true,
+  poweredByHeader: false,
+  reactStrictMode: true,
+
   // Required for PostHog reverse proxy rewrites to work correctly without
   // Next.js adding a trailing slash redirect that breaks the proxy rules.
   skipTrailingSlashRedirect: true,
+
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          // HTTP/3 & QUIC advertisement
+          {
+            key: "Alt-Svc",
+            value: 'h3=":443"; ma=86400, h3-29=":443"; ma=86400',
+          },
+          // Strict Transport Security (HSTS)
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+          // Defense against MIME-sniffing
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          // Clickjacking protection
+          {
+            key: "X-Frame-Options",
+            value: "SAMEORIGIN",
+          },
+          // Referrer Policy
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          // Hardware & Sensor Permission Isolation
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+          },
+        ],
+      },
+      {
+        source: "/feed.xml",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "application/rss+xml; charset=utf-8",
+          },
+          {
+            key: "Cache-Control",
+            value: "s-maxage=3600, stale-while-revalidate=86400",
+          },
+        ],
+      },
+      {
+        source: "/manifest.json",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "application/manifest+json; charset=utf-8",
+          },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
+      {
+        source: "/site.webmanifest",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "application/manifest+json; charset=utf-8",
+          },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=86400, stale-while-revalidate=604800",
+          },
+        ],
+      },
+      {
+        source: "/sw.js",
+        headers: [
+          {
+            key: "Content-Type",
+            value: "application/javascript; charset=utf-8",
+          },
+          {
+            key: "Cache-Control",
+            value: "no-cache, no-store, must-revalidate",
+          },
+          {
+            key: "Service-Worker-Allowed",
+            value: "/",
+          },
+        ],
+      },
+    ];
+  },
 
   async rewrites() {
     return [

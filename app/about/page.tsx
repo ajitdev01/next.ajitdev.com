@@ -30,10 +30,10 @@ import { personConfig } from "@/lib/seo/config";
 // ─── Data ───────────────────────────────────────────────────────────────────
 
 const STATS = [
-  { label: "Years Building", value: "4+", icon: Rocket, color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100" },
-  { label: "Projects Shipped", value: "20+", icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
-  { label: "API Uptime", value: "99.98%", icon: Activity, color: "text-cyan-600", bg: "bg-cyan-50", border: "border-cyan-100" },
-  { label: "Open APIs", value: "Free", icon: Globe, color: "text-purple-600", bg: "bg-purple-50", border: "border-purple-100" },
+  { label: "Active Building", value: "Since 2024", icon: Rocket, color: "text-blue-600", bg: "bg-blue-50", border: "border-blue-100" },
+  { label: "Live Projects", value: "15+", icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-50", border: "border-emerald-100" },
+  { label: "Target SLA", value: "99.9%", icon: Activity, color: "text-cyan-600", bg: "bg-cyan-50", border: "border-cyan-100" },
+  { label: "Open APIs", value: "Public", icon: Globe, color: "text-purple-600", bg: "bg-purple-50", border: "border-purple-100" },
 ];
 
 const SKILLS = [
@@ -44,8 +44,7 @@ const SKILLS = [
     tags: ["Next.js 16", "React 19", "TypeScript", "Tailwind"],
     iconBg: "bg-blue-50 border-blue-100",
     iconColor: "text-blue-600",
-    accentBar: "from-blue-500 to-blue-400",
-    level: 92,
+    tier: "Primary Production Stack",
   },
   {
     icon: Terminal,
@@ -54,8 +53,7 @@ const SKILLS = [
     tags: ["Node.js", "REST APIs", "JSON APIs", "Auth"],
     iconBg: "bg-purple-50 border-purple-100",
     iconColor: "text-purple-600",
-    accentBar: "from-purple-500 to-purple-400",
-    level: 88,
+    tier: "Core Architecture",
   },
   {
     icon: Server,
@@ -64,8 +62,7 @@ const SKILLS = [
     tags: ["CI/CD", "Docker", "Linux", "Cloud"],
     iconBg: "bg-emerald-50 border-emerald-100",
     iconColor: "text-emerald-600",
-    accentBar: "from-emerald-500 to-emerald-400",
-    level: 82,
+    tier: "CI/CD & Containers",
   },
   {
     icon: ShieldCheck,
@@ -74,8 +71,7 @@ const SKILLS = [
     tags: ["API Security", "Privacy First", "TLS 1.3", "CORS"],
     iconBg: "bg-cyan-50 border-cyan-100",
     iconColor: "text-cyan-600",
-    accentBar: "from-cyan-500 to-cyan-400",
-    level: 79,
+    tier: "Security Hardening",
   },
   {
     icon: Database,
@@ -84,8 +80,7 @@ const SKILLS = [
     tags: ["HLD & LLD", "Distributed", "Database", "Caching"],
     iconBg: "bg-amber-50 border-amber-100",
     iconColor: "text-amber-600",
-    accentBar: "from-amber-500 to-amber-400",
-    level: 85,
+    tier: "System Design",
   },
   {
     icon: Cpu,
@@ -94,8 +89,7 @@ const SKILLS = [
     tags: ["LeetCode", "Codeforces", "NeetCode", "CodeChef"],
     iconBg: "bg-rose-50 border-rose-100",
     iconColor: "text-rose-600",
-    accentBar: "from-rose-500 to-rose-400",
-    level: 76,
+    tier: "Competitive Ratings",
   },
 ];
 
@@ -124,7 +118,7 @@ const JOURNEY = [
   {
     year: "2026",
     title: "API Platform & Ecosystem",
-    desc: "Launched api.ajitdev.com — a free public API hub with edge delivery, 99.98% uptime, and HTTP/3 QUIC.",
+    desc: "Launched api.ajitdev.com — a free public API hub with edge delivery, high-availability SLA, and HTTP/3 QUIC.",
     icon: Zap,
     color: "bg-amber-500",
   },
@@ -146,7 +140,36 @@ const ECOSYSTEMS = [
   { name: "try.ajitdev.com", tag: "Sandbox", href: "https://try.ajitdev.com/", dot: "bg-rose-400" },
 ];
 
+const CODING_PROFILES = [
+  "https://github.com/ajitdev01",
+  "https://linkedin.com/in/ajitdev01",
+  "https://leetcode.com/ajitdev01",
+  "https://codeforces.com/profile/ajitdev01",
+  "https://www.codechef.com/users/ajitdev01/",
+  "https://neetcode.io/user/MoltenJinchuriki774",
+];
+
 const PROFILE_LABELS: Record<string, { label: string; bg: string; text: string; icon: React.ReactNode }> = {
+  github: {
+    label: "GitHub",
+    bg: "bg-slate-100 border-slate-300",
+    text: "text-slate-900",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+      </svg>
+    ),
+  },
+  linkedin: {
+    label: "LinkedIn",
+    bg: "bg-blue-50 border-blue-200/80",
+    text: "text-blue-700",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.62 1.62 0 1 0 0 3.24 1.62 1.62 0 0 0 0-3.24z"/>
+      </svg>
+    ),
+  },
   leetcode: {
     label: "LeetCode",
     bg: "bg-amber-50 border-amber-200/80",
@@ -194,6 +217,26 @@ const PROFILE_LABELS: Record<string, { label: string; bg: string; text: string; 
     icon: (
       <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+      </svg>
+    ),
+  },
+  facebook: {
+    label: "Facebook",
+    bg: "bg-indigo-50 border-indigo-200/80",
+    text: "text-indigo-700",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
+    ),
+  },
+  snapchat: {
+    label: "Snapchat",
+    bg: "bg-amber-50 border-amber-200/80",
+    text: "text-amber-800",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="currentColor">
+        <path d="M12.004 0C7.21 0 5.08 3.513 5.08 5.762c0 .927.42 2.392.796 3.197.108.232.064.444-.128.534-.486.23-1.408.68-1.897 1.545-.443.784-.13 1.884.945 2.05.772.12 1.378-.344 1.73-.706.182-.187.397-.132.485.08.358.875.998 2.078 2.72 2.455.197.043.277.166.232.327-.145.523-.74 1.503-2.185 1.713-.397.058-.62.333-.532.695.145.596 1.156.883 2.115 1.05.176.03.24.137.215.31-.082.56-.23 1.344-.735 1.795-.27.242-.32.49-.158.745.22.348.868.49 1.488.35.438-.1.97-.432 1.564-.432.557 0 1.077.31 1.494.417.65.166 1.332.022 1.57-.333.17-.255.118-.505-.145-.742-.51-.458-.66-1.242-.74-1.802-.025-.174.04-.28.214-.31 1-.17 2.016-.462 2.158-1.066.088-.37-.14-.64-.543-.698-1.44-.207-2.037-1.186-2.182-1.708-.046-.164.034-.287.23-.33 1.725-.378 2.366-1.58 2.724-2.455.088-.212.303-.267.485-.08.352.362.958.826 1.73.706 1.075-.166 1.388-1.266.945-2.05-.49-.865-1.41-1.315-1.897-1.545-.192-.09-.236-.302-.128-.534.376-.805.796-2.27.796-3.197C18.928 3.513 16.798 0 12.004 0z"/>
       </svg>
     ),
   },
@@ -341,20 +384,13 @@ export default function AboutPage() {
                 <h3 className="mt-3.5 text-sm font-bold text-slate-900">{skill.title}</h3>
                 <p className="mt-1.5 text-xs leading-relaxed text-slate-500">{skill.desc}</p>
 
-                {/* Progress bar */}
-                <div className="mt-4">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Proficiency</span>
-                    <span className="text-[10px] font-bold text-slate-600">{skill.level}%</span>
-                  </div>
-                  <div className="h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
-                    <motion.div
-                      className={`h-full rounded-full bg-gradient-to-r ${skill.accentBar}`}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${skill.level}%` }}
-                      transition={{ duration: 1, delay: 0.1 * i, ease: "easeOut" }}
-                    />
-                  </div>
+                {/* Engineering Focus Tier */}
+                <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+                  <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wide">Focus Discipline</span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-50 border border-slate-200/80 px-2.5 py-0.5 text-[10px] font-medium text-slate-700">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    {skill.tier}
+                  </span>
                 </div>
 
                 <div className="mt-3.5 flex flex-wrap gap-1.5">
@@ -434,6 +470,16 @@ export default function AboutPage() {
               </a>
             ))}
           </div>
+
+          {/* Semantic Ecosystem Backlinks for Search Crawlers — Zero Visual UI Impact */}
+          <div className="sr-only" aria-label="Additional Ecosystem Endpoints">
+            <a href="https://collegesure.brainzima.com/" rel="noopener noreferrer">
+              CollegeSure — Higher Education Analytics
+            </a>
+            <a href="https://trybook.in/" rel="noopener noreferrer">
+              TryBook — Digital Book Discovery & E-Books
+            </a>
+          </div>
         </section>
       </ScrollReveal>
 
@@ -451,7 +497,7 @@ export default function AboutPage() {
           </p>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-6">
-            {personConfig.sameAs.map((url) => {
+            {CODING_PROFILES.map((url) => {
               const key = Object.keys(PROFILE_LABELS).find((k) => url.includes(k));
               const config = key
                 ? PROFILE_LABELS[key]
@@ -476,6 +522,15 @@ export default function AboutPage() {
                 </a>
               );
             })}
+          </div>
+
+          {/* Semantic author backlinks & entity interlinks — Zero UI change */}
+          <div className="sr-only" aria-label="Author Profiles & Backlinks">
+            {personConfig.sameAs.map((url) => (
+              <a key={url} href={url} rel="me noopener">
+                Ajit Dev ({url})
+              </a>
+            ))}
           </div>
         </section>
       </ScrollReveal>

@@ -89,8 +89,8 @@ const API_RESPONSE_FIELDS = [
   },
   {
     key: "latency",
-    value: '"14ms"',
-    badge: "14ms EDGE",
+    value: '"< 15ms Edge"',
+    badge: "GLOBAL EDGE",
     badgeColor: "text-cyan-700 bg-cyan-50 border-cyan-200/80",
   },
   {
@@ -114,7 +114,7 @@ const API_RESPONSE_FIELDS = [
   {
     key: "developer",
     value: '"Ajit Dev"',
-    badge: "FOUNDER",
+    badge: "ENGINEER",
     badgeColor: "text-amber-700 bg-amber-50 border-amber-200/80",
   },
   {
@@ -125,8 +125,8 @@ const API_RESPONSE_FIELDS = [
   },
   {
     key: "uptime",
-    value: '"99.98%"',
-    badge: "VERIFIED SLA",
+    value: '"99.9% Target"',
+    badge: "HIGH AVAILABILITY",
     badgeColor: "text-emerald-700 bg-emerald-50 border-emerald-200/80",
   },
 ];
@@ -134,13 +134,13 @@ const API_RESPONSE_FIELDS = [
 const RAW_API_RESPONSE_JSON = JSON.stringify(
   {
     status: "success",
-    latency: "14ms",
+    latency: "< 50ms Edge",
     protocol: "HTTP/3 · QUIC",
     endpoint: "https://api.ajitdev.com/v1/health",
     cluster: "edge-asia-south1",
     developer: "Ajit Dev",
     security: "TLS 1.3 · CORS Enabled",
-    uptime: "99.98%",
+    uptime: "99.9% Target SLA",
   },
   null,
   2
@@ -600,18 +600,8 @@ export default function Hero3DVisualizer() {
           <span className="bg-gradient-to-r from-slate-950 via-slate-800 to-slate-950 bg-clip-text text-transparent">
             Architecting the{" "}
           </span>
-          <span className="relative inline-block drop-shadow-[0_2px_16px_rgba(99,102,241,0.22)] align-bottom">
-            {/* Primary GPU-rendered gradient layer */}
-            <span className="inline-block bg-gradient-to-r from-blue-600 via-indigo-500 via-purple-600 via-pink-500 to-cyan-500 bg-clip-text text-transparent font-black">
-              Future of Web &amp; Cloud.
-            </span>
-            {/* Compositor-accelerated opacity crossfade layer (100% GPU, zero paint) */}
-            <span
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 inline-block bg-gradient-to-r from-cyan-500 via-pink-500 via-purple-600 via-indigo-500 to-blue-600 bg-clip-text text-transparent font-black animate-aurora-fade select-none"
-            >
-              Future of Web &amp; Cloud.
-            </span>
+          <span className="inline-block bg-gradient-to-r from-blue-600 via-indigo-600 via-purple-600 to-cyan-500 bg-clip-text text-transparent font-black drop-shadow-[0_2px_16px_rgba(99,102,241,0.22)] align-bottom">
+            Future of Web &amp; Cloud.
           </span>
         </motion.h1>
       </motion.div>
@@ -667,8 +657,8 @@ export default function Hero3DVisualizer() {
                     <ShieldCheck className="h-3 w-3 sm:h-4 sm:w-4" />
                   </div>
                   <div>
-                    <div className="text-[10px] font-bold text-slate-900 sm:text-[11px]">100% Private</div>
-                    <div className="hidden text-[10px] text-slate-500 sm:block">Zero cloud lock-in</div>
+                    <div className="text-[10px] font-bold text-slate-900 sm:text-[11px]">Local-First</div>
+                    <div className="hidden text-[10px] text-slate-500 sm:block">Browser-level data privacy</div>
                   </div>
                 </motion.div>
 
@@ -683,8 +673,8 @@ export default function Hero3DVisualizer() {
                     <Zap className="h-3 w-3 sm:h-4 sm:w-4" />
                   </div>
                   <div>
-                    <div className="text-[10px] font-bold text-slate-900 sm:text-[11px]">14ms Edge</div>
-                    <div className="hidden text-[10px] text-slate-500 sm:block">Global DNS · Zero-Auth</div>
+                    <div className="text-[10px] font-bold text-slate-900 sm:text-[11px]">Edge Network</div>
+                    <div className="hidden text-[10px] text-slate-500 sm:block">Global Anycast · Fast APIs</div>
                   </div>
                 </motion.div>
               </>
@@ -774,7 +764,7 @@ export default function Hero3DVisualizer() {
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
                   </span>
                   <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
-                    Operational · 99.98% Uptime
+                    Operational · 99.9% Target SLA
                   </span>
                 </div>
               </div>
@@ -1031,7 +1021,7 @@ export default function Hero3DVisualizer() {
                               <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                                 <span className="whitespace-nowrap"><strong className="text-slate-800 font-semibold">HTTP/3</strong> · QUIC</span>
                                 <span className="text-slate-400">·</span>
-                                <span className="whitespace-nowrap"><strong className="text-slate-800 font-semibold">14ms</strong></span>
+                                <span className="whitespace-nowrap"><strong className="text-slate-800 font-semibold">&lt; 50ms</strong></span>
                                 <span className="hidden sm:inline text-slate-400">·</span>
                                 <span className="hidden sm:inline whitespace-nowrap"><strong className="text-slate-800 font-semibold">BOM-EDGE</strong></span>
                               </div>
@@ -1267,7 +1257,7 @@ export default function Hero3DVisualizer() {
                                   ) : archStep === 4 ? (
                                     <span className="text-emerald-700 font-medium flex items-center gap-1.5">
                                       <Check className="h-3.5 w-3.5 text-emerald-600" />
-                                      End-to-End Pipeline Verified: 14ms Total Round-Trip Latency
+                                      End-to-End Pipeline Verified: Sub-50ms Edge Round-Trip
                                     </span>
                                   ) : (
                                     <span>Architecture Ready · Click &quot;Simulate Data Flow&quot;</span>
@@ -1276,7 +1266,7 @@ export default function Hero3DVisualizer() {
                               </div>
 
                               <div className="text-[10px] text-slate-400">
-                                Stateless Edge · 0ms Cold Starts · SSL A+
+                                Stateless Edge · Near-Instant Cold Starts · TLS 1.3
                               </div>
                             </div>
                           </div>
@@ -1381,6 +1371,16 @@ export default function Hero3DVisualizer() {
               </div>
             </a>
           ))}
+        </div>
+
+        {/* Semantic Ecosystem Backlinks for Search Crawlers — Zero Visual UI Impact */}
+        <div className="sr-only" aria-label="Additional Ecosystem Endpoints">
+          <a href="https://collegesure.brainzima.com/" rel="noopener noreferrer">
+            CollegeSure — Higher Education Analytics
+          </a>
+          <a href="https://trybook.in/" rel="noopener noreferrer">
+            TryBook — Digital Book Discovery & E-Books
+          </a>
         </div>
       </motion.div>
     </div>

@@ -2,10 +2,13 @@ import type { MetadataRoute } from "next";
 import { siteConfig } from "@/lib/seo/config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const currentDate = new Date();
+
   return [
     // ── Primary ─────────────────────────────────────────────
     {
       url: siteConfig.siteUrl,
+      lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 1.0,
     },
@@ -13,21 +16,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // ── Core public sections ────────────────────────────────
     {
       url: `${siteConfig.siteUrl}/about`,
+      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${siteConfig.siteUrl}/projects`,
+      lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 0.9,
     },
     {
       url: `${siteConfig.siteUrl}/api`,
+      lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${siteConfig.siteUrl}/contact`,
+      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.7,
     },
@@ -35,26 +42,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // ── Live apps ───────────────────────────────────────────
     {
       url: `${siteConfig.siteUrl}/store`,
+      lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${siteConfig.siteUrl}/weather`,
+      lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 0.8,
     },
     {
       url: `${siteConfig.siteUrl}/currency`,
+      lastModified: currentDate,
       changeFrequency: "daily",
       priority: 0.8,
     },
     {
       url: `${siteConfig.siteUrl}/todo`,
+      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.7,
     },
     {
       url: `${siteConfig.siteUrl}/note`,
+      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.7,
     },
@@ -62,11 +74,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // ── Legal / compliance ──────────────────────────────────
     {
       url: `${siteConfig.siteUrl}/privacy`,
+      lastModified: currentDate,
       changeFrequency: "yearly",
       priority: 0.5,
     },
     {
       url: `${siteConfig.siteUrl}/terms`,
+      lastModified: currentDate,
       changeFrequency: "yearly",
       priority: 0.5,
     },

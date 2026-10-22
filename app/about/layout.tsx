@@ -23,9 +23,16 @@ export const metadata: Metadata = {
     "Ajit Dev Software Engineer",
     "Ajit Dev Full Stack Developer",
     "Full Stack Developer in Katihar",
-    "Software Developer Bihar",
+    "Full Stack Developer Bihar",
+    "MERN Stack Developer Bihar",
     "DevOps Engineer Bihar",
+    "DevSecOps Engineer Katihar",
+    "Cloud Security Engineer Bihar",
     "Cloud Engineer Katihar",
+    "TypeScript Developer India",
+    "Ajit Dev GitHub",
+    "Ajit Dev LeetCode",
+    "Ajit Dev Brainzima Innovation",
   ],
   alternates: {
     canonical: pageUrl,
@@ -75,7 +82,7 @@ export default function AboutLayout({
         "@id": `${siteConfig.siteUrl}/#website`,
       },
       mainEntity: {
-        "@id": `${siteConfig.siteUrl}/#person`,
+        "@id": "https://www.ajitdev.com/#person",
       },
       breadcrumb: {
         "@id": `${pageUrl}#breadcrumb`,

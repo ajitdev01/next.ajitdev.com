@@ -186,6 +186,11 @@ const PILLARS: PillarItem[] = [
         color: "text-amber-600 hover:text-amber-700 bg-amber-50/70 border-amber-200/70",
       },
       {
+        name: "GitHub",
+        href: "https://github.com/ajitdev01",
+        color: "text-slate-800 hover:text-slate-900 bg-slate-100 border-slate-300",
+      },
+      {
         name: "Codeforces",
         href: "https://codeforces.com/profile/ajitdev01",
         color: "text-blue-600 hover:text-blue-700 bg-blue-50/70 border-blue-200/70",
@@ -205,26 +210,26 @@ const PILLARS: PillarItem[] = [
   {
     id: "privacy",
     category: "apps",
-    categoryLabel: "User Sovereignty",
-    badge: "Privacy & Zero Tracking",
-    title: "Local-First & Privacy First",
+    categoryLabel: "Data Architecture",
+    badge: "Local-First Storage",
+    title: "Local-First Architecture & Data Privacy",
     description:
-      "Production web applications that respect user sovereignty. Offline capabilities, zero vendor lock-in, and private browser storage architecture.",
+      "Productivity apps engineered with local-first storage. Notes and tasks reside directly in your browser with full offline support and zero third-party transmission of personal data.",
     icon: ShieldCheck,
     iconColor: "text-cyan-600",
     iconBg: "bg-cyan-50 border-cyan-100",
     highlights: [
-      "100% Client-Side Browser Storage",
-      "Zero Cloud Tracking or Lock-in",
-      "Complete Data Export & Portability",
+      "Client-Side Browser Storage (IndexedDB/localStorage)",
+      "Full Offline Support & JSON Data Portability",
+      "Transparent Performance Analytics via Vercel & Clarity",
     ],
     primaryAction: {
       label: "Try Notes App (Local-First)",
       href: "/note",
     },
     secondaryAction: {
-      label: "Try Todo App (Offline)",
-      href: "/todo",
+      label: "Read Privacy Policy",
+      href: "/privacy",
     },
   },
   {

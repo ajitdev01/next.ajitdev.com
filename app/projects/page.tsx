@@ -65,7 +65,7 @@ const PROJECTS = [
     badge: "Live on next.ajitdev.com",
     external: false,
     featured: true,
-    tech: ["Next.js 16", "@google/genai", "Gemini Flash", "TypeScript", "Tailwind CSS"],
+    tech: ["Next.js 16", "HTTP/3", "@google/genai", "Gemini Flash", "TypeScript", "Tailwind CSS"],
     details: "Server-side Google GenAI SDK integration with multi-model resilience, real-time system prompt grounding, and interactive drawer UI.",
   },
   {
@@ -89,7 +89,7 @@ const PROJECTS = [
     badge: "Live on next.ajitdev.com",
     external: false,
     featured: true,
-    tech: ["Next.js 16", "Frankfurter API", "ECB Rates", "SVG Timeseries", "html-to-image", "Tailwind CSS"],
+    tech: ["Next.js 16", "HTTP/3", "Frankfurter API", "ECB Rates", "SVG Timeseries", "html-to-image", "Tailwind CSS"],
     details: "Live Frankfurt/ECB currency rates with sub-second ISR caching, SVG interactive timeseries charts, multi-currency parity matrix, and 2x retina screenshot sharing.",
   },
   {
@@ -101,7 +101,7 @@ const PROJECTS = [
     badge: "Live on next.ajitdev.com",
     external: false,
     featured: true,
-    tech: ["Next.js 16", "Redux Toolkit", "TypeScript", "Tailwind CSS", "Canvas Confetti"],
+    tech: ["Next.js 16", "HTTP/3", "Redux Toolkit", "TypeScript", "Tailwind CSS", "Canvas Confetti"],
     details: "Full client-side Redux cart store with persistent state, real-time totals calculation, and celebratory confetti modal.",
   },
   {
@@ -113,7 +113,7 @@ const PROJECTS = [
     badge: "Live on next.ajitdev.com",
     external: false,
     featured: true,
-    tech: ["Next.js 16", "OpenWeatherMap API", "Geocoding API", "React 19", "Tailwind CSS"],
+    tech: ["Next.js 16", "HTTP/3", "OpenWeatherMap API", "Geocoding API", "React 19", "Tailwind CSS"],
     details: "Direct coordinate resolution, atmospheric telemetry cards, and a crisp high-contrast white aesthetic.",
   },
   {
@@ -173,8 +173,8 @@ const PROJECTS = [
     badge: "api.ajitdev.com",
     external: true,
     featured: false,
-    tech: ["REST APIs", "JSON APIs", "API Docs", "Public Endpoints"],
-    details: "Fully documented public APIs with live Playground for instant testing.",
+    tech: ["HTTP/3 QUIC", "REST APIs", "JSON APIs", "API Docs", "Public Endpoints"],
+    details: "Fully documented public APIs delivered over high-speed HTTP/3 QUIC with live Playground for instant testing.",
   },
   {
     title: "Interactive Playground",
@@ -185,7 +185,7 @@ const PROJECTS = [
     badge: "try.ajitdev.com",
     external: true,
     featured: false,
-    tech: ["Web Sandbox", "Client Tools", "Interactive Testing"],
+    tech: ["HTTP/3 QUIC", "Web Sandbox", "Client Tools", "Interactive Testing"],
     details: "Instant browser-based execution for snippets, UI experiments, and API calls.",
   },
   {
@@ -235,6 +235,18 @@ const PROJECTS = [
     featured: false,
     tech: ["Tech Education", "E-Learning", "Student Resources"],
     details: "Curated CS curriculum and hands-on project-based learning tracks.",
+  },
+  {
+    title: "TryBook",
+    subtitle: "Digital Reading & Catalog",
+    description: "Digital book discovery, e-reading tools, and educational catalog platform connecting readers and learners.",
+    href: "https://trybook.in/",
+    tag: "Education",
+    badge: "trybook.in",
+    external: true,
+    featured: false,
+    tech: ["Web Catalog", "Reading Tools", "Digital Library"],
+    details: "Online digital library and book curation platform for students and readers.",
   },
 ];
 

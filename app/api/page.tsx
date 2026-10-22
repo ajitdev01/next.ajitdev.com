@@ -182,6 +182,56 @@ console.log(data);`}
         </section>
       </ScrollReveal>
 
+      {/* Response Schemas & Error Handling */}
+      <ScrollReveal direction="up" delay={0.11}>
+        <section aria-labelledby="schema-error-title" className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-xs">
+            <h3 id="schema-error-title" className="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" />
+              Standard JSON Response Schema (200 OK)
+            </h3>
+            <p className="mt-1 text-xs text-slate-500">
+              Predictable envelope with metadata, timestamps, and payload arrays.
+            </p>
+            <div className="mt-3 rounded-xl bg-slate-950 p-3.5 font-mono text-[11px] text-slate-200 overflow-x-auto">
+              <pre>{`{
+  "status": "success",
+  "code": 200,
+  "data": [
+    {
+      "id": "task_9f81a",
+      "title": "Configure Cloudflare Edge",
+      "completed": false,
+      "createdAt": "2026-10-22T07:15:00Z"
+    }
+  ],
+  "meta": { "total": 1, "page": 1, "limit": 20 }
+}`}</pre>
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-xs">
+            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <span className="h-2 w-2 rounded-full bg-amber-500" />
+              Error Handling & Rate Limits (4xx / 5xx)
+            </h3>
+            <p className="mt-1 text-xs text-slate-500">
+              Standard RFC 7807 problem details with human-readable error messages.
+            </p>
+            <div className="mt-3 rounded-xl bg-slate-950 p-3.5 font-mono text-[11px] text-slate-200 overflow-x-auto">
+              <pre>{`// Error Response Format
+{
+  "status": "error",
+  "code": 429,
+  "error": "Too Many Requests",
+  "message": "Rate limit exceeded (100 req/min).",
+  "retryAfter": 60
+}`}</pre>
+            </div>
+          </div>
+        </section>
+      </ScrollReveal>
+
       {/* Cross-linking to Suite Applications */}
       <ScrollReveal direction="up" delay={0.12}>
         <section className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-200/80 pt-8">
